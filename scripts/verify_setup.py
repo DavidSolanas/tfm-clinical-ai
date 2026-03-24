@@ -40,8 +40,8 @@ def check_transformers():
 
 
 def check_llama_index():
-    import llama_index
-    return f"v{llama_index.core.__version__}"
+    from llama_index.core import __version__
+    return f"v{__version__}"
 
 
 def check_qdrant():
