@@ -1,0 +1,36 @@
+# configs/training.yaml
+# QLoRA fine-tuning hyperparameters
+# These are initial values -- experiment during Phase 2
+
+model:
+  base: "meta-llama/Meta-Llama-3-8B-Instruct"  # Confirm in Phase 2
+  max_seq_length: 2048
+
+qlora:
+  r: 16                    # LoRA rank (experiment with: 8, 16, 32)
+  lora_alpha: 32           # Typically 2x r
+  lora_dropout: 0.05
+  target_modules:          # Modules to adapt
+    - q_proj
+    - k_proj
+    - v_proj
+    - o_proj
+
+training:
+  num_epochs: 3            # Experiment with: 1, 2, 3
+  learning_rate: 2.0e-4    # Experiment with: 1e-4, 2e-4, 5e-5
+  batch_size: 4
+  gradient_accumulation_steps: 4  # Effective batch size = 16
+  warmup_ratio: 0.03
+  weight_decay: 0.01
+  lr_scheduler: "cosine"
+  fp16: true
+  logging_steps: 10
+  save_steps: 100
+
+data:
+  dataset: "mtsamples"
+  train_split: 0.8
+  val_split: 0.1
+  test_split: 0.1
+  seed: 42

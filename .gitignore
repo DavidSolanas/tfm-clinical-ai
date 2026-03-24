@@ -1,0 +1,59 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.venv/
+env/
+venv/
+*.egg-info/
+dist/
+build/
+.python-version
+
+# uv
+.uv/
+
+# Jupyter
+.ipynb_checkpoints/
+*.ipynb_metadata/
+
+# Data (too large for Git)
+data/raw/
+data/processed/
+data/embeddings/
+*.parquet
+*.arrow
+*.h5
+*.bin
+*.safetensors
+
+# Models (too large for Git)
+models/
+checkpoints/
+*.gguf
+
+# MLflow
+mlruns/
+mlartifacts/
+
+# Docker
+docker-volumes/
+
+# Environment
+.env
+*.log
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Qdrant data
+qdrant_data/

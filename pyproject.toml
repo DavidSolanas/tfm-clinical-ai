@@ -1,0 +1,67 @@
+[project]
+name = "tfm-clinical-ai"
+version = "0.1.0"
+description = "Hybrid Clinical Assistance System: LLM Fine-Tuning + RAG for Evidence-Based Medicine"
+readme = "README.md"
+requires-python = ">=3.10"
+
+dependencies = [
+    # --- Core ---
+    "python-dotenv>=1.0.0",
+    "pyyaml>=6.0",
+    "tqdm>=4.66",
+
+    # --- Data ---
+    "datasets>=2.19",
+    "biopython>=1.83",
+    "pandas>=2.2",
+
+    # --- LLM & Embeddings ---
+    "transformers>=4.44",
+    "torch>=2.3",
+    "sentence-transformers>=3.0",
+    "accelerate>=0.33",
+    "huggingface-hub>=0.24",
+
+    # --- RAG ---
+    "llama-index>=0.11",
+    "llama-index-vector-stores-qdrant>=0.3",
+    "llama-index-embeddings-huggingface>=0.3",
+    "qdrant-client>=1.11",
+
+    # --- MLOps ---
+    "mlflow>=2.16",
+
+    # --- Evaluation ---
+    "ragas>=0.1.10",
+
+    # --- Interface ---
+    "gradio>=4.40",
+]
+
+[project.optional-dependencies]
+dev = [
+    "jupyter>=1.0",
+    "jupyterlab>=4.2",
+    "ipywidgets>=8.1",
+    "matplotlib>=3.9",
+    "seaborn>=0.13",
+    "pytest>=8.3",
+    "ruff>=0.5",
+]
+
+# Unsloth is installed separately due to its specific CUDA requirements.
+# See: https://github.com/unslothai/unsloth#installation
+finetuning = [
+    "unsloth[colab-new]>=2024.8",
+]
+
+[tool.ruff]
+line-length = 100
+target-version = "py310"
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "W"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]

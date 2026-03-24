@@ -1,0 +1,39 @@
+# configs/evaluation.yaml
+# Comparative benchmark configuration
+
+configurations:
+  - name: "A_base"
+    description: "Base model without fine-tuning or RAG"
+    finetuned: false
+    rag_enabled: false
+
+  - name: "B_finetuned"
+    description: "Fine-tuned model without RAG"
+    finetuned: true
+    rag_enabled: false
+
+  - name: "C_base_rag"
+    description: "Base model with RAG"
+    finetuned: false
+    rag_enabled: true
+
+  - name: "D_finetuned_rag"
+    description: "Fine-tuned model with RAG (full system)"
+    finetuned: true
+    rag_enabled: true
+
+metrics:
+  ragas:
+    - faithfulness          # Is the response faithful to the retrieved context?
+    - answer_relevancy      # Is the response relevant to the question?
+    - context_precision     # Are the retrieved documents correct?
+    - context_recall        # Are all relevant documents retrieved?
+
+  custom:
+    - reference_quality     # Are citations real and relevant?
+    - hallucination_rate    # Percentage of unsupported claims
+
+evaluation:
+  num_questions: 50         # Test set size
+  seed: 42
+  mlflow_experiment: "tfm-evaluation"
