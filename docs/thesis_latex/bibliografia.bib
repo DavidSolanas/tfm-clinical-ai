@@ -1,40 +1,332 @@
-@article{PIMENTEL2016744,
-	title = {Sharp Hessian integrability estimates for nonlinear elliptic equations: An asymptotic approach},
-	journal = {Journal de Mathématiques Pures et Appliquées},
-	volume = {106},
+
+@inproceedings{MTSamples,
+  author       = {Brett R. South and
+                  Danielle L. Mowery and
+                  {\'{O}}scar Ferr{\'{a}}ndez and
+                  Shuying Shen and
+                  Ying Suo and
+                  Mingyuan Zhang and
+                  Annie Chen and
+                  Liqin Wang and
+                  St{\'{e}}phane M. Meystre and
+                  Wendy Webber Chapman},
+  title        = {On the Road Towards Developing a Publicly Available Corpus of De-identified
+                  Clinical Texts},
+  booktitle    = {{AMIA} 2012, American Medical Informatics Association Annual Symposium,
+                  Chicago, Illinois, USA, November 3-7, 2012},
+  publisher    = {{AMIA}},
+  year         = {2012},
+  url          = {https://knowledge.amia.org/amia-55142-a2012a-1.636547/t-007-1.639272/f-001-1.639273/a-562-1.639507/a-563-1.639504},
+  timestamp    = {Wed, 17 Apr 2024 11:48:09 +0200},
+  biburl       = {https://dblp.org/rec/conf/amia/SouthMFSSZCWMC12.bib},
+  bibsource    = {dblp computer science bibliography, https://dblp.org}
+}
+
+@inproceedings{yu_zero-shot_2023,
+	title = {Zero-{Shot} {ECG} {Diagnosis} with {Large} {Language} {Models} and {Retrieval}-{Augmented} {Generation}},
+	url = {https://proceedings.mlr.press/v225/yu23b.html},
+	abstract = {Recently, Large Language Models (LLMs) have become essential players in the deep learning domain. While their capabilities are evident across various textual tasks, this study aims to bridge the gap and explore the potential of leveraging LLMs in diagnosing cardiac diseases and sleep apnea from Electrocardiography (ECG). Earlier work touched on converting ECG signals into text for LLMs, but a comprehensive LLM-based approach for dealing with more complicated symptoms remains relatively unexplored. To investigate the ECG diagnosis with an LLM-based approach, our research introduces a zero-shot retrieval-augmented diagnosis technique. We have built databases filled with specific domain knowledge for cardiac symptom and sleep apnea diagnosis, which encourages the LLMs from merely relying on the inherent LLM knowledge to a more holistic pipeline from carefully crafting prompts and infusing expert knowledge to guide LLMs. We evaluate the proposed approach on two datasets for diagnosing arrhythmia and sleep apnea, respectively. The evaluation results indicate that our zero-shot approach not only surpasses previous few-shot LLM-based methods but is also competitive with supervised learning techniques fully trained on extensive datasets.},
+	language = {en},
+	urldate = {2025-12-11},
+	booktitle = {Proceedings of the 3rd {Machine} {Learning} for {Health} {Symposium}},
+	publisher = {PMLR},
+	author = {Yu, Han and Guo, Peikun and Sano, Akane},
+	month = dec,
+	year = {2023},
+	pages = {650--663},
+}
+
+@misc{thompson_large_2023,
+	title = {Large {Language} {Models} with {Retrieval}-{Augmented} {Generation} for {Zero}-{Shot} {Disease} {Phenotyping}},
+	url = {http://arxiv.org/abs/2312.06457},
+	doi = {10.48550/arXiv.2312.06457},
+	abstract = {Identifying disease phenotypes from electronic health records (EHRs) is critical for numerous secondary uses. Manually encoding physician knowledge into rules is particularly challenging for rare diseases due to inadequate EHR coding, necessitating review of clinical notes. Large language models (LLMs) offer promise in text understanding but may not efficiently handle real-world clinical documentation. We propose a zero-shot LLM-based method enriched by retrieval-augmented generation and MapReduce, which pre-identifies disease-related text snippets to be used in parallel as queries for the LLM to establish diagnosis. We show that this method as applied to pulmonary hypertension (PH), a rare disease characterized by elevated arterial pressures in the lungs, significantly outperforms physician logic rules (\$F\_1\$ score of 0.62 vs. 0.75). This method has the potential to enhance rare disease cohort identification, expanding the scope of robust clinical research and care gap identification.},
+	urldate = {2025-12-11},
+	publisher = {arXiv},
+	author = {Thompson, Will E. and Vidmar, David M. and Freitas, Jessica K. De and Pfeifer, John M. and Fornwalt, Brandon K. and Chen, Ruijun and Altay, Gabriel and Manghnani, Kabir and Nelsen, Andrew C. and Morland, Kellie and Stumpe, Martin C. and Miotto, Riccardo},
+	month = dec,
+	year = {2023},
+	note = {arXiv:2312.06457 [cs]},
+	keywords = {Computer Science - Artificial Intelligence, Computer Science - Computation and Language, Computer Science - Information Retrieval},
+}
+
+@article{rau_context-based_2023,
+	title = {A {Context}-based {Chatbot} {Surpasses} {Radiologists} and {Generic} {ChatGPT} in                     {Following} the {ACR} {Appropriateness} {Guidelines}},
+	volume = {308},
+	issn = {0033-8419},
+	url = {https://pubs.rsna.org/doi/10.1148/radiol.230970},
+	doi = {10.1148/radiol.230970},
+	abstract = {BackgroundRadiologic imaging guidelines are crucial for accurate diagnosis and optimal patient care as they result in standardized decisions and thus reduce inappropriate imaging studies.PurposeTo investigate the potential to support clinical decision-making using an interactive chatbot designed to provide personalized imaging recommendations from American College of Radiology (ACR) appropriateness criteria documents using semantic similarity processing.Materials and MethodsThe authors used 209 ACR appropriateness criteria documents as a specialized knowledge base and used LlamaIndex, a framework for connecting large language models with external data, and ChatGPT-3.5-turbo to create an appropriateness criteria context aware chatbot (accGPT). Fifty clinical case files were used to compare the performance of accGPT with that of general radiologists at varying experience levels and to generic ChatGPT-3.5 and 4.0.ResultsThe performance of all chatbots reached at least that of humans. For the 50 case files, accGPT performed best in providing correct recommendations that were “usually appropriate” according to the ACR criteria and also provided the highest proportion of consistently correct answers in comparison with the generic chatbots and radiologists. Furthermore, the chatbots provided substantial time and cost savings, with an average decision time of 5 minutes and a cost of €0.19 (\$0.21) for all cases, compared with 50 minutes and €29.99 (\$33.24) for radiologists (both P {\textless} .01).ConclusionChatGPT-based algorithms have the potential to substantially improve the decision-making for clinical imaging studies in accordance with ACR guidelines. Specifically, the performance of a context-based algorithm was superior to that of its generic counterpart, demonstrating the value of tailoring artificial intelligence solutions to specific health care applications.© RSNA, 2023Supplemental material is available for this article.},
+	number = {1},
+	urldate = {2025-12-11},
+	journal = {Radiology},
+	author = {Rau, Alexander and Rau, Stephan and Zöller, Daniela and Fink, Anna and Tran, Hien and Wilpert, Caroline and Nattenmüller, Johanna and Neubauer, Jakob and Bamberg, Fabian and Reisert, Marco and Russe, Maximilian F.},
+	month = jul,
+	year = {2023},
+	pages = {e230970},
+}
+
+@misc{lewis_retrieval-augmented_2021,
+	title = {Retrieval-{Augmented} {Generation} for {Knowledge}-{Intensive} {NLP} {Tasks}},
+	url = {http://arxiv.org/abs/2005.11401},
+	doi = {10.48550/arXiv.2005.11401},
+	abstract = {Large pre-trained language models have been shown to store factual knowledge in their parameters, and achieve state-of-the-art results when fine-tuned on downstream NLP tasks. However, their ability to access and precisely manipulate knowledge is still limited, and hence on knowledge-intensive tasks, their performance lags behind task-specific architectures. Additionally, providing provenance for their decisions and updating their world knowledge remain open research problems. Pre-trained models with a differentiable access mechanism to explicit non-parametric memory can overcome this issue, but have so far been only investigated for extractive downstream tasks. We explore a general-purpose fine-tuning recipe for retrieval-augmented generation (RAG) -- models which combine pre-trained parametric and non-parametric memory for language generation. We introduce RAG models where the parametric memory is a pre-trained seq2seq model and the non-parametric memory is a dense vector index of Wikipedia, accessed with a pre-trained neural retriever. We compare two RAG formulations, one which conditions on the same retrieved passages across the whole generated sequence, the other can use different passages per token. We fine-tune and evaluate our models on a wide range of knowledge-intensive NLP tasks and set the state-of-the-art on three open domain QA tasks, outperforming parametric seq2seq models and task-specific retrieve-and-extract architectures. For language generation tasks, we find that RAG models generate more specific, diverse and factual language than a state-of-the-art parametric-only seq2seq baseline.},
+	urldate = {2025-12-11},
+	publisher = {arXiv},
+	author = {Lewis, Patrick and Perez, Ethan and Piktus, Aleksandra and Petroni, Fabio and Karpukhin, Vladimir and Goyal, Naman and Küttler, Heinrich and Lewis, Mike and Yih, Wen-tau and Rocktäschel, Tim and Riedel, Sebastian and Kiela, Douwe},
+	month = apr,
+	year = {2021},
+	note = {arXiv:2005.11401 [cs]},
+	keywords = {Computer Science - Computation and Language, Computer Science - Machine Learning},
+}
+
+@misc{parthasarathy_ultimate_2024,
+	title = {The {Ultimate} {Guide} to {Fine}-{Tuning} {LLMs} from {Basics} to {Breakthroughs}: {An} {Exhaustive} {Review} of {Technologies}, {Research}, {Best} {Practices}, {Applied} {Research} {Challenges} and {Opportunities}},
+	shorttitle = {The {Ultimate} {Guide} to {Fine}-{Tuning} {LLMs} from {Basics} to {Breakthroughs}},
+	url = {http://arxiv.org/abs/2408.13296},
+	doi = {10.48550/arXiv.2408.13296},
+	abstract = {This report examines the fine-tuning of Large Language Models (LLMs), integrating theoretical insights with practical applications. It outlines the historical evolution of LLMs from traditional Natural Language Processing (NLP) models to their pivotal role in AI. A comparison of fine-tuning methodologies, including supervised, unsupervised, and instruction-based approaches, highlights their applicability to different tasks. The report introduces a structured seven-stage pipeline for fine-tuning LLMs, spanning data preparation, model initialization, hyperparameter tuning, and model deployment. Emphasis is placed on managing imbalanced datasets and optimization techniques. Parameter-efficient methods like Low-Rank Adaptation (LoRA) and Half Fine-Tuning are explored for balancing computational efficiency with performance. Advanced techniques such as memory fine-tuning, Mixture of Experts (MoE), and Mixture of Agents (MoA) are discussed for leveraging specialized networks and multi-agent collaboration. The report also examines novel approaches like Proximal Policy Optimization (PPO) and Direct Preference Optimization (DPO), which align LLMs with human preferences, alongside pruning and routing optimizations to improve efficiency. Further sections cover validation frameworks, post-deployment monitoring, and inference optimization, with attention to deploying LLMs on distributed and cloud-based platforms. Emerging areas such as multimodal LLMs, fine-tuning for audio and speech, and challenges related to scalability, privacy, and accountability are also addressed. This report offers actionable insights for researchers and practitioners navigating LLM fine-tuning in an evolving landscape.},
+	urldate = {2025-12-11},
+	publisher = {arXiv},
+	author = {Parthasarathy, Venkatesh Balavadhani and Zafar, Ahtsham and Khan, Aafaq and Shahid, Arsalan},
+	month = oct,
+	year = {2024},
+	note = {arXiv:2408.13296 [cs]},
+	keywords = {Computer Science - Computation and Language, Computer Science - Machine Learning},
+}
+
+@article{lee_biobert_2020,
+	title = {{BioBERT}: a pre-trained biomedical language representation model for biomedical text mining},
+	volume = {36},
+	issn = {1367-4803},
+	shorttitle = {{BioBERT}},
+	url = {https://doi.org/10.1093/bioinformatics/btz682},
+	doi = {10.1093/bioinformatics/btz682},
+	abstract = {Biomedical text mining is becoming increasingly important as the number of biomedical documents rapidly grows. With the progress in natural language processing (NLP), extracting valuable information from biomedical literature has gained popularity among researchers, and deep learning has boosted the development of effective biomedical text mining models. However, directly applying the advancements in NLP to biomedical text mining often yields unsatisfactory results due to a word distribution shift from general domain corpora to biomedical corpora. In this article, we investigate how the recently introduced pre-trained language model BERT can be adapted for biomedical corpora.We introduce BioBERT (Bidirectional Encoder Representations from Transformers for Biomedical Text Mining), which is a domain-specific language representation model pre-trained on large-scale biomedical corpora. With almost the same architecture across tasks, BioBERT largely outperforms BERT and previous state-of-the-art models in a variety of biomedical text mining tasks when pre-trained on biomedical corpora. While BERT obtains performance comparable to that of previous state-of-the-art models, BioBERT significantly outperforms them on the following three representative biomedical text mining tasks: biomedical named entity recognition (0.62\% F1 score improvement), biomedical relation extraction (2.80\% F1 score improvement) and biomedical question answering (12.24\% MRR improvement). Our analysis results show that pre-training BERT on biomedical corpora helps it to understand complex biomedical texts.We make the pre-trained weights of BioBERT freely available at https://github.com/naver/biobert-pretrained, and the source code for fine-tuning BioBERT available at https://github.com/dmis-lab/biobert.},
 	number = {4},
-	pages = {744-767},
-	year = {2016},
-	issn = {0021-7824},
-	doi = {https://doi.org/10.1016/j.matpur.2016.03.010},
-	url = {https://www.sciencedirect.com/science/article/pii/S0021782416300101},
-	author = {Edgard A. Pimentel and Eduardo V. Teixeira},
-	keywords = {Fully nonlinear elliptic equations, Regularity theory, A priori  estimates},
-%	abstract = {We establish sharp W2,p regularity estimates for viscosity solutions of fully nonlinear elliptic equations under minimal, asymptotic assumptions on the governing operator F. By means of geometric tangential methods, we show that if the recession of the operator F – formally given by F⁎(M):=∞−1F(∞M) – is convex, then any viscosity solution to the original equation F(D2u)=f(x) is locally of class W2,p, provided f∈Lp, p>d, with appropriate universal estimates. Our result extends to operators with variable coefficients and in this setting they are new even under convexity of the frozen coefficient operator, M↦F(x0,M), as oscillation is measured only at the recession level. The methods further yield BMO regularity of the Hessian, provided the source lies in that space. As a final application, we establish the density of W2,p solutions within the class of all continuous viscosity solutions, for generic fully nonlinear operators F. This result gives an alternative tool for treating common issues often faced in the theory of viscosity solutions.
-%	Résumé
-%	Dans cet article on établit la régularité W2,p des solutions de viscosité des équations elliptiques complètement nonlinéaires. On utilise une méthode géométrique tangentielle, qui est basée sur la notion de fonction de recession d'un opérateur arbitraire F – formellement donnée par F⁎(M):=∞−1F(∞M). De plus, on examine le problème de l'opérateur avec coefficients variables, et on étudie la régularité des solutions dans l'espace BMO. La dernière partie traite d'un résultat concernant la densité des solutions W2,p dans la classe des solutions de viscosité continue.}
+	urldate = {2025-12-11},
+	journal = {Bioinformatics},
+	author = {Lee, Jinhyuk and Yoon, Wonjin and Kim, Sungdong and Kim, Donghyeon and Kim, Sunkyu and So, Chan Ho and Kang, Jaewoo},
+	month = feb,
+	year = {2020},
+	pages = {1234--1240},
 }
 
-@article{da_S_Bessa_2023,
-	doi = {10.1016/j.jde.2023.05.006},
-	
-	url = {https://doi.org/10.1016%2Fj.jde.2023.05.006},
-	
-	year = 2023,
-	month = {sep},
-	
-	publisher = {Elsevier {BV}
-	},
-	
-	volume = {367},
-	
-	pages = {451--493},
-	
-	author = {Junior da S. Bessa and Jo{\~{a}}o Vitor da Silva and Maria N.B. Frederico and Gleydson C. Ricarte},
-	
-	title = {Sharp Hessian estimates for fully nonlinear elliptic equations under relaxed convexity assumptions, oblique boundary conditions and applications},
-	
-	journal = {Journal of Differential Equations}
+@misc{alsentzer_publicly_2019,
+	title = {Publicly {Available} {Clinical} {BERT} {Embeddings}},
+	url = {http://arxiv.org/abs/1904.03323},
+	doi = {10.48550/arXiv.1904.03323},
+	abstract = {Contextual word embedding models such as ELMo (Peters et al., 2018) and BERT (Devlin et al., 2018) have dramatically improved performance for many natural language processing (NLP) tasks in recent months. However, these models have been minimally explored on specialty corpora, such as clinical text; moreover, in the clinical domain, no publicly-available pre-trained BERT models yet exist. In this work, we address this need by exploring and releasing BERT models for clinical text: one for generic clinical text and another for discharge summaries specifically. We demonstrate that using a domain-specific model yields performance improvements on three common clinical NLP tasks as compared to nonspecific embeddings. These domain-specific models are not as performant on two clinical de-identification tasks, and argue that this is a natural consequence of the differences between de-identified source text and synthetically non de-identified task text.},
+	urldate = {2025-12-11},
+	publisher = {arXiv},
+	author = {Alsentzer, Emily and Murphy, John R. and Boag, Willie and Weng, Wei-Hung and Jin, Di and Naumann, Tristan and McDermott, Matthew B. A.},
+	month = jun,
+	year = {2019},
+	note = {arXiv:1904.03323 [cs]},
+	keywords = {Computer Science - Computation and Language},
 }
 
-@article{navarro_sánchez_2020, title={Sharp estimates of semistable radial solutions of k-Hessian equations}, volume={150}, DOI={10.1017/prm.2019.14}, number={4}, journal={Proceedings of the Royal Society of Edinburgh Section A: Mathematics}, publisher={Royal Society of Edinburgh Scotland Foundation}, author={Navarro, Miguel Angel and Sánchez, Justino}, year={2020}, pages={2083–2115}}
+@misc{grattafiori2024llama3herdmodels,
+      title={The Llama 3 Herd of Models}, 
+      author={Aaron Grattafiori and Abhimanyu Dubey and Abhinav Jauhri and Abhinav Pandey and Abhishek Kadian and Ahmad Al-Dahle and Aiesha Letman and Akhil Mathur and Alan Schelten and Alex Vaughan and Amy Yang and Angela Fan and Anirudh Goyal and Anthony Hartshorn and Aobo Yang and Archi Mitra and Archie Sravankumar and Artem Korenev and Arthur Hinsvark and Arun Rao and Aston Zhang and Aurelien Rodriguez and Austen Gregerson and Ava Spataru and Baptiste Roziere and Bethany Biron and Binh Tang and Bobbie Chern and Charlotte Caucheteux and Chaya Nayak and Chloe Bi and Chris Marra and Chris McConnell and Christian Keller and Christophe Touret and Chunyang Wu and Corinne Wong and Cristian Canton Ferrer and Cyrus Nikolaidis and Damien Allonsius and Daniel Song and Danielle Pintz and Danny Livshits and Danny Wyatt and David Esiobu and Dhruv Choudhary and Dhruv Mahajan and Diego Garcia-Olano and Diego Perino and Dieuwke Hupkes and Egor Lakomkin and Ehab AlBadawy and Elina Lobanova and Emily Dinan and Eric Michael Smith and Filip Radenovic and Francisco Guzmán and Frank Zhang and Gabriel Synnaeve and Gabrielle Lee and Georgia Lewis Anderson and Govind Thattai and Graeme Nail and Gregoire Mialon and Guan Pang and Guillem Cucurell and Hailey Nguyen and Hannah Korevaar and Hu Xu and Hugo Touvron and Iliyan Zarov and Imanol Arrieta Ibarra and Isabel Kloumann and Ishan Misra and Ivan Evtimov and Jack Zhang and Jade Copet and Jaewon Lee and Jan Geffert and Jana Vranes and Jason Park and Jay Mahadeokar and Jeet Shah and Jelmer van der Linde and Jennifer Billock and Jenny Hong and Jenya Lee and Jeremy Fu and Jianfeng Chi and Jianyu Huang and Jiawen Liu and Jie Wang and Jiecao Yu and Joanna Bitton and Joe Spisak and Jongsoo Park and Joseph Rocca and Joshua Johnstun and Joshua Saxe and Junteng Jia and Kalyan Vasuden Alwala and Karthik Prasad and Kartikeya Upasani and Kate Plawiak and Ke Li and Kenneth Heafield and Kevin Stone and Khalid El-Arini and Krithika Iyer and Kshitiz Malik and Kuenley Chiu and Kunal Bhalla and Kushal Lakhotia and Lauren Rantala-Yeary and Laurens van der Maaten and Lawrence Chen and Liang Tan and Liz Jenkins and Louis Martin and Lovish Madaan and Lubo Malo and Lukas Blecher and Lukas Landzaat and Luke de Oliveira and Madeline Muzzi and Mahesh Pasupuleti and Mannat Singh and Manohar Paluri and Marcin Kardas and Maria Tsimpoukelli and Mathew Oldham and Mathieu Rita and Maya Pavlova and Melanie Kambadur and Mike Lewis and Min Si and Mitesh Kumar Singh and Mona Hassan and Naman Goyal and Narjes Torabi and Nikolay Bashlykov and Nikolay Bogoychev and Niladri Chatterji and Ning Zhang and Olivier Duchenne and Onur Çelebi and Patrick Alrassy and Pengchuan Zhang and Pengwei Li and Petar Vasic and Peter Weng and Prajjwal Bhargava and Pratik Dubal and Praveen Krishnan and Punit Singh Koura and Puxin Xu and Qing He and Qingxiao Dong and Ragavan Srinivasan and Raj Ganapathy and Ramon Calderer and Ricardo Silveira Cabral and Robert Stojnic and Roberta Raileanu and Rohan Maheswari and Rohit Girdhar and Rohit Patel and Romain Sauvestre and Ronnie Polidoro and Roshan Sumbaly and Ross Taylor and Ruan Silva and Rui Hou and Rui Wang and Saghar Hosseini and Sahana Chennabasappa and Sanjay Singh and Sean Bell and Seohyun Sonia Kim and Sergey Edunov and Shaoliang Nie and Sharan Narang and Sharath Raparthy and Sheng Shen and Shengye Wan and Shruti Bhosale and Shun Zhang and Simon Vandenhende and Soumya Batra and Spencer Whitman and Sten Sootla and Stephane Collot and Suchin Gururangan and Sydney Borodinsky and Tamar Herman and Tara Fowler and Tarek Sheasha and Thomas Georgiou and Thomas Scialom and Tobias Speckbacher and Todor Mihaylov and Tong Xiao and Ujjwal Karn and Vedanuj Goswami and Vibhor Gupta and Vignesh Ramanathan and Viktor Kerkez and Vincent Gonguet and Virginie Do and Vish Vogeti and Vítor Albiero and Vladan Petrovic and Weiwei Chu and Wenhan Xiong and Wenyin Fu and Whitney Meers and Xavier Martinet and Xiaodong Wang and Xiaofang Wang and Xiaoqing Ellen Tan and Xide Xia and Xinfeng Xie and Xuchao Jia and Xuewei Wang and Yaelle Goldschlag and Yashesh Gaur and Yasmine Babaei and Yi Wen and Yiwen Song and Yuchen Zhang and Yue Li and Yuning Mao and Zacharie Delpierre Coudert and Zheng Yan and Zhengxing Chen and Zoe Papakipos and Aaditya Singh and Aayushi Srivastava and Abha Jain and Adam Kelsey and Adam Shajnfeld and Adithya Gangidi and Adolfo Victoria and Ahuva Goldstand and Ajay Menon and Ajay Sharma and Alex Boesenberg and Alexei Baevski and Allie Feinstein and Amanda Kallet and Amit Sangani and Amos Teo and Anam Yunus and Andrei Lupu and Andres Alvarado and Andrew Caples and Andrew Gu and Andrew Ho and Andrew Poulton and Andrew Ryan and Ankit Ramchandani and Annie Dong and Annie Franco and Anuj Goyal and Aparajita Saraf and Arkabandhu Chowdhury and Ashley Gabriel and Ashwin Bharambe and Assaf Eisenman and Azadeh Yazdan and Beau James and Ben Maurer and Benjamin Leonhardi and Bernie Huang and Beth Loyd and Beto De Paola and Bhargavi Paranjape and Bing Liu and Bo Wu and Boyu Ni and Braden Hancock and Bram Wasti and Brandon Spence and Brani Stojkovic and Brian Gamido and Britt Montalvo and Carl Parker and Carly Burton and Catalina Mejia and Ce Liu and Changhan Wang and Changkyu Kim and Chao Zhou and Chester Hu and Ching-Hsiang Chu and Chris Cai and Chris Tindal and Christoph Feichtenhofer and Cynthia Gao and Damon Civin and Dana Beaty and Daniel Kreymer and Daniel Li and David Adkins and David Xu and Davide Testuggine and Delia David and Devi Parikh and Diana Liskovich and Didem Foss and Dingkang Wang and Duc Le and Dustin Holland and Edward Dowling and Eissa Jamil and Elaine Montgomery and Eleonora Presani and Emily Hahn and Emily Wood and Eric-Tuan Le and Erik Brinkman and Esteban Arcaute and Evan Dunbar and Evan Smothers and Fei Sun and Felix Kreuk and Feng Tian and Filippos Kokkinos and Firat Ozgenel and Francesco Caggioni and Frank Kanayet and Frank Seide and Gabriela Medina Florez and Gabriella Schwarz and Gada Badeer and Georgia Swee and Gil Halpern and Grant Herman and Grigory Sizov and Guangyi and Zhang and Guna Lakshminarayanan and Hakan Inan and Hamid Shojanazeri and Han Zou and Hannah Wang and Hanwen Zha and Haroun Habeeb and Harrison Rudolph and Helen Suk and Henry Aspegren and Hunter Goldman and Hongyuan Zhan and Ibrahim Damlaj and Igor Molybog and Igor Tufanov and Ilias Leontiadis and Irina-Elena Veliche and Itai Gat and Jake Weissman and James Geboski and James Kohli and Janice Lam and Japhet Asher and Jean-Baptiste Gaya and Jeff Marcus and Jeff Tang and Jennifer Chan and Jenny Zhen and Jeremy Reizenstein and Jeremy Teboul and Jessica Zhong and Jian Jin and Jingyi Yang and Joe Cummings and Jon Carvill and Jon Shepard and Jonathan McPhie and Jonathan Torres and Josh Ginsburg and Junjie Wang and Kai Wu and Kam Hou U and Karan Saxena and Kartikay Khandelwal and Katayoun Zand and Kathy Matosich and Kaushik Veeraraghavan and Kelly Michelena and Keqian Li and Kiran Jagadeesh and Kun Huang and Kunal Chawla and Kyle Huang and Lailin Chen and Lakshya Garg and Lavender A and Leandro Silva and Lee Bell and Lei Zhang and Liangpeng Guo and Licheng Yu and Liron Moshkovich and Luca Wehrstedt and Madian Khabsa and Manav Avalani and Manish Bhatt and Martynas Mankus and Matan Hasson and Matthew Lennie and Matthias Reso and Maxim Groshev and Maxim Naumov and Maya Lathi and Meghan Keneally and Miao Liu and Michael L. Seltzer and Michal Valko and Michelle Restrepo and Mihir Patel and Mik Vyatskov and Mikayel Samvelyan and Mike Clark and Mike Macey and Mike Wang and Miquel Jubert Hermoso and Mo Metanat and Mohammad Rastegari and Munish Bansal and Nandhini Santhanam and Natascha Parks and Natasha White and Navyata Bawa and Nayan Singhal and Nick Egebo and Nicolas Usunier and Nikhil Mehta and Nikolay Pavlovich Laptev and Ning Dong and Norman Cheng and Oleg Chernoguz and Olivia Hart and Omkar Salpekar and Ozlem Kalinli and Parkin Kent and Parth Parekh and Paul Saab and Pavan Balaji and Pedro Rittner and Philip Bontrager and Pierre Roux and Piotr Dollar and Polina Zvyagina and Prashant Ratanchandani and Pritish Yuvraj and Qian Liang and Rachad Alao and Rachel Rodriguez and Rafi Ayub and Raghotham Murthy and Raghu Nayani and Rahul Mitra and Rangaprabhu Parthasarathy and Raymond Li and Rebekkah Hogan and Robin Battey and Rocky Wang and Russ Howes and Ruty Rinott and Sachin Mehta and Sachin Siby and Sai Jayesh Bondu and Samyak Datta and Sara Chugh and Sara Hunt and Sargun Dhillon and Sasha Sidorov and Satadru Pan and Saurabh Mahajan and Saurabh Verma and Seiji Yamamoto and Sharadh Ramaswamy and Shaun Lindsay and Shaun Lindsay and Sheng Feng and Shenghao Lin and Shengxin Cindy Zha and Shishir Patil and Shiva Shankar and Shuqiang Zhang and Shuqiang Zhang and Sinong Wang and Sneha Agarwal and Soji Sajuyigbe and Soumith Chintala and Stephanie Max and Stephen Chen and Steve Kehoe and Steve Satterfield and Sudarshan Govindaprasad and Sumit Gupta and Summer Deng and Sungmin Cho and Sunny Virk and Suraj Subramanian and Sy Choudhury and Sydney Goldman and Tal Remez and Tamar Glaser and Tamara Best and Thilo Koehler and Thomas Robinson and Tianhe Li and Tianjun Zhang and Tim Matthews and Timothy Chou and Tzook Shaked and Varun Vontimitta and Victoria Ajayi and Victoria Montanez and Vijai Mohan and Vinay Satish Kumar and Vishal Mangla and Vlad Ionescu and Vlad Poenaru and Vlad Tiberiu Mihailescu and Vladimir Ivanov and Wei Li and Wenchen Wang and Wenwen Jiang and Wes Bouaziz and Will Constable and Xiaocheng Tang and Xiaojian Wu and Xiaolan Wang and Xilun Wu and Xinbo Gao and Yaniv Kleinman and Yanjun Chen and Ye Hu and Ye Jia and Ye Qi and Yenda Li and Yilin Zhang and Ying Zhang and Yossi Adi and Youngjin Nam and Yu and Wang and Yu Zhao and Yuchen Hao and Yundi Qian and Yunlu Li and Yuzi He and Zach Rait and Zachary DeVito and Zef Rosnbrick and Zhaoduo Wen and Zhenyu Yang and Zhiwei Zhao and Zhiyu Ma},
+      year={2024},
+      eprint={2407.21783},
+      archivePrefix={arXiv},
+      primaryClass={cs.AI},
+      url={https://arxiv.org/abs/2407.21783}, 
+}
+
+@misc{openai_gpt-4_2024,
+	title = {{GPT}-4 {Technical} {Report}},
+	url = {http://arxiv.org/abs/2303.08774},
+	doi = {10.48550/arXiv.2303.08774},
+	abstract = {We report the development of GPT-4, a large-scale, multimodal model which can accept image and text inputs and produce text outputs. While less capable than humans in many real-world scenarios, GPT-4 exhibits human-level performance on various professional and academic benchmarks, including passing a simulated bar exam with a score around the top 10\% of test takers. GPT-4 is a Transformer-based model pre-trained to predict the next token in a document. The post-training alignment process results in improved performance on measures of factuality and adherence to desired behavior. A core component of this project was developing infrastructure and optimization methods that behave predictably across a wide range of scales. This allowed us to accurately predict some aspects of GPT-4's performance based on models trained with no more than 1/1,000th the compute of GPT-4.},
+	urldate = {2025-12-11},
+	publisher = {arXiv},
+	author = {{OpenAI} and Achiam, Josh and Adler, Steven and Agarwal, Sandhini and Ahmad, Lama and Akkaya, Ilge and Aleman, Florencia Leoni and Almeida, Diogo and Altenschmidt, Janko and Altman, Sam and Anadkat, Shyamal and Avila, Red and Babuschkin, Igor and Balaji, Suchir and Balcom, Valerie and Baltescu, Paul and Bao, Haiming and Bavarian, Mohammad and Belgum, Jeff and Bello, Irwan and Berdine, Jake and Bernadett-Shapiro, Gabriel and Berner, Christopher and Bogdonoff, Lenny and Boiko, Oleg and Boyd, Madelaine and Brakman, Anna-Luisa and Brockman, Greg and Brooks, Tim and Brundage, Miles and Button, Kevin and Cai, Trevor and Campbell, Rosie and Cann, Andrew and Carey, Brittany and Carlson, Chelsea and Carmichael, Rory and Chan, Brooke and Chang, Che and Chantzis, Fotis and Chen, Derek and Chen, Sully and Chen, Ruby and Chen, Jason and Chen, Mark and Chess, Ben and Cho, Chester and Chu, Casey and Chung, Hyung Won and Cummings, Dave and Currier, Jeremiah and Dai, Yunxing and Decareaux, Cory and Degry, Thomas and Deutsch, Noah and Deville, Damien and Dhar, Arka and Dohan, David and Dowling, Steve and Dunning, Sheila and Ecoffet, Adrien and Eleti, Atty and Eloundou, Tyna and Farhi, David and Fedus, Liam and Felix, Niko and Fishman, Simón Posada and Forte, Juston and Fulford, Isabella and Gao, Leo and Georges, Elie and Gibson, Christian and Goel, Vik and Gogineni, Tarun and Goh, Gabriel and Gontijo-Lopes, Rapha and Gordon, Jonathan and Grafstein, Morgan and Gray, Scott and Greene, Ryan and Gross, Joshua and Gu, Shixiang Shane and Guo, Yufei and Hallacy, Chris and Han, Jesse and Harris, Jeff and He, Yuchen and Heaton, Mike and Heidecke, Johannes and Hesse, Chris and Hickey, Alan and Hickey, Wade and Hoeschele, Peter and Houghton, Brandon and Hsu, Kenny and Hu, Shengli and Hu, Xin and Huizinga, Joost and Jain, Shantanu and Jain, Shawn and Jang, Joanne and Jiang, Angela and Jiang, Roger and Jin, Haozhun and Jin, Denny and Jomoto, Shino and Jonn, Billie and Jun, Heewoo and Kaftan, Tomer and Kaiser, Łukasz and Kamali, Ali and Kanitscheider, Ingmar and Keskar, Nitish Shirish and Khan, Tabarak and Kilpatrick, Logan and Kim, Jong Wook and Kim, Christina and Kim, Yongjik and Kirchner, Jan Hendrik and Kiros, Jamie and Knight, Matt and Kokotajlo, Daniel and Kondraciuk, Łukasz and Kondrich, Andrew and Konstantinidis, Aris and Kosic, Kyle and Krueger, Gretchen and Kuo, Vishal and Lampe, Michael and Lan, Ikai and Lee, Teddy and Leike, Jan and Leung, Jade and Levy, Daniel and Li, Chak Ming and Lim, Rachel and Lin, Molly and Lin, Stephanie and Litwin, Mateusz and Lopez, Theresa and Lowe, Ryan and Lue, Patricia and Makanju, Anna and Malfacini, Kim and Manning, Sam and Markov, Todor and Markovski, Yaniv and Martin, Bianca and Mayer, Katie and Mayne, Andrew and McGrew, Bob and McKinney, Scott Mayer and McLeavey, Christine and McMillan, Paul and McNeil, Jake and Medina, David and Mehta, Aalok and Menick, Jacob and Metz, Luke and Mishchenko, Andrey and Mishkin, Pamela and Monaco, Vinnie and Morikawa, Evan and Mossing, Daniel and Mu, Tong and Murati, Mira and Murk, Oleg and Mély, David and Nair, Ashvin and Nakano, Reiichiro and Nayak, Rajeev and Neelakantan, Arvind and Ngo, Richard and Noh, Hyeonwoo and Ouyang, Long and O'Keefe, Cullen and Pachocki, Jakub and Paino, Alex and Palermo, Joe and Pantuliano, Ashley and Parascandolo, Giambattista and Parish, Joel and Parparita, Emy and Passos, Alex and Pavlov, Mikhail and Peng, Andrew and Perelman, Adam and Peres, Filipe de Avila Belbute and Petrov, Michael and Pinto, Henrique Ponde de Oliveira and {Michael} and {Pokorny} and Pokrass, Michelle and Pong, Vitchyr H. and Powell, Tolly and Power, Alethea and Power, Boris and Proehl, Elizabeth and Puri, Raul and Radford, Alec and Rae, Jack and Ramesh, Aditya and Raymond, Cameron and Real, Francis and Rimbach, Kendra and Ross, Carl and Rotsted, Bob and Roussez, Henri and Ryder, Nick and Saltarelli, Mario and Sanders, Ted and Santurkar, Shibani and Sastry, Girish and Schmidt, Heather and Schnurr, David and Schulman, John and Selsam, Daniel and Sheppard, Kyla and Sherbakov, Toki and Shieh, Jessica and Shoker, Sarah and Shyam, Pranav and Sidor, Szymon and Sigler, Eric and Simens, Maddie and Sitkin, Jordan and Slama, Katarina and Sohl, Ian and Sokolowsky, Benjamin and Song, Yang and Staudacher, Natalie and Such, Felipe Petroski and Summers, Natalie and Sutskever, Ilya and Tang, Jie and Tezak, Nikolas and Thompson, Madeleine B. and Tillet, Phil and Tootoonchian, Amin and Tseng, Elizabeth and Tuggle, Preston and Turley, Nick and Tworek, Jerry and Uribe, Juan Felipe Cerón and Vallone, Andrea and Vijayvergiya, Arun and Voss, Chelsea and Wainwright, Carroll and Wang, Justin Jay and Wang, Alvin and Wang, Ben and Ward, Jonathan and Wei, Jason and Weinmann, C. J. and Welihinda, Akila and Welinder, Peter and Weng, Jiayi and Weng, Lilian and Wiethoff, Matt and Willner, Dave and Winter, Clemens and Wolrich, Samuel and Wong, Hannah and Workman, Lauren and Wu, Sherwin and Wu, Jeff and Wu, Michael and Xiao, Kai and Xu, Tao and Yoo, Sarah and Yu, Kevin and Yuan, Qiming and Zaremba, Wojciech and Zellers, Rowan and Zhang, Chong and Zhang, Marvin and Zhao, Shengjia and Zheng, Tianhao and Zhuang, Juntang and Zhuk, William and Zoph, Barret},
+	month = mar,
+	year = {2024},
+	note = {arXiv:2303.08774 [cs]},
+	keywords = {Computer Science - Artificial Intelligence, Computer Science - Computation and Language},
+}
+
+@misc{pal_med-halt_2023,
+	title = {Med-{HALT}: {Medical} {Domain} {Hallucination} {Test} for {Large} {Language} {Models}},
+	shorttitle = {Med-{HALT}},
+	url = {http://arxiv.org/abs/2307.15343},
+	doi = {10.48550/arXiv.2307.15343},
+	abstract = {This research paper focuses on the challenges posed by hallucinations in large language models (LLMs), particularly in the context of the medical domain. Hallucination, wherein these models generate plausible yet unverified or incorrect information, can have serious consequences in healthcare applications. We propose a new benchmark and dataset, Med-HALT (Medical Domain Hallucination Test), designed specifically to evaluate and reduce hallucinations. Med-HALT provides a diverse multinational dataset derived from medical examinations across various countries and includes multiple innovative testing modalities. Med-HALT includes two categories of tests reasoning and memory-based hallucination tests, designed to assess LLMs's problem-solving and information retrieval abilities. Our study evaluated leading LLMs, including Text Davinci, GPT-3.5, LlaMa-2, MPT, and Falcon, revealing significant differences in their performance. The paper provides detailed insights into the dataset, promoting transparency and reproducibility. Through this work, we aim to contribute to the development of safer and more reliable language models in healthcare. Our benchmark can be found at medhalt.github.io},
+	urldate = {2025-12-11},
+	publisher = {arXiv},
+	author = {Pal, Ankit and Umapathi, Logesh Kumar and Sankarasubbu, Malaikannan},
+	month = oct,
+	year = {2023},
+	note = {arXiv:2307.15343 [cs]},
+	keywords = {Computer Science - Artificial Intelligence, Computer Science - Computation and Language, Computer Science - Machine Learning, Statistics - Machine Learning},
+}
+
+@article{ji_survey_2023,
+	title = {Survey of {Hallucination} in {Natural} {Language} {Generation}},
+	volume = {55},
+	issn = {0360-0300},
+	url = {https://doi.org/10.1145/3571730},
+	doi = {10.1145/3571730},
+	abstract = {Natural Language Generation (NLG) has improved exponentially in recent years thanks to the development of sequence-to-sequence deep learning technologies such as Transformer-based language models. This advancement has led to more fluent and coherent NLG, leading to improved development in downstream tasks such as abstractive summarization, dialogue generation, and data-to-text generation. However, it is also apparent that deep learning based generation is prone to hallucinate unintended text, which degrades the system performance and fails to meet user expectations in many real-world scenarios. To address this issue, many studies have been presented in measuring and mitigating hallucinated texts, but these have never been reviewed in a comprehensive manner before.In this survey, we thus provide a broad overview of the research progress and challenges in the hallucination problem in NLG. The survey is organized into two parts: (1) a general overview of metrics, mitigation methods, and future directions, and (2) an overview of task-specific research progress on hallucinations in the following downstream tasks, namely abstractive summarization, dialogue generation, generative question answering, data-to-text generation, and machine translation. This survey serves to facilitate collaborative efforts among researchers in tackling the challenge of hallucinated texts in NLG.},
+	number = {12},
+	urldate = {2025-12-11},
+	journal = {ACM Comput. Surv.},
+	author = {Ji, Ziwei and Lee, Nayeon and Frieske, Rita and Yu, Tiezheng and Su, Dan and Xu, Yan and Ishii, Etsuko and Bang, Ye Jin and Madotto, Andrea and Fung, Pascale},
+	month = mar,
+	year = {2023},
+	pages = {248:1--248:38},
+}
+
+@article{amugongo_retrieval_2025,
+	title = {Retrieval augmented generation for large language models in healthcare: {A} systematic review},
+	volume = {4},
+	issn = {2767-3170},
+	shorttitle = {Retrieval augmented generation for large language models in healthcare},
+	url = {https://journals.plos.org/digitalhealth/article?id=10.1371/journal.pdig.0000877},
+	doi = {10.1371/journal.pdig.0000877},
+	abstract = {Large Language Models (LLMs) have demonstrated promising capabilities to solve complex tasks in critical sectors such as healthcare. However, LLMs are limited by their training data which is often outdated, the tendency to generate inaccurate (“hallucinated”) content and a lack of transparency in the content they generate. To address these limitations, retrieval augmented generation (RAG) grounds the responses of LLMs by exposing them to external knowledge sources. However, in the healthcare domain there is currently a lack of systematic understanding of which datasets, RAG methodologies and evaluation frameworks are available. This review aims to bridge this gap by assessing RAG-based approaches employed by LLMs in healthcare, focusing on the different steps of retrieval, augmentation and generation. Additionally, we identify the limitations, strengths and gaps in the existing literature. Our synthesis shows that 78.9\% of studies used English datasets and 21.1\% of the datasets are in Chinese. We find that a range of techniques are employed RAG-based LLMs in healthcare, including Naive RAG, Advanced RAG, and Modular RAG. Surprisingly, proprietary models such as GPT-3.5/4 are the most used for RAG applications in healthcare. We find that there is a lack of standardised evaluation frameworks for RAG-based applications. In addition, the majority of the studies do not assess or address ethical considerations related to RAG in healthcare. It is important to account for ethical challenges that are inherent when AI systems are implemented in the clinical setting. Lastly, we highlight the need for further research and development to ensure responsible and effective adoption of RAG in the medical domain.},
+	language = {en},
+	number = {6},
+	urldate = {2025-12-11},
+	journal = {PLOS Digital Health},
+	author = {Amugongo, Lameck Mbangula and Mascheroni, Pietro and Brooks, Steven and Doering, Stefan and Seidel, Jan},
+	month = jun,
+	year = {2025},
+	keywords = {Database searching, Hallucinations, Information retrieval, Language, Metadata, Physicians, Radiology and imaging, Systematic reviews},
+	pages = {e0000877},
+}
+
+@article{laker_quality_2018,
+	title = {Quality and {Efficiency} of the {Clinical} {Decision}‐{Making} {Process}: {Information} {Overload} and {Emphasis} {Framing}},
+	volume = {27},
+	issn = {1059-1478},
+	shorttitle = {Quality and {Efficiency} of the {Clinical} {Decision}‐{Making} {Process}},
+	url = {https://doi.org/10.1111/poms.12777},
+	doi = {10.1111/poms.12777},
+	abstract = {The healthcare industry has invested heavily in electronic health records and other clinical information systems in order to improve caregivers' access to information and ability to share information with other care providers. It has been shown that these systems can readily induce in their users a state of information overload, where the volume and complexity of information overwhelms the user, leading to lower decision speed and quality. This research introduces and tests a cognitive technique called “emphasis framing” as an operational tactic to help mitigate the effects of information overload, thereby improving the quality and timeliness of clinical decision‐making. Emphasis framing is the highlighting or stressing of some aspect or component of the information being exchanged in order to make it more easily processed, or more likely to be processed, by the recipient. We conducted a controlled laboratory experiment with emergency department physicians experiencing information overload to measure the effect of emphasis framing on two operational performance metrics: (1) the quality of the physician's clinical evaluation, and (2) the efficiency (timeliness) of the physician's clinical decision‐making. Our findings show that the emphasis frame helped mitigate the effects of information overload and increased the quality of clinical decision‐making. Contrary to expectations, however, we found decision‐making took longer with the emphasis frame, reinforcing the need to consider the impacts of quality/speed trade‐offs. Implications for theory and practice are discussed.},
+	language = {EN},
+	number = {12},
+	urldate = {2025-12-11},
+	journal = {Production and Operations Management},
+	author = {Laker, Lauren F. and Froehle, Craig M. and Windeler, Jaime B. and Lindsell, Christopher John},
+	month = dec,
+	year = {2018},
+	pages = {2213--2225},
+}
+
+@incollection{rebitzer_influence_2008,
+	address = {Bingley},
+	title = {Influence, information overload, and information technology in health care},
+	volume = {19},
+	copyright = {http://www.emeraldinsight.com/page/tdm},
+	isbn = {9781848551800},
+	url = {http://www.emerald.com/books/edited-volume/11590/chapter/81491821},
+	language = {en},
+	urldate = {2025-12-10},
+	booktitle = {Advances in {Health} {Economics} and {Health} {Services} {Research}},
+	publisher = {Emerald (MCB UP )},
+	author = {Rebitzer, James B. and Rege, Mari and Shepard, Christopher},
+	year = {2008},
+	doi = {10.1016/S0731-2199(08)19003-3},
+	pages = {43--69},
+}
+
+@misc{hu2021loralowrankadaptationlarge,
+      title={LoRA: Low-Rank Adaptation of Large Language Models}, 
+      author={Edward J. Hu and Yelong Shen and Phillip Wallis and Zeyuan Allen-Zhu and Yuanzhi Li and Shean Wang and Lu Wang and Weizhu Chen},
+      year={2021},
+      eprint={2106.09685},
+      archivePrefix={arXiv},
+      primaryClass={cs.CL},
+      url={https://arxiv.org/abs/2106.09685}, 
+}
+
+@misc{dettmers2023qloraefficientfinetuningquantized,
+      title={QLoRA: Efficient Finetuning of Quantized LLMs}, 
+      author={Tim Dettmers and Artidoro Pagnoni and Ari Holtzman and Luke Zettlemoyer},
+      year={2023},
+      eprint={2305.14314},
+      archivePrefix={arXiv},
+      primaryClass={cs.LG},
+      url={https://arxiv.org/abs/2305.14314}, 
+}
+
+@misc{es2025ragasautomatedevaluationretrieval,
+      title={Ragas: Automated Evaluation of Retrieval Augmented Generation}, 
+      author={Shahul Es and Jithin James and Luis Espinosa-Anke and Steven Schockaert},
+      year={2025},
+      eprint={2309.15217},
+      archivePrefix={arXiv},
+      primaryClass={cs.CL},
+      url={https://arxiv.org/abs/2309.15217}, 
+}
+
+@misc{vaswani2023attentionneed,
+      title={Attention Is All You Need}, 
+      author={Ashish Vaswani and Noam Shazeer and Niki Parmar and Jakob Uszkoreit and Llion Jones and Aidan N. Gomez and Lukasz Kaiser and Illia Polosukhin},
+      year={2023},
+      eprint={1706.03762},
+      archivePrefix={arXiv},
+      primaryClass={cs.CL},
+      url={https://arxiv.org/abs/1706.03762}, 
+}
+
+@inproceedings{devlin-etal-2019-bert,
+    title = "{BERT}: Pre-training of Deep Bidirectional Transformers for Language Understanding",
+    author = "Devlin, Jacob  and
+      Chang, Ming-Wei  and
+      Lee, Kenton  and
+      Toutanova, Kristina",
+    editor = "Burstein, Jill  and
+      Doran, Christy  and
+      Solorio, Thamar",
+    booktitle = "Proceedings of the 2019 Conference of the North {A}merican Chapter of the Association for Computational Linguistics: Human Language Technologies, Volume 1 (Long and Short Papers)",
+    month = jun,
+    year = "2019",
+    address = "Minneapolis, Minnesota",
+    publisher = "Association for Computational Linguistics",
+    url = "https://aclanthology.org/N19-1423/",
+    doi = "10.18653/v1/N19-1423",
+    pages = "4171--4186",
+    abstract = "We introduce a new language representation model called BERT, which stands for Bidirectional Encoder Representations from Transformers. Unlike recent language representation models (Peters et al., 2018a; Radford et al., 2018), BERT is designed to pre-train deep bidirectional representations from unlabeled text by jointly conditioning on both left and right context in all layers. As a result, the pre-trained BERT model can be fine-tuned with just one additional output layer to create state-of-the-art models for a wide range of tasks, such as question answering and language inference, without substantial task-specific architecture modifications. BERT is conceptually simple and empirically powerful. It obtains new state-of-the-art results on eleven natural language processing tasks, including pushing the GLUE score to 80.5 (7.7 point absolute improvement), MultiNLI accuracy to 86.7{\%} (4.6{\%} absolute improvement), SQuAD v1.1 question answering Test F1 to 93.2 (1.5 point absolute improvement) and SQuAD v2.0 Test F1 to 83.1 (5.1 point absolute improvement)."
+}
+
+@misc{gu2022efficientlymodelinglongsequences,
+      title={Efficiently Modeling Long Sequences with Structured State Spaces}, 
+      author={Albert Gu and Karan Goel and Christopher Ré},
+      year={2022},
+      eprint={2111.00396},
+      archivePrefix={arXiv},
+      primaryClass={cs.LG},
+      url={https://arxiv.org/abs/2111.00396}, 
+}
+
+
+@article{jcm13113041,
+AUTHOR = {Pressman, Sophia M. and Borna, Sahar and Gomez-Cabello, Cesar A. and Haider, Syed Ali and Haider, Clifton R. and Forte, Antonio Jorge},
+TITLE = {Clinical and Surgical Applications of Large Language Models: A Systematic Review},
+JOURNAL = {Journal of Clinical Medicine},
+VOLUME = {13},
+YEAR = {2024},
+NUMBER = {11},
+ARTICLE-NUMBER = {3041},
+URL = {https://www.mdpi.com/2077-0383/13/11/3041},
+PubMedID = {38892752},
+ISSN = {2077-0383},
+ABSTRACT = {Background: Large language models (LLMs) represent a recent advancement in artificial intelligence with medical applications across various healthcare domains. The objective of this review is to highlight how LLMs can be utilized by clinicians and surgeons in their everyday practice. Methods: A systematic review was conducted following the Preferred Reporting Items for Systematic Reviews and Meta-Analyses guidelines. Six databases were searched to identify relevant articles. Eligibility criteria emphasized articles focused primarily on clinical and surgical applications of LLMs. Results: The literature search yielded 333 results, with 34 meeting eligibility criteria. All articles were from 2023. There were 14 original research articles, four letters, one interview, and 15 review articles. These articles covered a wide variety of medical specialties, including various surgical subspecialties. Conclusions: LLMs have the potential to enhance healthcare delivery. In clinical settings, LLMs can assist in diagnosis, treatment guidance, patient triage, physician knowledge augmentation, and administrative tasks. In surgical settings, LLMs can assist surgeons with documentation, surgical planning, and intraoperative guidance. However, addressing their limitations and concerns, particularly those related to accuracy and biases, is crucial. LLMs should be viewed as tools to complement, not replace, the expertise of healthcare professionals.},
+DOI = {10.3390/jcm13113041}
+}
+
+@article{Zaharia_Accelerating_the_Machine_2018,
+author = {Zaharia, Matei A. and Chen, Andrew and Davidson, Aaron and Ghodsi, Ali and Hong, Sue Ann and Konwinski, Andy and Murching, Siddharth and Nykodym, Tomas and Ogilvie, Paul and Parkhe, Mani and Xie, Fen and Zumar, Corey},
+journal = {IEEE Data Eng. Bull.},
+pages = {39--45},
+title = {{Accelerating the Machine Learning Lifecycle with MLflow}},
+url = {https://api.semanticscholar.org/CorpusID:83459546},
+volume = {41},
+year = {2018}
+}

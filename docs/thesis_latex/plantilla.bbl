@@ -1,75 +1,71 @@
 \begin{thebibliography}{}
 
 \bibitem [\protect \citeauthoryear {%
-da S.~Bessa%
-, da Silva%
-, Frederico%
-\BCBL {}\ \BBA {} Ricarte%
-}{%
-da S.~Bessa%
+Alsentzer%
 \ \protect \BOthers {.}}{%
-{\protect \APACyear {2023}}%
+Alsentzer%
+\ \protect \BOthers {.}}{%
+{\protect \APACyear {2019}}%
 }]{%
-da_S_Bessa_2023}
+alsentzer_publicly_2019}
 \APACinsertmetastar {%
-da_S_Bessa_2023}%
+alsentzer_publicly_2019}%
 \begin{APACrefauthors}%
-da S.~Bessa, J.%
-, da Silva, J\BPBI V.%
-, Frederico, M\BPBI N.%
-\BCBL {}\ \BBA {} Ricarte, G\BPBI C.%
+Alsentzer, E.%
+, Murphy, J\BPBI R.%
+, Boag, W.%
+, Weng, W\BHBI H.%
+, Jin, D.%
+, Naumann, T.%
+\BCBL {}\ \BBA {} McDermott, M\BPBI B\BPBI A.%
 \end{APACrefauthors}%
 \unskip\
 \newblock
-\APACrefYearMonthDay{2023}{sep}{}.
+\APACrefYearMonthDay{2019}{{\APACmonth{06}}}{}.
 \newblock
-{\BBOQ}\APACrefatitle {Sharp Hessian estimates for fully nonlinear elliptic
-  equations under relaxed convexity assumptions, oblique boundary conditions
-  and applications} {Sharp hessian estimates for fully nonlinear elliptic
-  equations under relaxed convexity assumptions, oblique boundary conditions
-  and applications}.{\BBCQ}
+\APACrefbtitle {Publicly {Available} {Clinical} {BERT} {Embeddings}.} {Publicly {Available} {Clinical} {BERT} {Embeddings}.}
 \newblock
-\APACjournalVolNumPages{Journal of Differential Equations}{367}{}{451--493}.
+\APACaddressPublisher{}{arXiv}.
 \newblock
-\begin{APACrefURL} \url{https://doi.org/10.1016%2Fj.jde.2023.05.006}
-  \end{APACrefURL}
+\begin{APACrefURL} [{2025-12-11}]\url{http://arxiv.org/abs/1904.03323} \end{APACrefURL}
 \newblock
-\begin{APACrefDOI} \doi{10.1016/j.jde.2023.05.006} \end{APACrefDOI}
+\APACrefnote{arXiv:1904.03323 [cs]}
+\newblock
+\begin{APACrefDOI} \doi{10.48550/arXiv.1904.03323} \end{APACrefDOI}
 \PrintBackRefs{\CurrentBib}
 
 \bibitem [\protect \citeauthoryear {%
-Pimentel%
-\ \BBA {} Teixeira%
+Amugongo%
+, Mascheroni%
+, Brooks%
+, Doering%
+\BCBL {}\ \BBA {} Seidel%
 }{%
-Pimentel%
-\ \BBA {} Teixeira%
-}{%
-{\protect \APACyear {2016}}%
+Amugongo%
+\ \protect \BOthers {.}}{%
+{\protect \APACyear {2025}}%
 }]{%
-PIMENTEL2016744}
+amugongo_retrieval_2025}
 \APACinsertmetastar {%
-PIMENTEL2016744}%
+amugongo_retrieval_2025}%
 \begin{APACrefauthors}%
-Pimentel, E\BPBI A.%
-\BCBT {}\ \BBA {} Teixeira, E\BPBI V.%
+Amugongo, L\BPBI M.%
+, Mascheroni, P.%
+, Brooks, S.%
+, Doering, S.%
+\BCBL {}\ \BBA {} Seidel, J.%
 \end{APACrefauthors}%
 \unskip\
 \newblock
-\APACrefYearMonthDay{2016}{}{}.
+\APACrefYearMonthDay{2025}{{\APACmonth{06}}}{}.
 \newblock
-{\BBOQ}\APACrefatitle {Sharp Hessian integrability estimates for nonlinear
-  elliptic equations: An asymptotic approach} {Sharp hessian integrability
-  estimates for nonlinear elliptic equations: An asymptotic approach}.{\BBCQ}
+{\BBOQ}\APACrefatitle {Retrieval augmented generation for large language models in healthcare: {A} systematic review} {Retrieval augmented generation for large language models in healthcare: {A} systematic review}.{\BBCQ}
 \newblock
-\APACjournalVolNumPages{Journal de Mathématiques Pures et
-  Appliquées}{106}{4}{744-767}.
+\APACjournalVolNumPages{PLOS Digital Health}{4}{6}{e0000877}.
 \newblock
-\begin{APACrefURL}
-  \url{https://www.sciencedirect.com/science/article/pii/S0021782416300101}
-  \end{APACrefURL}
+\begin{APACrefURL} [{2025-12-11}]\url{https://journals.plos.org/digitalhealth/article?id=10.1371/journal.pdig.0000877} \end{APACrefURL}
 \newblock
-\begin{APACrefDOI} \doi{https://doi.org/10.1016/j.matpur.2016.03.010}
-  \end{APACrefDOI}
+\begin{APACrefDOI} \doi{10.1371/journal.pdig.0000877} \end{APACrefDOI}
 \PrintBackRefs{\CurrentBib}
 
 \end{thebibliography}
