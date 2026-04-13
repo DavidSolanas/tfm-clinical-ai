@@ -1,13 +1,13 @@
 # Fdb version 4
-["bibtex plantilla"] 1776107723.46267 "plantilla.aux" "plantilla.bbl" "plantilla" 1776107723.55488 0
-  "./bibliografia.bib" 1776107723.28231 52903 21072ac6c65b53383cac2aaa14cc01b4 ""
+["bibtex plantilla"] 1776108910.87141 "plantilla.aux" "plantilla.bbl" "plantilla" 1776108910.968 0
+  "./bibliografia.bib" 1776108910.70445 52438 54b3e5fcf9ed56c0ba44c7b103bcba1f ""
   "/usr/share/texlive/texmf-dist/bibtex/bst/apacite/apacite.bst" 1374530685 141073 9d7b79dbf9d91133318126032cff8c27 ""
   "plantilla.aux" 1776105892.49922 3250 d326420d66d53327cace53d1c640b0aa "pdflatex"
   (generated)
   "plantilla.bbl"
   "plantilla.blg"
   (rewritten before read)
-["pdflatex"] 1776105891.9865 "/home/davidsolanas/Documents/MasterIA/TFM/tfm-clinical-ai/docs/thesis_latex/plantilla.tex" "plantilla.pdf" "plantilla" 1776107723.55494 0
+["pdflatex"] 1776105891.9865 "/home/davidsolanas/Documents/MasterIA/TFM/tfm-clinical-ai/docs/thesis_latex/plantilla.tex" "plantilla.pdf" "plantilla" 1776108910.96806 0
   "/etc/texmf/web2c/texmf.cnf" 1774284228.73157 475 c0e671620eb5563b2130f56340a5fde8 ""
   "/home/davidsolanas/Documents/MasterIA/TFM/tfm-clinical-ai/docs/thesis_latex/plantilla.tex" 1776105890.97176 7040 6813c72ba38b35aaf8c435d1fa82b2e1 ""
   "/usr/share/texlive/texmf-dist/fonts/map/fontname/texfonts.map" 1577235249 3524 cb3e574dea2d1052e39280babc910dc8 ""
@@ -131,7 +131,7 @@
   "estilo_unir-1.sty" 1775469482.40962 3307 973812dd598bc2ac37eacd7563e5de40 ""
   "logo_unir.pdf" 1775469482.40967 5261 e89deec51d32a79481fdbc2d4b98931c ""
   "plantilla.aux" 1776105892.49922 3250 d326420d66d53327cace53d1c640b0aa "pdflatex"
-  "plantilla.bbl" 1776107723.54132 1981 43c5f38fde4e728d9b8d8e5f657c640e "bibtex plantilla"
+  "plantilla.bbl" 1776108910.95446 1981 43c5f38fde4e728d9b8d8e5f657c640e "bibtex plantilla"
   "plantilla.lof" 1776105892.49968 293 c224653801110d6406ff002c3d304cde "pdflatex"
   "plantilla.lot" 1776105892.49968 289 562b3ab9b90ff277bd913c1f81fed788 "pdflatex"
   "plantilla.out" 1776105892.49968 1292 45f7706c8c85d8374b0dafcf18cae799 "pdflatex"

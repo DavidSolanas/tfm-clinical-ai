@@ -25,6 +25,26 @@ Each entry documents what was decided, why, and which alternatives were consider
 
 ## Decisions
 
+### 2026-04-13 -- Structured bibliography reference guide as a standalone operational document
+
+**Decision:** Maintain a dedicated `bibliography_reference_guide.md` document alongside `bibliography.bib`, providing for each reference: a summary, the thesis section(s) where it applies, the specific argument it supports, and a quick-reference index organized by thesis chapter.
+
+**Context:** The bibliography has grown to 28 references spanning multiple thematic blocks (foundational architecture, fine-tuning, RAG, biomedical embeddings, vector databases, hallucinations, clinical applications, evaluation, and data management). The `bibliography.bib` file, while authoritative for citation metadata, is not usable as a cognitive navigation tool during writing. Without a structured guide, the risk is either over-citing (inserting redundant references) or under-citing (missing mandatory citations in key sections), both of which create friction during thesis review.
+
+**Alternatives considered:**
+- **Rely solely on Zotero annotations:** Pros — keeps metadata and notes co-located; supports tagging and search. Cons — not portable, not version-controlled alongside the thesis repository, requires GUI access, and cannot be reviewed in the same editing session as the manuscript.
+- **Inline comments in `bibliography.bib`:** Pros — no separate file to maintain; notes travel with the citation. Cons — BibTeX comment syntax is non-standard across parsers, notes cannot be structured as a table, and the file is already dense with metadata fields.
+- **Standalone `bibliography_reference_guide.md` (chosen):** Pros — version-controlled in the repository, renderable as a table in any Markdown viewer, structured by thesis chapter for direct lookup during writing, and easy to update as new references are added. Cons — requires manual synchronization with `bibliography.bib` when entries are added or removed.
+
+**Rationale:** The guide addresses a real operational bottleneck: during thesis writing, the question is not "what is the DOI of this paper?" (Zotero answers that) but "which paper do I cite here, and what argument does it support?" The chapter-indexed quick-reference table at the end of the guide directly answers that question without requiring context-switching. The synchronization cost is acceptable given that the bibliography grows infrequently and in discrete batches.
+
+**Consequences:**
+- `bibliography_reference_guide.md` becomes a living document: every new reference added to `bibliography.bib` must have a corresponding row added to the guide, including its thematic block assignment, summary, and section mapping.
+- The guide serves as an audit trail for bibliography coverage gaps: if a thesis section has no references listed in the quick-reference table, that is a signal to review whether citations are missing.
+- During the thesis writing phase, the guide should be the first document consulted before inserting a `\cite{}` command.
+
+---
+
 ### 2026-03-24 -- Local LLM Base Model and Fine-Tuning Stack
 
 **Decision:** Adopt Meta Llama 3.1 (8B) as the base model, loaded in 4-bit quantization using the Unsloth framework for both inference and QLoRA fine-tuning.
