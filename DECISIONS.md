@@ -27,22 +27,23 @@ Each entry documents what was decided, why, and which alternatives were consider
 
 ### 2026-03-24 -- Local LLM Base Model and Fine-Tuning Stack
 
-**Decision:** Adopt Microsoft Phi-4-Mini (3.8B) as the base model, loaded in 4-bit quantization using the Unsloth framework for both inference and QLoRA fine-tuning.
+**Decision:** Adopt Meta Llama 3.1 (8B) as the base model, loaded in 4-bit quantization using the Unsloth framework for both inference and QLoRA fine-tuning.
 
-**Context:** The project requires a local LLM capable of strict clinical reasoning and adherence to RAG contexts for Evidence-Based Medicine. Crucially, the entire pipeline (Vector DB, Embeddings, LLM inference, and LoRA fine-tuning) must operate within the strict hardware constraints of a single Nvidia RTX 3080 with 10GB of VRAM.
+**Context:** The project requires a local LLM capable of strict clinical reasoning and adherence to RAG contexts for Evidence-Based Medicine. The entire pipeline (Vector DB, Embeddings, LLM inference, and LoRA fine-tuning) must operate within the strict hardware constraints of a single Nvidia RTX 3080 with 10GB of VRAM.
 
 **Alternatives considered:**
-- Option A: *Nvidia Nemotron-3 (4B) / Qwen 3.5 (4B/9B)*. Pros: Highly performant. Cons: These utilize hybrid architectures (Mamba/MoE) requiring `trust_remote_code=True` and complex C++ dependencies (`mamba-ssm`, `causal-conv1d`), which caused severe environment instability and compilation failures.
-- Option B: *DeepSeek-R1-Distill-Llama (8B)*. Pros: State-of-the-art chain-of-thought clinical reasoning. Cons: Even with quantization, an 8B model consumes too much VRAM, leaving insufficient memory for large RAG medical contexts and QLoRA gradients on a 10GB GPU, leading to out-of-memory (OOM) crashes.
-- Option C: *Google Gemma 3 (4B)*. Pros: Massive 128K context window. Cons: Native 16-bit loading requires ~8.6GB of VRAM, severely bottlenecking RAG retrieval space.
-- Option D: *Standard Hugging Face `transformers` + `bitsandbytes`*. Pros: Industry standard. Cons: Slower generation speeds and higher memory overhead during training compared to optimized kernels.
-- Option E (chosen): *Microsoft Phi-4-Mini (3.8B) + Unsloth (4-bit)*. Pros: Pure Transformer architecture avoids C++ dependency hell. Phi is uniquely trained on "textbook-quality" logic, making it exceptional at clinical deduction. Unsloth handles 4-bit quantization natively, shrinking the model footprint to ~3.5GB VRAM.
+- Option A: *Microsoft Phi-4-Mini (3.8B)*. Pros: Low memory footprint (~3.5GB). Cons: Insufficient reasoning depth for complex clinical tasks.
+- Option B: *Nvidia Nemotron-3 (4B) / Qwen 3.5 (4B/9B)*. Pros: Highly performant. Cons: Hybrid architectures (Mamba/MoE) require `trust_remote_code=True` and complex C++ dependencies, causing environment instability.
+- Option C: *Google Gemma 3 (4B)*. Pros: Large context window. Cons: High memory overhead limits RAG capacity.
+- Option D: *Standard Hugging Face `transformers` + `bitsandbytes`*. Pros: Industry standard. Cons: Slower generation and higher memory overhead during training.
+- Option E (chosen): *Meta Llama 3.1 (8B) + Unsloth (4-bit)*. Pros: Proven clinical reasoning, strong instruction-following, broad community support. 4-bit quantization reduces footprint to ~6GB VRAM, leaving sufficient memory for RAG and fine-tuning.
 
-**Rationale:** This combination perfectly balances clinical reasoning capabilities with strict hardware pragmatism. Phi-4-Mini provides the necessary logic for medical deduction, while Unsloth's optimized Triton kernels deliver 2x faster inference and frictionless QLoRA fine-tuning. Shrinking the model to 3.5GB VRAM guarantees ~6.5GB of free memory remains available for Qdrant, embeddings, and massive clinical document prompts without crashing.
+**Rationale:** Llama 3.1 8B offers superior clinical reasoning capabilities compared to smaller alternatives while remaining within VRAM constraints through 4-bit quantization. Unsloth's optimized kernels deliver fast inference and seamless QLoRA fine-tuning. This balances performance with hardware pragmatism.
 
-**Consequences:** - The host OS must have Python development headers (`python3-dev`) and `build-essential` installed to allow Unsloth to dynamically compile Triton kernels.
-- Model loading code must use `unsloth.FastLanguageModel` rather than standard `transformers.AutoModelForCausalLM`.
+**Consequences:** 
+- Model loading must use `unsloth.FastLanguageModel` rather than standard `transformers.AutoModelForCausalLM`.
 - Imports must be strictly ordered (`unsloth` imported before `torch` and `transformers`) to ensure internal library patching applies correctly.
+- The host OS must have Python development headers (`python3-dev`) and `build-essential` installed for Triton kernel compilation.
 
 ---
 
