@@ -29,7 +29,7 @@
 %título del trabajo y autor
 %---------------------------
 \title{Desarrollo de un Sistema Híbrido de Asistencia Clínica: Fine-Tuning de LLMs Open Source y Arquitectura RAG (Retrieval-Augmented Generation) para Medicina Basada en la Evidencia.}
-\titulacion{Máster en en Ingeniería Matemática y Computación}
+\titulacion{Máster en Inteligencia Artificial}
 \author{David Solanas Sanz}
 \date{1 de junio de 2026}
 \director{ nombre y apellidos}
@@ -78,45 +78,43 @@
 \mainmatter
 \chapter{Introducción}
 
-El primer capítulo es siempre una introducción. En la introducción se debe resumir de forma esquemática pero suficientemente clara lo esencial de cada una de las partes del trabajo. La lectura de este primer capítulo ha de dar una idea clara de lo que se pretendía, las conclusiones a las que se ha llegado y del procedimiento seguido.
+%El primer capítulo es siempre una introducción. En la introducción se debe resumir de forma esquemática pero suficientemente clara lo esencial de cada una de las partes del trabajo. La lectura de este primer capítulo ha de dar una idea clara de lo que se pretendía, las conclusiones a las que se ha llegado y del procedimiento seguido.
+%
+%Como tal, es uno de los capítulos más importantes de la memoria. Las ideas principales a transmitir son la identificación del problema a tratar, la justificación de su importancia, los objetivos generales a grandes rasgos y un adelanto de la contribución que esperas hacer.
+%
+%Típicamente una introducción tiene tres apartados:
+%\begin{itemize}
+%\item Motivación / justificación del tema a tratar
+%\item Planteamiento del trabajo
+%\item Estructura del trabajo
+%\end{itemize}
 
-Como tal, es uno de los capítulos más importantes de la memoria. Las ideas principales a transmitir son la identificación del problema a tratar, la justificación de su importancia, los objetivos generales a grandes rasgos y un adelanto de la contribución que esperas hacer.
 
-Típicamente una introducción tiene tres apartados:
+\section{Motivación y justificación}
+La medicina actual se enfrenta al siguiente problema: el mismo crecimiento del conocimiento científico que debería mejorar la atención al paciente amenaza con desbordar la capacidad cognitiva del profesional clínico que ha de asimilarlo. \cite{rebitzer_influence_2008} identificaron este fenómeno como una forma específica de sobrecarga de información en el ámbito sanitario, argumentando que el volumen y la velocidad de publicación de nueva evidencia supera la capacidad individual de procesamiento de los médicos. Las consecuencias son las siguientes: adopción lenta de nuevos tratamientos, mayor probabilidad de pasar por alto hallazgos relevantes y, en última instancia, una reducción de la calidad asistencial. \cite{laker_quality_2018} profundizaron en esta problemática, demostrando que la sobrecarga informacional no solo afecta a la velocidad de la toma de decisiones clínicas, sino también a su calidad, introduciendo sesgos sistemáticos porque el médico prioriza solo los datos que han sido resaltados, ignorando otros hechos que podrían ser igual de importantes.
+
+Ante esta situación, los Grandes Modelos de Lenguaje (LLM, por sus siglas en inglés) han emergido como una tecnología con potencial para actuar como interfaz inteligente entre el profesional clínico y el corpus de literatura científica disponible. Modelos como GPT-4 \cite{openai_gpt-4_2024} y LLaMA \cite{grattafiori2024llama3herdmodels} han demostrado capacidades notables de comprensión y generación de lenguaje natural, y revisiones sistemáticas recientes ya destacan su utilidad en tareas clínicas como asistencia al diagnóstico, triaje o soporte documental quirúrgico \cite{jcm13113041}. Sin embargo, su aplicación directa en entornos clínicos presenta limitaciones críticas que impiden su adopción directa sin mediación técnica adicional. La más relevante es la tendencia de estos modelos a generar información plausible pero factualmente incorrecta, fenómeno conocido en la literatura como alucinación \cite{ji_survey_2023}. En el dominio sanitario, donde una respuesta incorrecta puede tener consecuencias directas sobre decisiones terapéuticas, esta limitación es inaceptable. \cite{pal_med-halt_2023} cuantificaron este riesgo específicamente en contextos médicos, evidenciando tasas de error significativas incluso en modelos de última generación cuando operan fuera de su distribución de entrenamiento.
+
+Para mitigar estas limitaciones, la arquitectura Retrieval-Augmented Generation (RAG) propuesta por \cite{lewis_retrieval-augmented_2021} ofrece un marco técnico que combina la capacidad generativa de los LLM con la recuperación dinámica de información desde fuentes de conocimiento externas verificadas. En el dominio sanitario, \cite{amugongo_retrieval_2025} han revisado sistemáticamente la aplicación de RAG en entornos clínicos, concluyendo que la integración de bases de conocimiento biomédico estructuradas reduce significativamente la tasa de alucinaciones y mejora la trazabilidad de las respuestas generadas. Complementariamente, el ajuste fino (fine-tuning) de modelos base sobre corpus clínicos especializados, como los estudiados por \cite{lee_biobert_2020} y \cite{alsentzer_publicly_2019}, ha demostrado mejorar la coherencia terminológica y la adecuación del formato de respuesta al contexto sanitario. No obstante, la evaluación comparativa y sistemática del efecto diferencial de cada componente (RAG y fine-tuning) sobre métricas específicas de calidad clínica mediante un diseño ablativo de cuatro configuraciones representa una contribución metodológica aún poco frecuente en la literatura.
+
+Este trabajo se sitúa en la intersección de ambas líneas técnicas, proponiendo un sistema híbrido que combina el fine-tuning mediante QLoRA sobre datos clínicos con una arquitectura RAG conectada a PubMed, con el objetivo de construir un asistente de consulta bibliográfica para profesionales sanitarios que sea simultáneamente preciso, trazable y clínicamente coherente.
+
+\section{Planteamiento del trabajo}
+El objetivo principal de este Trabajo de Fin de Estudios es diseñar, implementar y evaluar un sistema híbrido de asistencia a la consulta bibliográfica clínica que combine fine-tuning eficiente de un LLM con una arquitectura RAG sobre literatura biomédica verificada, analizando la contribución diferencial de cada componente sobre la calidad de las respuestas generadas.
+
+Los objetivos específicos que operacionalizan este propósito son los siguientes:
 \begin{itemize}
-\item Motivación / justificación del tema a tratar
-\item Planteamiento del trabajo
-\item Estructura del trabajo
+	\item Construir un pipeline de ingestión, fragmentación e indexación semántica de artículos biomédicos de PubMed en una base de datos vectorial, empleando embeddings especializados en dominio clínico.
+	\item Realizar el ajuste fino del modelo LLaMA-3.1-8B mediante QLoRA sobre el corpus de transcripciones clínicas MTSamples, adaptando el estilo y la terminología de las respuestas al contexto sanitario.
+	\item Integrar ambos módulos en una arquitectura híbrida gestionada mediante prácticas MLOps, garantizando la reproducibilidad y trazabilidad del ciclo experimental.
+	\item Evaluar el sistema bajo cuatro configuraciones experimentales —modelo base, fine-tuning exclusivo, RAG exclusivo y sistema híbrido completo— con el fin de cuantificar la contribución individual de cada componente sobre métricas de calidad de recuperación y generación.
+	\item Determinar si el sistema híbrido ofrece ventajas cuantificables sobre las configuraciones parciales, identificando qué limitación específica resuelve cada técnica.
 \end{itemize}
 
+La contribución diferencial de este trabajo respecto a los estudios previos reside en el diseño ablativo de la evaluación: frente a trabajos que evalúan RAG o fine-tuning de forma independiente, o que combinan ambas técnicas sin descomponer su efecto, este trabajo cuantifica explícitamente qué aporta cada componente por separado, aportando evidencia empírica sobre el rol complementario de ambas estrategias en un contexto de asistencia clínica basada en evidencia.
 
-El primer capítulo es siempre una introducción. En la introducción se debe resumir de forma esquemática pero suficientemente clara lo esencial de cada una de las partes del trabajo. La lectura de este primer capítulo ha de dar una idea clara de lo que se pretendía, las conclusiones a las que se ha llegado y del procedimiento seguido.
-
-Como tal, es uno de los capítulos más importantes de la memoria. Las ideas principales a transmitir son la identificación del problema a tratar, la justificación de su importancia, los objetivos generales a grandes rasgos y un adelanto de la contribución que esperas hacer.
-
-
-
-
-
-%hishidhdihihsihdish
-
-El primer capítulo es siempre una introducción. En la introducción se debe resumir de forma esquemática pero suficientemente clara lo esencial de cada una de las partes del trabajo. La lectura de este primer capítulo ha de dar una idea clara de lo que se pretendía, las conclusiones a las que se ha llegado y del procedimiento seguido.
-
-Como tal, es uno de los capítulos más importantes de la memoria. Las ideas principales a transmitir son la identificación del problema a tratar, la justificación de su importancia, los objetivos generales a grandes rasgos y un adelanto de la contribución que esperas hacer.
-
-
-
-El primer capítulo es siempre una introducción. En la introducción se debe resumir de forma esquemática pero suficientemente clara lo esencial de cada una de las partes del trabajo. La lectura de este primer capítulo ha de dar una idea clara de lo que se pretendía, las conclusiones a las que se ha llegado y del procedimiento seguido.
-
-Como tal, es uno de los capítulos más importantes de la memoria. Las ideas principales a transmitir son la identificación del problema a tratar, la justificación de su importancia, los objetivos generales a grandes rasgos y un adelanto de la contribución que esperas hacer.
-
-
-
-El primer capítulo es siempre una introducción. En la introducción se debe resumir de forma esquemática pero suficientemente clara lo esencial de cada una de las partes del trabajo. La lectura de este primer capítulo ha de dar una idea clara de lo que se pretendía, las conclusiones a las que se ha llegado y del procedimiento seguido.
-
-Como tal, es uno de los capítulos más importantes de la memoria. Las ideas principales a transmitir son la identificación del problema a tratar, la justificación de su importancia, los objetivos generales a grandes rasgos y un adelanto de la contribución que esperas hacer.
-
-
+\section{Estructura del trabajo}
+Este trabajo se organiza en XXXXX capítulos\dots [COMPLETAR MÁS ADELANTE CON EL TRABAJO MÁS AVANZADO]
 
 \chapter{Contexto y Estado del Arte}
 
@@ -161,7 +159,6 @@ En la siguiente Figura \ref{fig:fig1secCTF}
 \label{fig:fig1secCTF}
 \end{figure}
 
-\cite{alsentzer_publicly_2019} \cite{amugongo_retrieval_2025}
 
 %\begin{thebibliography}{a}
 %\bibitem{etiqueta} \textsc{Autores},

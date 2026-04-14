@@ -68,4 +68,291 @@ Amugongo, L\BPBI M.%
 \begin{APACrefDOI} \doi{10.1371/journal.pdig.0000877} \end{APACrefDOI}
 \PrintBackRefs{\CurrentBib}
 
+\bibitem [\protect \citeauthoryear {%
+Grattafiori%
+\ \protect \BOthers {.}}{%
+Grattafiori%
+\ \protect \BOthers {.}}{%
+{\protect \APACyear {2024}}%
+}]{%
+grattafiori2024llama3herdmodels}
+\APACinsertmetastar {%
+grattafiori2024llama3herdmodels}%
+\begin{APACrefauthors}%
+Grattafiori, A.%
+, Dubey, A.%
+, Jauhri, A.%
+, Pandey, A.%
+, Kadian, A.%
+, Al-Dahle, A.%
+\BDBL {}Ma, Z.%
+\end{APACrefauthors}%
+\unskip\
+\newblock
+\APACrefYearMonthDay{2024}{}{}.
+\newblock
+\APACrefbtitle {The Llama 3 Herd of Models.} {The llama 3 herd of models.}
+\newblock
+\begin{APACrefURL} \url{https://arxiv.org/abs/2407.21783} \end{APACrefURL}
+\PrintBackRefs{\CurrentBib}
+
+\bibitem [\protect \citeauthoryear {%
+Ji%
+\ \protect \BOthers {.}}{%
+Ji%
+\ \protect \BOthers {.}}{%
+{\protect \APACyear {2023}}%
+}]{%
+ji_survey_2023}
+\APACinsertmetastar {%
+ji_survey_2023}%
+\begin{APACrefauthors}%
+Ji, Z.%
+, Lee, N.%
+, Frieske, R.%
+, Yu, T.%
+, Su, D.%
+, Xu, Y.%
+\BDBL {}Fung, P.%
+\end{APACrefauthors}%
+\unskip\
+\newblock
+\APACrefYearMonthDay{2023}{{\APACmonth{03}}}{}.
+\newblock
+{\BBOQ}\APACrefatitle {Survey of {Hallucination} in {Natural} {Language} {Generation}} {Survey of {Hallucination} in {Natural} {Language} {Generation}}.{\BBCQ}
+\newblock
+\APACjournalVolNumPages{ACM Comput. Surv.}{55}{12}{248:1--248:38}.
+\newblock
+\begin{APACrefURL} [{2025-12-11}]\url{https://doi.org/10.1145/3571730} \end{APACrefURL}
+\newblock
+\begin{APACrefDOI} \doi{10.1145/3571730} \end{APACrefDOI}
+\PrintBackRefs{\CurrentBib}
+
+\bibitem [\protect \citeauthoryear {%
+Laker%
+, Froehle%
+, Windeler%
+\BCBL {}\ \BBA {} Lindsell%
+}{%
+Laker%
+\ \protect \BOthers {.}}{%
+{\protect \APACyear {2018}}%
+}]{%
+laker_quality_2018}
+\APACinsertmetastar {%
+laker_quality_2018}%
+\begin{APACrefauthors}%
+Laker, L\BPBI F.%
+, Froehle, C\BPBI M.%
+, Windeler, J\BPBI B.%
+\BCBL {}\ \BBA {} Lindsell, C\BPBI J.%
+\end{APACrefauthors}%
+\unskip\
+\newblock
+\APACrefYearMonthDay{2018}{{\APACmonth{12}}}{}.
+\newblock
+{\BBOQ}\APACrefatitle {Quality and {Efficiency} of the {Clinical} {Decision}‐{Making} {Process}: {Information} {Overload} and {Emphasis} {Framing}} {Quality and {Efficiency} of the {Clinical} {Decision}‐{Making} {Process}: {Information} {Overload} and {Emphasis} {Framing}}.{\BBCQ}
+\newblock
+\APACjournalVolNumPages{Production and Operations Management}{27}{12}{2213--2225}.
+\newblock
+\begin{APACrefURL} [{2025-12-11}]\url{https://doi.org/10.1111/poms.12777} \end{APACrefURL}
+\newblock
+\begin{APACrefDOI} \doi{10.1111/poms.12777} \end{APACrefDOI}
+\PrintBackRefs{\CurrentBib}
+
+\bibitem [\protect \citeauthoryear {%
+Lee%
+\ \protect \BOthers {.}}{%
+Lee%
+\ \protect \BOthers {.}}{%
+{\protect \APACyear {2020}}%
+}]{%
+lee_biobert_2020}
+\APACinsertmetastar {%
+lee_biobert_2020}%
+\begin{APACrefauthors}%
+Lee, J.%
+, Yoon, W.%
+, Kim, S.%
+, Kim, D.%
+, Kim, S.%
+, So, C\BPBI H.%
+\BCBL {}\ \BBA {} Kang, J.%
+\end{APACrefauthors}%
+\unskip\
+\newblock
+\APACrefYearMonthDay{2020}{{\APACmonth{02}}}{}.
+\newblock
+{\BBOQ}\APACrefatitle {{BioBERT}: a pre-trained biomedical language representation model for biomedical text mining} {{BioBERT}: a pre-trained biomedical language representation model for biomedical text mining}.{\BBCQ}
+\newblock
+\APACjournalVolNumPages{Bioinformatics}{36}{4}{1234--1240}.
+\newblock
+\begin{APACrefURL} [{2025-12-11}]\url{https://doi.org/10.1093/bioinformatics/btz682} \end{APACrefURL}
+\newblock
+\begin{APACrefDOI} \doi{10.1093/bioinformatics/btz682} \end{APACrefDOI}
+\PrintBackRefs{\CurrentBib}
+
+\bibitem [\protect \citeauthoryear {%
+Lewis%
+\ \protect \BOthers {.}}{%
+Lewis%
+\ \protect \BOthers {.}}{%
+{\protect \APACyear {2021}}%
+}]{%
+lewis_retrieval-augmented_2021}
+\APACinsertmetastar {%
+lewis_retrieval-augmented_2021}%
+\begin{APACrefauthors}%
+Lewis, P.%
+, Perez, E.%
+, Piktus, A.%
+, Petroni, F.%
+, Karpukhin, V.%
+, Goyal, N.%
+\BDBL {}Kiela, D.%
+\end{APACrefauthors}%
+\unskip\
+\newblock
+\APACrefYearMonthDay{2021}{{\APACmonth{04}}}{}.
+\newblock
+\APACrefbtitle {Retrieval-{Augmented} {Generation} for {Knowledge}-{Intensive} {NLP} {Tasks}.} {Retrieval-{Augmented} {Generation} for {Knowledge}-{Intensive} {NLP} {Tasks}.}
+\newblock
+\APACaddressPublisher{}{arXiv}.
+\newblock
+\begin{APACrefURL} [{2025-12-11}]\url{http://arxiv.org/abs/2005.11401} \end{APACrefURL}
+\newblock
+\APACrefnote{arXiv:2005.11401 [cs]}
+\newblock
+\begin{APACrefDOI} \doi{10.48550/arXiv.2005.11401} \end{APACrefDOI}
+\PrintBackRefs{\CurrentBib}
+
+\bibitem [\protect \citeauthoryear {%
+{OpenAI}%
+\ \protect \BOthers {.}}{%
+{OpenAI}%
+\ \protect \BOthers {.}}{%
+{\protect \APACyear {2024}}%
+}]{%
+openai_gpt-4_2024}
+\APACinsertmetastar {%
+openai_gpt-4_2024}%
+\begin{APACrefauthors}%
+{OpenAI}%
+, Achiam, J.%
+, Adler, S.%
+, Agarwal, S.%
+, Ahmad, L.%
+, Akkaya, I.%
+\BDBL {}Zoph, B.%
+\end{APACrefauthors}%
+\unskip\
+\newblock
+\APACrefYearMonthDay{2024}{{\APACmonth{03}}}{}.
+\newblock
+\APACrefbtitle {{GPT}-4 {Technical} {Report}.} {{GPT}-4 {Technical} {Report}.}
+\newblock
+\APACaddressPublisher{}{arXiv}.
+\newblock
+\begin{APACrefURL} [{2025-12-11}]\url{http://arxiv.org/abs/2303.08774} \end{APACrefURL}
+\newblock
+\APACrefnote{arXiv:2303.08774 [cs]}
+\newblock
+\begin{APACrefDOI} \doi{10.48550/arXiv.2303.08774} \end{APACrefDOI}
+\PrintBackRefs{\CurrentBib}
+
+\bibitem [\protect \citeauthoryear {%
+Pal%
+, Umapathi%
+\BCBL {}\ \BBA {} Sankarasubbu%
+}{%
+Pal%
+\ \protect \BOthers {.}}{%
+{\protect \APACyear {2023}}%
+}]{%
+pal_med-halt_2023}
+\APACinsertmetastar {%
+pal_med-halt_2023}%
+\begin{APACrefauthors}%
+Pal, A.%
+, Umapathi, L\BPBI K.%
+\BCBL {}\ \BBA {} Sankarasubbu, M.%
+\end{APACrefauthors}%
+\unskip\
+\newblock
+\APACrefYearMonthDay{2023}{{\APACmonth{10}}}{}.
+\newblock
+\APACrefbtitle {Med-{HALT}: {Medical} {Domain} {Hallucination} {Test} for {Large} {Language} {Models}.} {Med-{HALT}: {Medical} {Domain} {Hallucination} {Test} for {Large} {Language} {Models}.}
+\newblock
+\APACaddressPublisher{}{arXiv}.
+\newblock
+\begin{APACrefURL} [{2025-12-11}]\url{http://arxiv.org/abs/2307.15343} \end{APACrefURL}
+\newblock
+\APACrefnote{arXiv:2307.15343 [cs]}
+\newblock
+\begin{APACrefDOI} \doi{10.48550/arXiv.2307.15343} \end{APACrefDOI}
+\PrintBackRefs{\CurrentBib}
+
+\bibitem [\protect \citeauthoryear {%
+Pressman%
+\ \protect \BOthers {.}}{%
+Pressman%
+\ \protect \BOthers {.}}{%
+{\protect \APACyear {2024}}%
+}]{%
+jcm13113041}
+\APACinsertmetastar {%
+jcm13113041}%
+\begin{APACrefauthors}%
+Pressman, S\BPBI M.%
+, Borna, S.%
+, Gomez-Cabello, C\BPBI A.%
+, Haider, S\BPBI A.%
+, Haider, C\BPBI R.%
+\BCBL {}\ \BBA {} Forte, A\BPBI J.%
+\end{APACrefauthors}%
+\unskip\
+\newblock
+\APACrefYearMonthDay{2024}{}{}.
+\newblock
+{\BBOQ}\APACrefatitle {Clinical and Surgical Applications of Large Language Models: A Systematic Review} {Clinical and surgical applications of large language models: A systematic review}.{\BBCQ}
+\newblock
+\APACjournalVolNumPages{Journal of Clinical Medicine}{13}{11}{}.
+\newblock
+\begin{APACrefURL} \url{https://www.mdpi.com/2077-0383/13/11/3041} \end{APACrefURL}
+\newblock
+\begin{APACrefDOI} \doi{10.3390/jcm13113041} \end{APACrefDOI}
+\PrintBackRefs{\CurrentBib}
+
+\bibitem [\protect \citeauthoryear {%
+Rebitzer%
+, Rege%
+\BCBL {}\ \BBA {} Shepard%
+}{%
+Rebitzer%
+\ \protect \BOthers {.}}{%
+{\protect \APACyear {2008}}%
+}]{%
+rebitzer_influence_2008}
+\APACinsertmetastar {%
+rebitzer_influence_2008}%
+\begin{APACrefauthors}%
+Rebitzer, J\BPBI B.%
+, Rege, M.%
+\BCBL {}\ \BBA {} Shepard, C.%
+\end{APACrefauthors}%
+\unskip\
+\newblock
+\APACrefYearMonthDay{2008}{}{}.
+\newblock
+{\BBOQ}\APACrefatitle {Influence, information overload, and information technology in health care} {Influence, information overload, and information technology in health care}.{\BBCQ}
+\newblock
+\BIn{} \APACrefbtitle {Advances in {Health} {Economics} and {Health} {Services} {Research}} {Advances in {Health} {Economics} and {Health} {Services} {Research}}\ (\BVOL~19, \BPGS\ 43--69).
+\newblock
+\APACaddressPublisher{Bingley}{Emerald (MCB UP )}.
+\newblock
+\begin{APACrefURL} [{2025-12-10}]\url{http://www.emerald.com/books/edited-volume/11590/chapter/81491821} \end{APACrefURL}
+\newblock
+\begin{APACrefDOI} \doi{10.1016/S0731-2199(08)19003-3} \end{APACrefDOI}
+\PrintBackRefs{\CurrentBib}
+
 \end{thebibliography}

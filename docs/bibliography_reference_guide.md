@@ -2,8 +2,8 @@
 
 > **Purpose:** Operational reference for navigating the thesis bibliography. Each entry includes a summary, the thesis section where it applies, and the specific argument it supports. Organized by thematic block aligned with the thesis structure.
 >
-> **Last updated:** 2026-04-13 (rev. 2 — PubMedBERT and MTSamples corrections)  
-> **Total references:** 28
+> **Last updated:** 2026-04-14 (rev. 3 — added Pingua et al. 2025 and Collaco et al. 2026)  
+> **Total references:** 30
 
 ---
 
@@ -68,6 +68,8 @@
 |---|---|---|---|---|---|
 | `balaguer_rag_2024` | Balaguer et al. (2024) | *RAG vs Fine-tuning: Pipelines, Tradeoffs, and a Case Study on Agriculture* | Direct empirical comparison of four configurations: base model, fine-tuned model, RAG-augmented model, and combined FT+RAG. Shows accuracy gains of ~6 p.p. from fine-tuning and ~5 p.p. additional from RAG — demonstrating cumulative, complementary benefits. | **Chapter 3 (Methodology):** To justify the four-configuration experimental design. **Chapter 4 (Results):** To frame the interpretation of ablation results. **Chapter 2 (State of the Art):** In the subsection comparing RAG and fine-tuning. | This is the strongest precedent for your exact experimental design. Cite it to argue that comparing Base / FT / RAG / FT+RAG is a validated research methodology, not an arbitrary choice. |
 | `ovadia_fine-tuning_2024` | Ovadia et al. (2024) | *Fine-Tuning or Retrieval? Comparing Knowledge Injection in LLMs* | Compares unsupervised fine-tuning vs. RAG across knowledge-intensive tasks. Finds RAG consistently outperforms unsupervised fine-tuning for injecting new factual knowledge, but fine-tuning improves stylistic/domain adaptation. | **Chapter 2 (State of the Art):** To frame the complementarity debate between the two strategies. **Chapter 5 (Discussion):** When explaining why each configuration addresses a different aspect of the problem. | Supports the thesis narrative that fine-tuning and RAG solve *different* problems: fine-tuning shapes how the model speaks (style, format), RAG shapes what it knows (current evidence). Essential for the "Distinct Contributions" section. |
+| `pingua_medical_FT_vs_RAG_2025` | Pingua et al. (2025) | *Medical LLMs: Fine-Tuning vs. Retrieval-Augmented Generation* | Empirical comparison of RAG alone, FT alone, and FT+RAG on healthcare data across multiple models. Finds RAG and FT+RAG outperforming FT alone, with LLaMA showing superior overall performance. | **Chapter 3 (Methodology):** To justify the 4-configuration ablation study in a medical context. **Chapter 4 (Results):** To contextualize our LLaMA-based FT+RAG results against similar medical benchmarks. | Directly validates the thesis experimental design specifically for medical domains and strongly supports the choice of LLaMA as the base model. |
+| `collaco_integrating_2026` | Collaco et al. (2026) | *Integrating Fine-Tuning and Retrieval-Augmented Generation for Healthcare AI Systems: A Scoping Review* | Scoping review of FT + RAG hybrid systems in healthcare. Concludes that FT+RAG systems consistently outperform FT-only or RAG-only approaches, improving accuracy and reducing hallucinations. | **Chapter 2 (State of the Art):** When reviewing the current evidence for hybrid architectures in clinical AI. **Chapter 5 (Discussion):** To support the conclusion that the hybrid approach is superior to either method alone. | Provides macro-level systemic evidence that the thesis's core hypothesis (FT+RAG hybrid superiority) is aligned with the emerging consensus in healthcare AI. |
 
 ---
 
@@ -152,9 +154,9 @@
 | Chapter 1 — Introduction / Problem Statement | `ji_survey_2023`, `laker_quality_2018`, `rebitzer_influence_2008`, `amugongo_retrieval_2025`, `pressman_clinical_2024` |
 | Chapter 2 — State of the Art: Transformers & LLMs | `vaswani_attention_2023`, `devlin_bert_2019`, `grattafiori_llama_2024`, `openai_gpt-4_2024` |
 | Chapter 2 — State of the Art: Efficient Fine-Tuning | `hu_lora_2021`, `dettmers_qlora_2023`, `parthasarathy_ultimate_2024` |
-| Chapter 2 — State of the Art: RAG | `lewis_retrieval-augmented_2021`, `balaguer_rag_2024`, `ovadia_fine-tuning_2024` |
+| Chapter 2 — State of the Art: RAG | `lewis_retrieval-augmented_2021`, `balaguer_rag_2024`, `ovadia_fine-tuning_2024`, `collaco_integrating_2026` |
 | Chapter 2 — State of the Art: Biomedical NLP | `lee_biobert_2020`, `alsentzer_publicly_2019`, `gu_pubmedbert_2021`, `fang_bioformer_2023` |
-| Chapter 2 — State of the Art: RAG in Healthcare | `amugongo_retrieval_2025`, `rau_context-based_2023`, `yu_zero-shot_2023`, `thompson_large_2023` |
+| Chapter 2 — State of the Art: RAG in Healthcare | `amugongo_retrieval_2025`, `rau_context-based_2023`, `yu_zero-shot_2023`, `thompson_large_2023`, `collaco_integrating_2026` |
 | Chapter 2 — State of the Art: Hallucinations | `ji_survey_2023`, `pal_med-halt_2023` |
 | Chapter 3 — Methodology: Base Model | `grattafiori_llama_2024` |
 | Chapter 3 — Methodology: Fine-Tuning Pipeline | `hu_lora_2021`, `dettmers_qlora_2023` |
@@ -163,8 +165,8 @@
 | Chapter 3 — Methodology: Embedding Selection | `lee_biobert_2020`, `gu_pubmedbert_2021`, `alsentzer_publicly_2019`, `fang_bioformer_2023` |
 | Chapter 3 — Methodology: Dataset | `boyle_medical_2017` |
 | Chapter 3 — Methodology: Evaluation | `es_ragas_2025` |
-| Chapter 3 — Methodology: 4-Config Experimental Design | `balaguer_rag_2024`, `ovadia_fine-tuning_2024` |
-| Chapter 4 — Results | `es_ragas_2025`, `ji_survey_2023`, `balaguer_rag_2024` |
-| Chapter 5 — Discussion | `ovadia_fine-tuning_2024`, `thompson_large_2023`, `amugongo_retrieval_2025` |
+| Chapter 3 — Methodology: 4-Config Experimental Design | `balaguer_rag_2024`, `ovadia_fine-tuning_2024`, `pingua_medical_FT_vs_RAG_2025` |
+| Chapter 4 — Results | `es_ragas_2025`, `ji_survey_2023`, `balaguer_rag_2024`, `pingua_medical_FT_vs_RAG_2025` |
+| Chapter 5 — Discussion | `ovadia_fine-tuning_2024`, `thompson_large_2023`, `amugongo_retrieval_2025`, `collaco_integrating_2026` |
 | Chapter 5 — Limitations | `montenegro_what_2025`, `fang_bioformer_2023` |
 | Chapter 6 — Future Work | `montenegro_what_2025` |
