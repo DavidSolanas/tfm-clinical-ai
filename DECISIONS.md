@@ -25,7 +25,25 @@ Each entry documents what was decided, why, and which alternatives were consider
 
 ## Decisions
 
-## RAG Knowledge Source: Abstract-Only Retrieval from PubMed
+### 2026-04-20 -- Bulk Ingestion Strategy for RAG Corpus
+
+**Decision:** Query PubMed abstracts per *medical specialty* (extracted from MTSamples) rather than per individual MTSamples patient record, forming a corpus of 50-100 high-relevance papers per specialty.
+
+**Context:** We need a robust corpus of medical literature for the RAG vector database (Qdrant). MTSamples contains ~5,000 rows. Executing live PubMed queries for each individual row to build the RAG context would be extremely inefficient.
+
+**Alternatives considered:**
+- **Option A: Query per individual MTSamples row.** Pros: Highly specific context tailored to each patient note. Cons: ~5,000 API requests (taking hours), massive redundancy (hundreds of records share the exact same specialty), and high risk of NCBI API timeouts/bans.
+- **Option B: Query per unique medical specialty (chosen).** Pros: Requires only ~40 queries total (one for each unique MTSamples specialty). Yields a clean, dense knowledge base of ~2,000-4,000 high-quality abstracts. Cons: Slightly broader context, though this can be mitigated in the future by enriching queries with top specialty keywords.
+
+**Rationale:** Building the corpus per specialty directly supports the `rag_augmented` schema designed during the EDA phase. It drastically reduces API load and network I/O while still providing clustered, evidence-based medical literature. The resulting JSON corpus will serve as a stable, static dataset for all downstream vector indexing.
+
+**Consequences:** 
+- The bulk download logic will initially be prototyped in the ingestion notebook, and eventually transitioned into a standalone script (`scripts/ingest_pubmed.py`) for robustness.
+- All downstream embedding steps (`03_embedding_benchmark.ipynb`) will read from the static JSON file (`pubmed_bulk_corpus.json`) instead of hitting the NCBI API live.
+
+---
+
+### 2026-04-20 -- RAG Knowledge Source: Abstract-Only Retrieval from PubMed
 
 **Date:** 2026-04-20  
 **Decision:** Retrieve and index only abstract-level fields from PubMed via Entrez, 
