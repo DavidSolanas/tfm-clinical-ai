@@ -25,6 +25,44 @@ Each entry documents what was decided, why, and which alternatives were consider
 
 ## Decisions
 
+## RAG Knowledge Source: Abstract-Only Retrieval from PubMed
+
+**Date:** 2026-04-20  
+**Decision:** Retrieve and index only abstract-level fields from PubMed via Entrez, 
+not full article text.
+
+**Fields ingested per record:**
+- Title (TI)
+- Abstract (AB)
+- MeSH Terms (MH) — appended as structured metadata
+- Author Keywords (OT)
+- Journal, Year, PMID, DOI
+
+**Alternatives considered:**
+1. Full text via PubMed Central (PMC) API
+   - Rejected: only available for ~40% of articles (open-access subset with a PMC ID)
+   - Would create asymmetric coverage: newer OA articles over-represented
+   - Full text includes methods boilerplate and supplementary noise that degrades 
+     retrieval precision for clinical Q&A
+
+2. Hybrid: abstract for all + full text when PMC available
+   - Rejected for v1: adds pipeline complexity without clear quality gain given the 
+     use case (bibliographic consultation, not protocol extraction)
+   - Revisit in future work if evaluation shows abstract truncation as a failure mode
+
+**Justification:**  
+Per NLM official documentation (MEDLINE/PubMed Data Element Field Descriptions), 
+full text is not part of MEDLINE records. Abstracts are consistently available across 
+all indexed articles, structured (BACKGROUND/METHODS/RESULTS/CONCLUSIONS), and 
+contain the information density needed for clinical bibliographic assistance.  
+Abstract-only retrieval maximizes corpus coverage while maintaining retrieval precision.
+
+**Known limitation:**  
+Specific procedural details, exact dosages, or data from figures/tables in the body 
+of articles are not captured. This is documented as a scope boundary, not a defect.
+
+---
+
 ### 2026-04-13 -- Structured bibliography reference guide as a standalone operational document
 
 **Decision:** Maintain a dedicated `bibliography_reference_guide.md` document alongside `bibliography.bib`, providing for each reference: a summary, the thesis section(s) where it applies, the specific argument it supports, and a quick-reference index organized by thesis chapter.
