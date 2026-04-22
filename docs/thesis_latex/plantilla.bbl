@@ -69,6 +69,234 @@ Amugongo, L\BPBI M.%
 \PrintBackRefs{\CurrentBib}
 
 \bibitem [\protect \citeauthoryear {%
+Balaguer%
+\ \protect \BOthers {.}}{%
+Balaguer%
+\ \protect \BOthers {.}}{%
+{\protect \APACyear {2024}}%
+}]{%
+balaguer2024ragvsfinetuningpipelines}
+\APACinsertmetastar {%
+balaguer2024ragvsfinetuningpipelines}%
+\begin{APACrefauthors}%
+Balaguer, A.%
+, Benara, V.%
+, de Freitas~Cunha, R\BPBI L.%
+, de M.~Estevão~Filho, R.%
+, Hendry, T.%
+, Holstein, D.%
+\BDBL {}Chandra, R.%
+\end{APACrefauthors}%
+\unskip\
+\newblock
+\APACrefYearMonthDay{2024}{}{}.
+\newblock
+\APACrefbtitle {RAG vs Fine-tuning: Pipelines, Tradeoffs, and a Case Study on Agriculture.} {Rag vs fine-tuning: Pipelines, tradeoffs, and a case study on agriculture.}
+\newblock
+\begin{APACrefURL} \url{https://arxiv.org/abs/2401.08406} \end{APACrefURL}
+\PrintBackRefs{\CurrentBib}
+
+\bibitem [\protect \citeauthoryear {%
+Boyle%
+}{%
+Boyle%
+}{%
+{\protect \APACyear {2017}}%
+}]{%
+mtsamples_medical_2017}
+\APACinsertmetastar {%
+mtsamples_medical_2017}%
+\begin{APACrefauthors}%
+Boyle, T.%
+\end{APACrefauthors}%
+\unskip\
+\newblock
+\APACrefYearMonthDay{2017}{}{}.
+\newblock
+\APACrefbtitle {Medical Transcriptions.} {Medical transcriptions.}
+\newblock
+\APACaddressPublisher{}{Kaggle}.
+\newblock
+\begin{APACrefURL} \url{https://www.kaggle.com/datasets/tboyle10/medicaltranscriptions} \end{APACrefURL}
+\newblock
+\APACrefnote{Dataset scraped from \url{https://www.mtsamples.com}. License: CC0 Public Domain. Accessed 2026.}
+\PrintBackRefs{\CurrentBib}
+
+\bibitem [\protect \citeauthoryear {%
+Collaco%
+\ \protect \BOthers {.}}{%
+Collaco%
+\ \protect \BOthers {.}}{%
+{\protect \APACyear {2026}}%
+}]{%
+bioengineering13020225}
+\APACinsertmetastar {%
+bioengineering13020225}%
+\begin{APACrefauthors}%
+Collaco, B\BPBI G.%
+, Srinivasagam, P.%
+, Gomez-Cabello, C\BPBI A.%
+, Haider, S\BPBI A.%
+, Genovese, A.%
+, Wood, N\BPBI G.%
+\BDBL {}Forte, A\BPBI J.%
+\end{APACrefauthors}%
+\unskip\
+\newblock
+\APACrefYearMonthDay{2026}{}{}.
+\newblock
+{\BBOQ}\APACrefatitle {Integrating Fine-Tuning and Retrieval-Augmented Generation for Healthcare AI Systems: A Scoping Review} {Integrating fine-tuning and retrieval-augmented generation for healthcare ai systems: A scoping review}.{\BBCQ}
+\newblock
+\APACjournalVolNumPages{Bioengineering}{13}{2}{}.
+\newblock
+\begin{APACrefURL} \url{https://www.mdpi.com/2306-5354/13/2/225} \end{APACrefURL}
+\newblock
+\begin{APACrefDOI} \doi{10.3390/bioengineering13020225} \end{APACrefDOI}
+\PrintBackRefs{\CurrentBib}
+
+\bibitem [\protect \citeauthoryear {%
+Dettmers%
+, Pagnoni%
+, Holtzman%
+\BCBL {}\ \BBA {} Zettlemoyer%
+}{%
+Dettmers%
+\ \protect \BOthers {.}}{%
+{\protect \APACyear {2023}}%
+}]{%
+dettmers2023qloraefficientfinetuningquantized}
+\APACinsertmetastar {%
+dettmers2023qloraefficientfinetuningquantized}%
+\begin{APACrefauthors}%
+Dettmers, T.%
+, Pagnoni, A.%
+, Holtzman, A.%
+\BCBL {}\ \BBA {} Zettlemoyer, L.%
+\end{APACrefauthors}%
+\unskip\
+\newblock
+\APACrefYearMonthDay{2023}{}{}.
+\newblock
+\APACrefbtitle {QLoRA: Efficient Finetuning of Quantized LLMs.} {Qlora: Efficient finetuning of quantized llms.}
+\newblock
+\begin{APACrefURL} \url{https://arxiv.org/abs/2305.14314} \end{APACrefURL}
+\PrintBackRefs{\CurrentBib}
+
+\bibitem [\protect \citeauthoryear {%
+Devlin%
+, Chang%
+, Lee%
+\BCBL {}\ \BBA {} Toutanova%
+}{%
+Devlin%
+\ \protect \BOthers {.}}{%
+{\protect \APACyear {2019}}%
+}]{%
+devlin-etal-2019-bert}
+\APACinsertmetastar {%
+devlin-etal-2019-bert}%
+\begin{APACrefauthors}%
+Devlin, J.%
+, Chang, M\BHBI W.%
+, Lee, K.%
+\BCBL {}\ \BBA {} Toutanova, K.%
+\end{APACrefauthors}%
+\unskip\
+\newblock
+\APACrefYearMonthDay{2019}{{\APACmonth{06}}}{}.
+\newblock
+{\BBOQ}\APACrefatitle {{BERT}: Pre-training of Deep Bidirectional Transformers for Language Understanding} {{BERT}: Pre-training of deep bidirectional transformers for language understanding}.{\BBCQ}
+\newblock
+\BIn{} J.~Burstein, C.~Doran\BCBL {}\ \BBA {} T.~Solorio\ (\BEDS), \APACrefbtitle {Proceedings of the 2019 Conference of the North {A}merican Chapter of the Association for Computational Linguistics: Human Language Technologies, Volume 1 (Long and Short Papers)} {Proceedings of the 2019 conference of the north {A}merican chapter of the association for computational linguistics: Human language technologies, volume 1 (long and short papers)}\ (\BPGS\ 4171--4186).
+\newblock
+\APACaddressPublisher{Minneapolis, Minnesota}{Association for Computational Linguistics}.
+\newblock
+\begin{APACrefURL} \url{https://aclanthology.org/N19-1423/} \end{APACrefURL}
+\newblock
+\begin{APACrefDOI} \doi{10.18653/v1/N19-1423} \end{APACrefDOI}
+\PrintBackRefs{\CurrentBib}
+
+\bibitem [\protect \citeauthoryear {%
+Doran%
+}{%
+Doran%
+}{%
+{\protect \APACyear {1981}}%
+}]{%
+doran1981there}
+\APACinsertmetastar {%
+doran1981there}%
+\begin{APACrefauthors}%
+Doran, G\BPBI T.%
+\end{APACrefauthors}%
+\unskip\
+\newblock
+\APACrefYearMonthDay{1981}{}{}.
+\newblock
+{\BBOQ}\APACrefatitle {There's a SMART way to write managements's goals and objectives.} {There's a smart way to write managements's goals and objectives.}{\BBCQ}
+\newblock
+\APACjournalVolNumPages{Management review}{70}{11}{}.
+\PrintBackRefs{\CurrentBib}
+
+\bibitem [\protect \citeauthoryear {%
+Es%
+, James%
+, Espinosa-Anke%
+\BCBL {}\ \BBA {} Schockaert%
+}{%
+Es%
+\ \protect \BOthers {.}}{%
+{\protect \APACyear {2025}}%
+}]{%
+es2025ragasautomatedevaluationretrieval}
+\APACinsertmetastar {%
+es2025ragasautomatedevaluationretrieval}%
+\begin{APACrefauthors}%
+Es, S.%
+, James, J.%
+, Espinosa-Anke, L.%
+\BCBL {}\ \BBA {} Schockaert, S.%
+\end{APACrefauthors}%
+\unskip\
+\newblock
+\APACrefYearMonthDay{2025}{}{}.
+\newblock
+\APACrefbtitle {Ragas: Automated Evaluation of Retrieval Augmented Generation.} {Ragas: Automated evaluation of retrieval augmented generation.}
+\newblock
+\begin{APACrefURL} \url{https://arxiv.org/abs/2309.15217} \end{APACrefURL}
+\PrintBackRefs{\CurrentBib}
+
+\bibitem [\protect \citeauthoryear {%
+Fang%
+, Chen%
+, Wei%
+, Lu%
+\BCBL {}\ \BBA {} Wang%
+}{%
+Fang%
+\ \protect \BOthers {.}}{%
+{\protect \APACyear {2023}}%
+}]{%
+fang2023bioformerefficienttransformerlanguage}
+\APACinsertmetastar {%
+fang2023bioformerefficienttransformerlanguage}%
+\begin{APACrefauthors}%
+Fang, L.%
+, Chen, Q.%
+, Wei, C\BHBI H.%
+, Lu, Z.%
+\BCBL {}\ \BBA {} Wang, K.%
+\end{APACrefauthors}%
+\unskip\
+\newblock
+\APACrefYearMonthDay{2023}{}{}.
+\newblock
+\APACrefbtitle {Bioformer: an efficient transformer language model for biomedical text mining.} {Bioformer: an efficient transformer language model for biomedical text mining.}
+\newblock
+\begin{APACrefURL} \url{https://arxiv.org/abs/2302.01588} \end{APACrefURL}
+\PrintBackRefs{\CurrentBib}
+
+\bibitem [\protect \citeauthoryear {%
 Grattafiori%
 \ \protect \BOthers {.}}{%
 Grattafiori%
@@ -94,6 +322,66 @@ Grattafiori, A.%
 \APACrefbtitle {The Llama 3 Herd of Models.} {The llama 3 herd of models.}
 \newblock
 \begin{APACrefURL} \url{https://arxiv.org/abs/2407.21783} \end{APACrefURL}
+\PrintBackRefs{\CurrentBib}
+
+\bibitem [\protect \citeauthoryear {%
+Gu%
+\ \protect \BOthers {.}}{%
+Gu%
+\ \protect \BOthers {.}}{%
+{\protect \APACyear {2021}}%
+}]{%
+gu_pubmedbert_2021}
+\APACinsertmetastar {%
+gu_pubmedbert_2021}%
+\begin{APACrefauthors}%
+Gu, Y.%
+, Tinn, R.%
+, Cheng, H.%
+, Lucas, M.%
+, Usuyama, N.%
+, Liu, X.%
+\BDBL {}Poon, H.%
+\end{APACrefauthors}%
+\unskip\
+\newblock
+\APACrefYearMonthDay{2021}{{\APACmonth{10}}}{}.
+\newblock
+{\BBOQ}\APACrefatitle {Domain-Specific Language Model Pretraining for Biomedical Natural Language Processing} {Domain-specific language model pretraining for biomedical natural language processing}.{\BBCQ}
+\newblock
+\APACjournalVolNumPages{ACM Transactions on Computing for Healthcare}{3}{1}{1–23}.
+\newblock
+\begin{APACrefURL} \url{http://dx.doi.org/10.1145/3458754} \end{APACrefURL}
+\newblock
+\begin{APACrefDOI} \doi{10.1145/3458754} \end{APACrefDOI}
+\PrintBackRefs{\CurrentBib}
+
+\bibitem [\protect \citeauthoryear {%
+Hu%
+\ \protect \BOthers {.}}{%
+Hu%
+\ \protect \BOthers {.}}{%
+{\protect \APACyear {2021}}%
+}]{%
+hu2021loralowrankadaptationlarge}
+\APACinsertmetastar {%
+hu2021loralowrankadaptationlarge}%
+\begin{APACrefauthors}%
+Hu, E\BPBI J.%
+, Shen, Y.%
+, Wallis, P.%
+, Allen-Zhu, Z.%
+, Li, Y.%
+, Wang, S.%
+\BDBL {}Chen, W.%
+\end{APACrefauthors}%
+\unskip\
+\newblock
+\APACrefYearMonthDay{2021}{}{}.
+\newblock
+\APACrefbtitle {LoRA: Low-Rank Adaptation of Large Language Models.} {Lora: Low-rank adaptation of large language models.}
+\newblock
+\begin{APACrefURL} \url{https://arxiv.org/abs/2106.09685} \end{APACrefURL}
 \PrintBackRefs{\CurrentBib}
 
 \bibitem [\protect \citeauthoryear {%
@@ -126,6 +414,36 @@ Ji, Z.%
 \begin{APACrefURL} [{2025-12-11}]\url{https://doi.org/10.1145/3571730} \end{APACrefURL}
 \newblock
 \begin{APACrefDOI} \doi{10.1145/3571730} \end{APACrefDOI}
+\PrintBackRefs{\CurrentBib}
+
+\bibitem [\protect \citeauthoryear {%
+Johnson%
+, Douze%
+\BCBL {}\ \BBA {} Jegou%
+}{%
+Johnson%
+\ \protect \BOthers {.}}{%
+{\protect \APACyear {2021}}%
+}]{%
+johnson_billion-scale_2021}
+\APACinsertmetastar {%
+johnson_billion-scale_2021}%
+\begin{APACrefauthors}%
+Johnson, J.%
+, Douze, M.%
+\BCBL {}\ \BBA {} Jegou, H.%
+\end{APACrefauthors}%
+\unskip\
+\newblock
+\APACrefYearMonthDay{2021}{{\APACmonth{07}}}{}.
+\newblock
+{\BBOQ}\APACrefatitle {Billion-{Scale} {Similarity} {Search} with {GPUs}} {Billion-{Scale} {Similarity} {Search} with {GPUs}}.{\BBCQ}
+\newblock
+\APACjournalVolNumPages{IEEE Transactions on Big Data}{7}{3}{535--547}.
+\newblock
+\begin{APACrefURL} [{2026-04-13}]\url{https://ieeexplore.ieee.org/document/8733051/} \end{APACrefURL}
+\newblock
+\begin{APACrefDOI} \doi{10.1109/TBDATA.2019.2921572} \end{APACrefDOI}
 \PrintBackRefs{\CurrentBib}
 
 \bibitem [\protect \citeauthoryear {%
@@ -227,6 +545,35 @@ Lewis, P.%
 \PrintBackRefs{\CurrentBib}
 
 \bibitem [\protect \citeauthoryear {%
+Malkov%
+\ \BBA {} Yashunin%
+}{%
+Malkov%
+\ \BBA {} Yashunin%
+}{%
+{\protect \APACyear {2020}}%
+}]{%
+malkov_efficient_2020}
+\APACinsertmetastar {%
+malkov_efficient_2020}%
+\begin{APACrefauthors}%
+Malkov, Y\BPBI A.%
+\BCBT {}\ \BBA {} Yashunin, D\BPBI A.%
+\end{APACrefauthors}%
+\unskip\
+\newblock
+\APACrefYearMonthDay{2020}{{\APACmonth{04}}}{}.
+\newblock
+{\BBOQ}\APACrefatitle {Efficient and {Robust} {Approximate} {Nearest} {Neighbor} {Search} {Using} {Hierarchical} {Navigable} {Small} {World} {Graphs}} {Efficient and {Robust} {Approximate} {Nearest} {Neighbor} {Search} {Using} {Hierarchical} {Navigable} {Small} {World} {Graphs}}.{\BBCQ}
+\newblock
+\APACjournalVolNumPages{IEEE Transactions on Pattern Analysis and Machine Intelligence}{42}{4}{824--836}.
+\newblock
+\begin{APACrefURL} [{2026-04-13}]\url{https://ieeexplore.ieee.org/document/8594636/} \end{APACrefURL}
+\newblock
+\begin{APACrefDOI} \doi{10.1109/TPAMI.2018.2889473} \end{APACrefDOI}
+\PrintBackRefs{\CurrentBib}
+
+\bibitem [\protect \citeauthoryear {%
 {OpenAI}%
 \ \protect \BOthers {.}}{%
 {OpenAI}%
@@ -258,6 +605,34 @@ openai_gpt-4_2024}%
 \APACrefnote{arXiv:2303.08774 [cs]}
 \newblock
 \begin{APACrefDOI} \doi{10.48550/arXiv.2303.08774} \end{APACrefDOI}
+\PrintBackRefs{\CurrentBib}
+
+\bibitem [\protect \citeauthoryear {%
+Ovadia%
+, Brief%
+, Mishaeli%
+\BCBL {}\ \BBA {} Elisha%
+}{%
+Ovadia%
+\ \protect \BOthers {.}}{%
+{\protect \APACyear {2024}}%
+}]{%
+ovadia2024finetuningretrievalcomparingknowledge}
+\APACinsertmetastar {%
+ovadia2024finetuningretrievalcomparingknowledge}%
+\begin{APACrefauthors}%
+Ovadia, O.%
+, Brief, M.%
+, Mishaeli, M.%
+\BCBL {}\ \BBA {} Elisha, O.%
+\end{APACrefauthors}%
+\unskip\
+\newblock
+\APACrefYearMonthDay{2024}{}{}.
+\newblock
+\APACrefbtitle {Fine-Tuning or Retrieval? Comparing Knowledge Injection in LLMs.} {Fine-tuning or retrieval? comparing knowledge injection in llms.}
+\newblock
+\begin{APACrefURL} \url{https://arxiv.org/abs/2312.05934} \end{APACrefURL}
 \PrintBackRefs{\CurrentBib}
 
 \bibitem [\protect \citeauthoryear {%
@@ -293,6 +668,72 @@ Pal, A.%
 \PrintBackRefs{\CurrentBib}
 
 \bibitem [\protect \citeauthoryear {%
+Parthasarathy%
+, Zafar%
+, Khan%
+\BCBL {}\ \BBA {} Shahid%
+}{%
+Parthasarathy%
+\ \protect \BOthers {.}}{%
+{\protect \APACyear {2024}}%
+}]{%
+parthasarathy_ultimate_2024}
+\APACinsertmetastar {%
+parthasarathy_ultimate_2024}%
+\begin{APACrefauthors}%
+Parthasarathy, V\BPBI B.%
+, Zafar, A.%
+, Khan, A.%
+\BCBL {}\ \BBA {} Shahid, A.%
+\end{APACrefauthors}%
+\unskip\
+\newblock
+\APACrefYearMonthDay{2024}{{\APACmonth{10}}}{}.
+\newblock
+\APACrefbtitle {The {Ultimate} {Guide} to {Fine}-{Tuning} {LLMs} from {Basics} to {Breakthroughs}: {An} {Exhaustive} {Review} of {Technologies}, {Research}, {Best} {Practices}, {Applied} {Research} {Challenges} and {Opportunities}.} {The {Ultimate} {Guide} to {Fine}-{Tuning} {LLMs} from {Basics} to {Breakthroughs}: {An} {Exhaustive} {Review} of {Technologies}, {Research}, {Best} {Practices}, {Applied} {Research} {Challenges} and {Opportunities}.}
+\newblock
+\APACaddressPublisher{}{arXiv}.
+\newblock
+\begin{APACrefURL} [{2025-12-11}]\url{http://arxiv.org/abs/2408.13296} \end{APACrefURL}
+\newblock
+\APACrefnote{arXiv:2408.13296 [cs]}
+\newblock
+\begin{APACrefDOI} \doi{10.48550/arXiv.2408.13296} \end{APACrefDOI}
+\PrintBackRefs{\CurrentBib}
+
+\bibitem [\protect \citeauthoryear {%
+Pingua%
+\ \protect \BOthers {.}}{%
+Pingua%
+\ \protect \BOthers {.}}{%
+{\protect \APACyear {2025}}%
+}]{%
+pingua_medical_FT_vs_RAG_2025}
+\APACinsertmetastar {%
+pingua_medical_FT_vs_RAG_2025}%
+\begin{APACrefauthors}%
+Pingua, B.%
+, Sahoo, A.%
+, Kandpal, M.%
+, Murmu, D.%
+, Rautaray, J.%
+, Barik, R\BPBI K.%
+\BCBL {}\ \BBA {} Saikia, M\BPBI J.%
+\end{APACrefauthors}%
+\unskip\
+\newblock
+\APACrefYearMonthDay{2025}{}{}.
+\newblock
+{\BBOQ}\APACrefatitle {Medical LLMs: Fine-Tuning vs. Retrieval-Augmented Generation} {Medical llms: Fine-tuning vs. retrieval-augmented generation}.{\BBCQ}
+\newblock
+\APACjournalVolNumPages{Bioengineering}{12}{7}{}.
+\newblock
+\begin{APACrefURL} \url{https://www.mdpi.com/2306-5354/12/7/687} \end{APACrefURL}
+\newblock
+\begin{APACrefDOI} \doi{10.3390/bioengineering12070687} \end{APACrefDOI}
+\PrintBackRefs{\CurrentBib}
+
+\bibitem [\protect \citeauthoryear {%
 Pressman%
 \ \protect \BOthers {.}}{%
 Pressman%
@@ -321,6 +762,38 @@ Pressman, S\BPBI M.%
 \begin{APACrefURL} \url{https://www.mdpi.com/2077-0383/13/11/3041} \end{APACrefURL}
 \newblock
 \begin{APACrefDOI} \doi{10.3390/jcm13113041} \end{APACrefDOI}
+\PrintBackRefs{\CurrentBib}
+
+\bibitem [\protect \citeauthoryear {%
+Rau%
+\ \protect \BOthers {.}}{%
+Rau%
+\ \protect \BOthers {.}}{%
+{\protect \APACyear {2023}}%
+}]{%
+rau_context-based_2023}
+\APACinsertmetastar {%
+rau_context-based_2023}%
+\begin{APACrefauthors}%
+Rau, A.%
+, Rau, S.%
+, Zöller, D.%
+, Fink, A.%
+, Tran, H.%
+, Wilpert, C.%
+\BDBL {}Russe, M\BPBI F.%
+\end{APACrefauthors}%
+\unskip\
+\newblock
+\APACrefYearMonthDay{2023}{{\APACmonth{07}}}{}.
+\newblock
+{\BBOQ}\APACrefatitle {A {Context}-based {Chatbot} {Surpasses} {Radiologists} and {Generic} {ChatGPT} in {Following} the {ACR} {Appropriateness} {Guidelines}} {A {Context}-based {Chatbot} {Surpasses} {Radiologists} and {Generic} {ChatGPT} in {Following} the {ACR} {Appropriateness} {Guidelines}}.{\BBCQ}
+\newblock
+\APACjournalVolNumPages{Radiology}{308}{1}{e230970}.
+\newblock
+\begin{APACrefURL} [{2025-12-11}]\url{https://pubs.rsna.org/doi/10.1148/radiol.230970} \end{APACrefURL}
+\newblock
+\begin{APACrefDOI} \doi{10.1148/radiol.230970} \end{APACrefDOI}
 \PrintBackRefs{\CurrentBib}
 
 \bibitem [\protect \citeauthoryear {%
@@ -353,6 +826,102 @@ Rebitzer, J\BPBI B.%
 \begin{APACrefURL} [{2025-12-10}]\url{http://www.emerald.com/books/edited-volume/11590/chapter/81491821} \end{APACrefURL}
 \newblock
 \begin{APACrefDOI} \doi{10.1016/S0731-2199(08)19003-3} \end{APACrefDOI}
+\PrintBackRefs{\CurrentBib}
+
+\bibitem [\protect \citeauthoryear {%
+Thompson%
+\ \protect \BOthers {.}}{%
+Thompson%
+\ \protect \BOthers {.}}{%
+{\protect \APACyear {2023}}%
+}]{%
+thompson_large_2023}
+\APACinsertmetastar {%
+thompson_large_2023}%
+\begin{APACrefauthors}%
+Thompson, W\BPBI E.%
+, Vidmar, D\BPBI M.%
+, Freitas, J\BPBI K\BPBI D.%
+, Pfeifer, J\BPBI M.%
+, Fornwalt, B\BPBI K.%
+, Chen, R.%
+\BDBL {}Miotto, R.%
+\end{APACrefauthors}%
+\unskip\
+\newblock
+\APACrefYearMonthDay{2023}{{\APACmonth{12}}}{}.
+\newblock
+\APACrefbtitle {Large {Language} {Models} with {Retrieval}-{Augmented} {Generation} for {Zero}-{Shot} {Disease} {Phenotyping}.} {Large {Language} {Models} with {Retrieval}-{Augmented} {Generation} for {Zero}-{Shot} {Disease} {Phenotyping}.}
+\newblock
+\APACaddressPublisher{}{arXiv}.
+\newblock
+\begin{APACrefURL} [{2025-12-11}]\url{http://arxiv.org/abs/2312.06457} \end{APACrefURL}
+\newblock
+\APACrefnote{arXiv:2312.06457 [cs]}
+\newblock
+\begin{APACrefDOI} \doi{10.48550/arXiv.2312.06457} \end{APACrefDOI}
+\PrintBackRefs{\CurrentBib}
+
+\bibitem [\protect \citeauthoryear {%
+Vaswani%
+\ \protect \BOthers {.}}{%
+Vaswani%
+\ \protect \BOthers {.}}{%
+{\protect \APACyear {2017}}%
+}]{%
+vaswani2023attentionneed}
+\APACinsertmetastar {%
+vaswani2023attentionneed}%
+\begin{APACrefauthors}%
+Vaswani, A.%
+, Shazeer, N.%
+, Parmar, N.%
+, Uszkoreit, J.%
+, Jones, L.%
+, Gomez, A\BPBI N.%
+\BDBL {}Polosukhin, I.%
+\end{APACrefauthors}%
+\unskip\
+\newblock
+\APACrefYearMonthDay{2017}{}{}.
+\newblock
+{\BBOQ}\APACrefatitle {Attention is All you Need} {Attention is all you need}.{\BBCQ}
+\newblock
+\BIn{} I.~Guyon\ \BOthers {.}\ (\BEDS), \APACrefbtitle {Advances in Neural Information Processing Systems} {Advances in neural information processing systems}\ (\BVOL~30).
+\newblock
+\APACaddressPublisher{}{Curran Associates, Inc.}
+\newblock
+\begin{APACrefURL} \url{https://proceedings.neurips.cc/paper_files/paper/2017/file/3f5ee243547dee91fbd053c1c4a845aa-Paper.pdf} \end{APACrefURL}
+\PrintBackRefs{\CurrentBib}
+
+\bibitem [\protect \citeauthoryear {%
+Yu%
+, Guo%
+\BCBL {}\ \BBA {} Sano%
+}{%
+Yu%
+\ \protect \BOthers {.}}{%
+{\protect \APACyear {2023}}%
+}]{%
+yu_zero-shot_2023}
+\APACinsertmetastar {%
+yu_zero-shot_2023}%
+\begin{APACrefauthors}%
+Yu, H.%
+, Guo, P.%
+\BCBL {}\ \BBA {} Sano, A.%
+\end{APACrefauthors}%
+\unskip\
+\newblock
+\APACrefYearMonthDay{2023}{{\APACmonth{12}}}{}.
+\newblock
+{\BBOQ}\APACrefatitle {Zero-{Shot} {ECG} {Diagnosis} with {Large} {Language} {Models} and {Retrieval}-{Augmented} {Generation}} {Zero-{Shot} {ECG} {Diagnosis} with {Large} {Language} {Models} and {Retrieval}-{Augmented} {Generation}}.{\BBCQ}
+\newblock
+\BIn{} \APACrefbtitle {Proceedings of the 3rd {Machine} {Learning} for {Health} {Symposium}} {Proceedings of the 3rd {Machine} {Learning} for {Health} {Symposium}}\ (\BPGS\ 650--663).
+\newblock
+\APACaddressPublisher{}{PMLR}.
+\newblock
+\begin{APACrefURL} [{2025-12-11}]\url{https://proceedings.mlr.press/v225/yu23b.html} \end{APACrefURL}
 \PrintBackRefs{\CurrentBib}
 
 \end{thebibliography}
