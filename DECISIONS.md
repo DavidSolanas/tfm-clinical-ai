@@ -47,7 +47,6 @@ Each entry documents what was decided, why, and which alternatives were consider
 
 **Consequences:**
 - `configs/rag.yaml`: `embedding_model` field must be updated to `bioformers/bioformer-16L`
-- `CLAUDE.md`: architecture description and notebook entry updated
 - Cap. 3 and Cap. 5 thesis sections: update embedding model name, dimension (384), and justification
 - Qdrant collection: embedding dimension changes from 768 to 384 — collection must be recreated on next ingestion run
 
