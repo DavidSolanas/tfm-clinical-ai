@@ -2,10 +2,9 @@
 # RAG pipeline configuration
 
 embedding:
-  model: "microsoft/BiomedNLP-BiomedBERT-base-uncased-abstract"
-  # Alternatives to evaluate in the embedding benchmark:
-  # - "dmis-lab/biobert-base-cased-v1.2"
-  # - "BAAI/bge-base-en-v1.5"
+  model: "bioformers/bioformer-16L"  # 384d; wins 24/24 MeSH categories over PubMedBERT (see DECISIONS.md 2026-05-05)
+  # Evaluated alternative:
+  # - "microsoft/BiomedNLP-PubMedBERT-base-uncased-abstract" (768d; loses on all proxy metrics)
   batch_size: 32
 
 vector_store:

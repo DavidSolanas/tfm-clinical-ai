@@ -48,6 +48,8 @@ dev = [
     "seaborn>=0.13",
     "pytest>=8.3",
     "ruff>=0.5",
+    "rank-bm25>=0.2",     # BM25 candidate pre-ranking for golden dataset annotation
+    "scikit-learn>=1.5",  # TF-IDF fallback and evaluation utilities
 ]
 
 # Unsloth is installed separately due to its specific CUDA requirements.

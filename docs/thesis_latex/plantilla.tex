@@ -204,7 +204,7 @@ La calidad de la recuperación en un sistema RAG depende críticamente del model
 
 \citeA{lee_biobert_2020} introdujeron BioBERT, que adapta la arquitectura BERT de \citeA{devlin-etal-2019-bert} continuando el preentrenamiento sobre abstracts de PubMed y artículos de texto completo de PubMed Central (PMC). El preentrenamiento en el dominio médico mejora de forma consistente el rendimiento en tareas de reconocimiento de entidades biomédicas (NER), extracción de relaciones y pregunta-respuesta sobre textos científicos. \citeA{alsentzer_publicly_2019} propusieron ClinicalBERT, preentrenado sobre notas clínicas del corpus MIMIC-III, orientado a documentación hospitalaria interna en lugar de literatura científica; esta distinción motiva la elección de BioBERT sobre ClinicalBERT cuando la base de conocimiento está formada por abstracts de PubMed.
 
-\citeA{gu_pubmedbert_2021} demostraron que el preentrenamiento \textit{desde cero} sobre PubMed (en lugar de adaptar un modelo BERT general) produce representaciones superiores en el benchmark BLURB, que agrega 8 tareas de NLP biomédico. PubMedBERT (y su variante optimizada para abstracts, \textit{BiomedNLP-BiomedBERT-base-uncased-abstract}) es el modelo seleccionado como embedder en el pipeline RAG de este trabajo, dado que el corpus de recuperación está compuesto íntegramente por abstracts de PubMed. \citeA{fang2023bioformerefficienttransformerlanguage} presentaron Bioformer, un modelo 40\% más pequeño que PubMedBERT y mantiene una diferencia de rendimiento inferior al 1\% en los mismos benchmarks, lo que lo convierte en una alternativa válida si las restricciones computacionales priorizan la velocidad de inferencia sobre la precisión marginal.
+\citeA{gu_pubmedbert_2021} demostraron que el preentrenamiento \textit{desde cero} sobre PubMed (en lugar de adaptar un modelo BERT general) produce representaciones superiores en el benchmark BLURB, que agrega 8 tareas de NLP biomédico. Su variante optimizada para abstracts, \textit{BiomedNLP-BiomedBERT-base-uncased-abstract}, es un candidato para sistemas RAG cuyo corpus de recuperación está formado por abstracts de PubMed. \citeA{fang2023bioformerefficienttransformerlanguage} presentaron Bioformer, un modelo un 40\% más pequeño que PubMedBERT que mantiene una diferencia de rendimiento inferior al 1\% en los mismos benchmarks BLURB, con la ventaja adicional de haber sido preentrenado sobre PubMed y texto completo de PubMed Central (PMC). La selección empírica entre ambos modelos para el pipeline de este trabajo se detalla en el Capítulo~5.
 
 \section{Bases de datos vectoriales y búsqueda de similitud}
 
@@ -272,7 +272,7 @@ La metodología propuesta en este trabajo está estructurada en las siguientes f
 
 \textbf{Fase 1: Adquisición y preparación de datos.} Se descargan abstracts de PubMed para las especialidades médicas objetivo mediante la API Entrez de NCBI, utilizando una estrategia de ingestión por especialidad para minimizar las llamadas a la API. Paralelamente, los registros del corpus MTSamples se transforman al formato instrucción-respuesta (sistema/usuario/asistente) para el ajuste fino supervisado.
 
-\textbf{Fase 2: Construcción del índice vectorial.} Los abstracts de PubMed se fragmentan en chunks y se codifican con el modelo de embeddings \textit{BiomedNLP-BiomedBERT-base-uncased-abstract} \cite{gu_pubmedbert_2021}. Los vectores se indexan en Qdrant con distancia coseno y metadatos de año y especialidad.
+\textbf{Fase 2: Construcción del índice vectorial.} Los abstracts de PubMed se fragmentan en chunks y se codifican con el modelo de embeddings \textit{Bioformer-16L} \cite{fang2023bioformerefficienttransformerlanguage}. Los vectores se indexan en Qdrant con distancia coseno y metadatos de año y categoría MeSH.
 
 \textbf{Fase 3: Ajuste fino QLoRA.} El modelo base LLaMA-3.1-8B-Instruct se ajusta mediante la librería Unsloth. Los experimentos necesarios para lograr el ajuste fino se registran en MLflow.
 
@@ -294,7 +294,7 @@ La Tabla \ref{tab:tools} resume las principales herramientas empleadas en cada m
 \hline
 LLM base & LLaMA-3.1-8B-Instruct & Código abierto, 8B caben en 10 GB VRAM con cuantización \\
 Fine-tuning & Unsloth + QLoRA & Reduce uso de memoria 4$\times$; mayor velocidad vs. HuggingFace nativo \\
-Embeddings & BiomedNLP-BiomedBERT-base & Preentrenado en abstracts PubMed; óptimo para recuperación biomédica \\
+Embeddings & Bioformer-16L (384d) & Preentrenado en PubMed + PMC; supera a PubMedBERT en benchmark proxy (24/24 categorías MeSH) \\
 Vector DB & Qdrant (Docker) & Soporte HNSW + filtrado por metadatos; API REST sencilla \\
 Orquestación RAG & LlamaIndex & Framework validado en entornos clínicos \cite{rau_context-based_2023} \\
 Evaluación & RAGAS & Evaluación automatizada sin referencias para pipelines RAG \cite{es2025ragasautomatedevaluationretrieval} \\
