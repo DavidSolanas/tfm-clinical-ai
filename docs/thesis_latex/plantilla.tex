@@ -296,7 +296,7 @@ LLM base & LLaMA-3.1-8B-Instruct & Código abierto, 8B caben en 10 GB VRAM con c
 Fine-tuning & Unsloth + QLoRA & Reduce uso de memoria 4$\times$; mayor velocidad vs. HuggingFace nativo \\
 Embeddings & Bioformer-16L (384d) & Preentrenado en PubMed + PMC; supera a PubMedBERT en benchmark proxy (24/24 categorías MeSH) \\
 Vector DB & Qdrant (Docker) & Soporte HNSW + filtrado por metadatos; API REST sencilla \\
-Orquestación RAG & LlamaIndex & Framework validado en entornos clínicos \cite{rau_context-based_2023} \\
+Orquestación RAG & Pipeline propio (qdrant-client + sentence-transformers + fastembed) & Control total sobre recuperación híbrida (densa + BM25), reranking con MedCPT y construcción del prompt \\
 Evaluación & RAGAS & Evaluación automatizada sin referencias para pipelines RAG \cite{es2025ragasautomatedevaluationretrieval} \\
 MLOps & MLflow (Docker) & Registro de hiperparámetros, métricas y artefactos por experimento \\
 Interfaz & Gradio & Prototipado rápido de interfaces NLP sin frontend dedicado \\

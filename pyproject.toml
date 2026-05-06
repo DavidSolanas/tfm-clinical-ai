@@ -24,10 +24,8 @@ dependencies = [
     "huggingface-hub>=0.24",
 
     # --- RAG ---
-    "llama-index>=0.11",
-    "llama-index-vector-stores-qdrant>=0.3",
-    "llama-index-embeddings-huggingface>=0.3",
-    "qdrant-client>=1.11",
+    "fastembed>=0.4.0",
+    "qdrant-client[fastembed]>=1.9.0",
 
     # --- MLOps ---
     "mlflow>=2.16",

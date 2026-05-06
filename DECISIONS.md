@@ -26,6 +26,41 @@ Each entry documents what was decided, why, and which alternatives were consider
 ## Decisions
 
 
+### 2026-05-06 — RAG pipeline upgrade: hybrid search, MedCPT reranking, ClinicalScorer, abstention gating, citation verification
+
+**Decision:** Replace the original single-stage dense-only retrieval pipeline with a five-layer architecture: (1) hybrid dense + BM25 search fused with Reciprocal Rank Fusion (RRF), (2) MedCPT cross-encoder reranking, (3) ClinicalScorer weighted combination of five signals, (4) abstention gating, (5) citation verification.
+
+**Context:** Qualitative evaluation of the initial RAG pipeline (`notebooks/05_rag_pipeline.ipynb`) revealed three systematic failure modes: (a) retrieved documents were semantically adjacent but clinically irrelevant (e.g. CRKP bacteremia query returning generic gram-negative sepsis papers that lack the specific antimicrobial evidence needed); (b) the LLM cited PMIDs not present in the retrieved set (hallucinated citations); (c) there was no quality gate — the generator answered even when no relevant document was retrieved. The original pipeline retrieved wide (candidate_k determined by embedding similarity alone) and had no downstream filter, so all failures propagated directly into the generated response.
+
+**Alternatives considered:**
+
+- **SPLADE sparse encoder vs BM25 (FastEmbed `Qdrant/bm25`):** SPLADE learns vocabulary expansion and is theoretically better for recall on paraphrased queries. Rejected because: (1) no production-ready biomedical SPLADE checkpoint exists; (2) the primary clinical failure mode is exact-term miss on rare identifiers (CRKP, PSA, H. pylori, DOACs) where BM25's IDF naturally upweights low-frequency clinical strings; (3) BM25 via FastEmbed requires no additional model at inference time and uses Qdrant's native sparse vector support.
+
+- **PICO query parser (query-expansion layer):** An NLP layer to extract Population / Intervention / Comparison / Outcome from the user query. Originally in the plan. Rejected because clinical queries in this system are user-generated from patient history records and symptoms — they rarely conform to PICO structure and structured extraction would introduce errors. ClinicalScorer achieves the same signal (publication type relevance, MeSH overlap, title keyword match) using raw query token overlap without requiring structured extraction.
+
+- **Cross-encoder alternatives (MonoT5, MS-MARCO fine-tuned):** General-purpose rerankers. Rejected in favour of `ncbi/MedCPT-Cross-Encoder`: purpose-trained on biomedical query–article pairs using contrastive learning, directly optimised for the retrieval task performed at inference time (clinical query vs PubMed abstract).
+
+- **Score-threshold retrieval cutoff vs abstention gating:** Hard score cutoff (drop any doc below threshold from context) vs returning `abstained=True` when fewer than 2 docs reach `min_final_score=0.35`. Chose explicit abstention: the generator receives no context and returns a structured refusal, which is logged, measurable in evaluation, and clearly communicated to the user. A silent hard cutoff would generate from zero context without signalling the gap.
+
+**Rationale:**
+
+- **Wide retrieval + strict reranking** (`candidate_k=80 → final_k=6`): Dense retrieval alone conflates semantic similarity with clinical relevance. Retrieving 80 candidates and reranking to 6 decouples the "find related literature" step from the "select clinically useful evidence" step.
+- **RRF fusion**: Dense scores (cosine, bounded) and sparse scores (BM25, unbounded) are not directly comparable — raw score combination would require tuning a weight that generalises poorly. RRF combines by position rank (`1/(k+rank)`, k=60), bypassing score-scale incompatibility entirely. Implemented natively via Qdrant `FusionQuery(Fusion.RRF)` with `Prefetch` for each vector space.
+- **BM25 for clinical exact-term matching**: Clinical literature retrieval has a long-tail vocabulary problem — multi-drug-resistant organism names, procedure acronyms, specific drug classes. Dense retrieval returns semantically similar documents; BM25 returns documents that literally contain the query terms. Together they cover complementary failure modes.
+- **ClinicalScorer weights**: cross_encoder (0.60) dominates as the most direct relevance signal; mesh_overlap (0.20) ensures topical alignment with the corpus structure; publication_type (0.12) up-weights systematic reviews and RCTs over case reports; recency (0.05) provides a tie-break; title_keyword (0.03) adds a light exact-match bonus. Weights are interpretable, configurable in `configs/rag.yaml`, and match the clinical evidence hierarchy (meta-analyses > RCTs > observational).
+- **Citation verification**: Regex extraction of PMIDs from the generated response, checked against the retrieved set. Hallucinated citations are flagged in the result dict and logged to MLflow. This makes hallucination rate a directly measurable metric in `06_evaluation.ipynb` without requiring a separate NLI-based faithfulness model.
+
+**Consequences:**
+
+- **Re-ingestion required**: `publication_types` (MEDLINE `PT` field) was fetched in `notebooks/02_pubmed_ingestion.ipynb` but discarded in the output mapping. One-line fix (`"publication_types": record.get("PT", [])`). Must re-run ingestion to populate `data/raw/pubmed_bulk_corpus.json` with this field.
+- **Re-indexing required**: Qdrant collection schema changes from a single dense vector space to named vector spaces (`"dense"`: VectorParams 384d cosine, `"sparse"`: SparseVectorParams). Existing collection must be dropped and recreated. BM25 model must be `fit()` on the full corpus at index time (IDF computation) before indexing, then `query_embed()` used at query time (TF=1).
+- **Payload enrichment**: `mesh_terms` (stripped of asterisks and qualifiers from raw `mesh` field), `publication_types`, and `year` (int) added to every Qdrant point payload to support ClinicalScorer signals without additional lookups.
+- **Config update**: `configs/rag.yaml` gains `hybrid_search`, `reranker`, and `clinical_rerank` sections; `candidate_k` and `final_k` replace the single `top_k`; `min_final_score` added.
+- **MLflow logging update**: Run `hybrid_rag_qualitative_demo_v2` logs abstention flags, per-query avg/top1 final and CE scores, citation_ok, and hallucinated PMID counts — enabling automated comparison across ablation configurations in `06_evaluation.ipynb`.
+- **Abstention is a first-class outcome**: Downstream evaluation must account for abstained queries separately (they are neither correct nor incorrect answers). Document as a scope boundary in Cap. 6.
+
+---
+
 ### 2026-05-05 — Embedding model revised: Bioformer-16L selected over PubMedBERT based on empirical benchmark
 
 **Decision:** Replace `microsoft/BiomedNLP-PubMedBERT-base-uncased-abstract` with `bioformers/bioformer-16L` as the RAG embedding model.

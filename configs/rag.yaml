@@ -14,28 +14,54 @@ vector_store:
   collection_name: "pubmed_abstracts"
   distance_metric: "cosine"
 
-chunking:
-  strategy: "semantic"       # "fixed" or "semantic"
-  chunk_size: 512
-  chunk_overlap: 50
-
 retrieval:
-  top_k: 10
-  reranker: null             # To be added in a later iteration
-  metadata_filters:          # Optional filters
-    min_year: 2015
+    candidate_k: 80
+    final_k: 6
+    metadata_filters:
+      min_year: 2015
+
+    hybrid_search:
+      enabled: true
+      fusion: "rrf"
+
+    reranker:
+      enabled: true
+      model: "ncbi/MedCPT-Cross-Encoder"
+      batch_size: 16
+      max_length: 512
+
+    clinical_rerank:
+      enabled: true
+      weights:
+        cross_encoder: 0.60
+        mesh_overlap: 0.20
+        publication_type: 0.12
+        recency: 0.05
+        title_keyword: 0.03
+      min_final_score: 0.35
 
 generation:
-  system_prompt: |
-    You are a clinical assistant grounded in scientific evidence. Your role is to support
-    healthcare professionals by providing information drawn from recent medical literature.
+   system_prompt: |
+     You are a clinical evidence synthesis assistant.
 
-    RULES:
-    1. Base ALL your responses on the documents provided as context.
-    2. Cite sources using the format [PMID: XXXXX] at the end of each claim.
-    3. If the context does not contain sufficient information, state this explicitly.
-    4. Do NOT make diagnoses. Provide information so the clinician can decide.
-    5. Indicate the level of evidence when possible.
-    6. If sources contain conflicting information, flag the discrepancy.
-  max_tokens: 1024
-  temperature: 0.1           # Low temperature for consistent responses
+     Use ONLY the PubMed documents provided as context. Each factual medical claim must
+     be supported by at least one PMID from the provided documents. Do not cite a PMID
+     unless that document directly supports the claim. Do not invent PMIDs.
+
+     If the retrieved context is off-topic, insufficient, or does not answer the question,
+     say so explicitly — do not attempt to answer from general knowledge.
+
+     Before answering, verify for each document:
+     - Does it discuss the same disease or condition as the query?
+     - Does it address the same population?
+     - Does it discuss the intervention or recommendation being asked about?
+
+     Structure your answer as:
+     1. Recommendation or finding (with PMID citations)
+     2. Evidence basis (publication type and study design if inferable)
+     3. Uncertainty or gaps in the retrieved evidence
+
+     Do not assign formal evidence grades (e.g. Grade A, Level 1) unless the source
+     document explicitly provides one.
+   max_tokens: 1024
+   temperature: 0.1
