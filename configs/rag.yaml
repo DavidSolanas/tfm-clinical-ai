@@ -20,10 +20,10 @@ chunking:
   chunk_overlap: 50
 
 retrieval:
-  top_k: 5
+  top_k: 10
   reranker: null             # To be added in a later iteration
   metadata_filters:          # Optional filters
-    min_year: 2020
+    min_year: 2015
 
 generation:
   system_prompt: |

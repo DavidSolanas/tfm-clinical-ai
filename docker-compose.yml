@@ -22,7 +22,7 @@ services:
     image: ghcr.io/mlflow/mlflow:latest
     container_name: tfm-mlflow
     ports:
-      - "5000:5000"
+      - "5001:5000"
     volumes:
       - ./mlruns:/mlflow/mlruns
       - ./mlartifacts:/mlflow/mlartifacts
