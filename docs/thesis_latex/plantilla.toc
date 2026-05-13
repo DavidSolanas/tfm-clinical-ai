@@ -17,11 +17,11 @@
 \contentsline {section}{\numberline {2.4}Retrieval-Augmented Generation}{8}{section.2.4}%
 \contentsline {subsection}{\numberline {2.4.1}Fundamentos teóricos}{8}{subsection.2.4.1}%
 \contentsline {subsection}{\numberline {2.4.2}RAG frente a ajuste fino: contribuciones diferenciales}{9}{subsection.2.4.2}%
-\contentsline {section}{\numberline {2.5}Embeddings biomédicos}{9}{section.2.5}%
+\contentsline {section}{\numberline {2.5}Embeddings biomédicos}{10}{section.2.5}%
 \contentsline {section}{\numberline {2.6}Bases de datos vectoriales y búsqueda de similitud}{10}{section.2.6}%
 \contentsline {section}{\numberline {2.7}Alucinaciones en LLMs y marcos de evaluación}{11}{section.2.7}%
 \contentsline {section}{\numberline {2.8}Aplicaciones de RAG y LLMs en entornos clínicos}{11}{section.2.8}%
-\contentsline {section}{\numberline {2.9}Síntesis y brecha de la literatura}{12}{section.2.9}%
+\contentsline {section}{\numberline {2.9}Síntesis y brecha de la literatura}{13}{section.2.9}%
 \contentsline {chapter}{\numberline {3}Objetivos y Metodología de Trabajo}{14}{chapter.3}%
 \contentsline {section}{\numberline {3.1}Objetivo general}{14}{section.3.1}%
 \contentsline {section}{\numberline {3.2}Objetivos específicos}{14}{section.3.2}%
@@ -29,8 +29,13 @@
 \contentsline {section}{\numberline {3.4}Herramientas y tecnologías}{16}{section.3.4}%
 \contentsline {section}{\numberline {3.5}Planificación temporal}{16}{section.3.5}%
 \contentsline {chapter}{\numberline {4}Identificación de Requisitos}{18}{chapter.4}%
-\contentsline {chapter}{\numberline {5}Descripción de la Herramienta Software Desarrollada}{19}{chapter.5}%
-\contentsline {chapter}{\numberline {6}Evaluación}{20}{chapter.6}%
-\contentsline {chapter}{\numberline {7}Conclusiones y Trabajo Futuro}{21}{chapter.7}%
-\contentsline {section}{Referencias}{21}{section*.6}%
-\contentsline {chapter}{\numberline {A}Apendices}{25}{appendix.Alph1}%
+\contentsline {section}{\numberline {4.1}Trabajo previo e identificación del problema}{18}{section.4.1}%
+\contentsline {section}{\numberline {4.2}Perfil de usuario objetivo y escenario de uso}{19}{section.4.2}%
+\contentsline {section}{\numberline {4.3}Requisitos funcionales}{20}{section.4.3}%
+\contentsline {section}{\numberline {4.4}Requisitos no funcionales}{21}{section.4.4}%
+\contentsline {section}{\numberline {4.5}Validación de requisitos}{23}{section.4.5}%
+\contentsline {chapter}{\numberline {5}Descripción de la Herramienta Software Desarrollada}{25}{chapter.5}%
+\contentsline {chapter}{\numberline {6}Evaluación}{26}{chapter.6}%
+\contentsline {chapter}{\numberline {7}Conclusiones y Trabajo Futuro}{27}{chapter.7}%
+\contentsline {section}{Referencias}{27}{section*.6}%
+\contentsline {chapter}{\numberline {A}Apendices}{32}{appendix.Alph1}%

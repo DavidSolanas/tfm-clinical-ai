@@ -3,6 +3,7 @@
 \usepackage{apacite}
 
 \usepackage{hyperref}
+\usepackage{longtable}
 \numberwithin{equation}{chapter}
 %\usepackage{caption}
 \numberwithin{figure}{chapter}
@@ -95,9 +96,9 @@ La medicina actual se enfrenta al siguiente problema: el mismo crecimiento del c
 
 Ante esta situación, los Grandes Modelos de Lenguaje (LLM, por sus siglas en inglés) han emergido como una tecnología con potencial para actuar como interfaz inteligente entre el profesional clínico y el corpus de literatura científica disponible. Modelos como GPT-4 \cite{openai_gpt-4_2024} y LLaMA \cite{grattafiori2024llama3herdmodels} han demostrado capacidades notables de comprensión y generación de lenguaje natural, y revisiones sistemáticas recientes ya destacan su utilidad en tareas clínicas como asistencia al diagnóstico, triaje o soporte documental quirúrgico \cite{jcm13113041}. Sin embargo, su aplicación directa en entornos clínicos presenta limitaciones críticas que impiden su adopción directa sin mediación técnica adicional. La más relevante es la tendencia de estos modelos a generar información plausible pero factualmente incorrecta, fenómeno conocido en la literatura como alucinación \cite{ji_survey_2023}. En el dominio sanitario, donde una respuesta incorrecta puede tener consecuencias directas sobre decisiones terapéuticas, esta limitación es inaceptable. \cite{pal_med-halt_2023} cuantificaron este riesgo específicamente en contextos médicos, evidenciando tasas de error significativas incluso en modelos de última generación cuando operan fuera de su distribución de entrenamiento.
 
-Para mitigar estas limitaciones, la arquitectura Retrieval-Augmented Generation (RAG) propuesta por \cite{lewis_retrieval-augmented_2021} ofrece un marco técnico que combina la capacidad generativa de los LLM con la recuperación dinámica de información desde fuentes de conocimiento externas verificadas. En el dominio sanitario, \cite{amugongo_retrieval_2025} han revisado sistemáticamente la aplicación de RAG en entornos clínicos, concluyendo que la integración de bases de conocimiento biomédico estructuradas reduce significativamente la tasa de alucinaciones y mejora la trazabilidad de las respuestas generadas. Complementariamente, el ajuste fino (fine-tuning) de modelos base sobre corpus clínicos especializados, como los estudiados por \cite{lee_biobert_2020} y \cite{alsentzer_publicly_2019}, ha demostrado mejorar la coherencia terminológica y la adecuación del formato de respuesta al contexto sanitario. No obstante, la evaluación comparativa y sistemática del efecto diferencial de cada componente (RAG y fine-tuning) sobre métricas específicas de calidad clínica mediante un diseño ablativo de cuatro configuraciones representa una contribución metodológica aún poco frecuente en la literatura.
+Para mitigar estas limitaciones, la arquitectura Retrieval-Augmented Generation (RAG) propuesta por \cite{lewis_retrieval-augmented_2021} ofrece un marco técnico que combina la capacidad generativa de los LLM con la recuperación dinámica de información desde fuentes de conocimiento externas verificadas. En el dominio sanitario, \cite{amugongo_retrieval_2025} han revisado sistemáticamente la aplicación de RAG en entornos clínicos, concluyendo que la integración de bases de conocimiento biomédico estructuradas reduce la tasa de alucinaciones y mejora la trazabilidad de las respuestas generadas, y señalando además la ausencia de marcos de evaluación estandarizados como una de las principales debilidades de la literatura existente. Complementariamente, el ajuste fino (fine-tuning) de modelos base sobre corpus clínicos especializados, como los estudiados por \cite{lee_biobert_2020} y \cite{alsentzer_publicly_2019}, ha demostrado mejorar la coherencia terminológica y la adecuación del formato de respuesta al contexto sanitario. La evaluación sistemática del efecto diferencial de cada componente (RAG y fine-tuning) mediante un diseño ablativo de cuatro configuraciones, sobre métricas estandarizadas, es una práctica aún poco extendida en la literatura clínica revisada \cite{amugongo_retrieval_2025}.
 
-Este trabajo se sitúa en la intersección de ambas líneas técnicas, proponiendo un sistema híbrido que combina el fine-tuning mediante QLoRA sobre datos clínicos con una arquitectura RAG conectada a PubMed, con el objetivo de construir un asistente de consulta bibliográfica para profesionales sanitarios que sea simultáneamente preciso, trazable y clínicamente coherente.
+Este trabajo se sitúa en la intersección de ambas líneas técnicas, proponiendo un sistema híbrido que combina el fine-tuning mediante QLoRA (\textit{Quantized Low-Rank Adaptation}) sobre datos clínicos con una arquitectura RAG conectada a PubMed, con el objetivo de construir un asistente de consulta bibliográfica para profesionales sanitarios que sea simultáneamente preciso, trazable y clínicamente coherente.
 
 \section{Planteamiento del trabajo}
 El objetivo principal de este Trabajo de Fin de Estudios es diseñar, implementar y evaluar un sistema híbrido de asistencia a la consulta bibliográfica clínica que combine fine-tuning eficiente de un LLM con una arquitectura RAG sobre literatura biomédica verificada, analizando la contribución diferencial de cada componente sobre la calidad de las respuestas generadas.
@@ -106,12 +107,12 @@ Los objetivos específicos que operacionalizan este propósito son los siguiente
 \begin{itemize}
 	\item Construir un pipeline de ingestión, fragmentación e indexación semántica de artículos biomédicos de PubMed en una base de datos vectorial, empleando embeddings especializados en dominio clínico.
 	\item Realizar el ajuste fino del modelo LLaMA-3.1-8B mediante QLoRA sobre el corpus de transcripciones clínicas MTSamples, adaptando el estilo y la terminología de las respuestas al contexto sanitario.
-	\item Integrar ambos módulos en una arquitectura híbrida gestionada mediante prácticas MLOps, garantizando la reproducibilidad y trazabilidad del ciclo experimental.
+	\item Integrar ambos módulos en una arquitectura híbrida gestionada mediante prácticas MLOps (\textit{Machine Learning Operations}), garantizando la reproducibilidad y trazabilidad del ciclo experimental.
 	\item Evaluar el sistema bajo cuatro configuraciones experimentales —modelo base, fine-tuning exclusivo, RAG exclusivo y sistema híbrido completo— con el fin de cuantificar la contribución individual de cada componente sobre métricas de calidad de recuperación y generación.
 	\item Determinar si el sistema híbrido ofrece ventajas cuantificables sobre las configuraciones parciales, identificando qué limitación específica resuelve cada técnica.
 \end{itemize}
 
-La contribución diferencial de este trabajo respecto a los estudios previos reside en el diseño ablativo de la evaluación: frente a trabajos que evalúan RAG o fine-tuning de forma independiente, o que combinan ambas técnicas sin descomponer su efecto, este trabajo cuantifica explícitamente qué aporta cada componente por separado, aportando evidencia empírica sobre el rol complementario de ambas estrategias en un contexto de asistencia clínica basada en evidencia.
+La contribución diferencial de este trabajo respecto a los estudios previos no reside en la novedad del diseño ablativo en sí, ya empleado en otros dominios por \cite{balaguer2024ragvsfinetuningpipelines} y en pregunta-respuesta médica genérica por \cite{pingua_medical_FT_vs_RAG_2025}, sino en tres aspectos concretos. En primer lugar, en su aplicación al escenario específico de la asistencia bibliográfica clínica sobre literatura primaria de PubMed. En segundo lugar, en su realización íntegra sobre un único modelo de código abierto cuantizado en hardware modesto. Y en tercer lugar, en la incorporación de mecanismos explícitos de verificación automática de citaciones y abstención que permiten cuantificar de forma directa la contribución de RAG a la reducción de alucinaciones, complementando las métricas RAGAS estandarizadas \cite{es2025ragasautomatedevaluationretrieval}.
 
 \section{Estructura del trabajo}
 Este trabajo se organiza en siete capítulos, los cuales se organizan de la siguiente manera:
@@ -138,7 +139,7 @@ Este capítulo presenta el contexto y estado del arte en las áreas tecnológica
 
 La literatura científica biomédica crece a un ritmo que supera la capacidad individual de procesamiento de los profesionales sanitarios. \citeA{rebitzer_influence_2008} analizaron cómo los sistemas de información hospitalarios, paradójicamente, pueden amplificar la sobrecarga en lugar de aliviarla, al incrementar el volumen de datos accesibles sin proporcionar mecanismos de síntesis o priorización. Las consecuencias son directamente medibles: \citeA{laker_quality_2018} demostraron mediante un experimento controlado con médicos de urgencias que la sobrecarga informacional degrada simultáneamente la velocidad y la calidad de la toma de decisiones clínicas, introduciendo sesgos de énfasis que llevan a ignorar datos potencialmente determinantes.
 
-Este contexto hace que la consulta de literatura primaria (artículos, guías clínicas y revisiones sistemáticas) sea en la práctica inviable durante la jornada asistencial. La alternativa de delegar en buscadores genéricos o en resúmenes editoriales implica una pérdida de precisión y trazabilidad que resulta crítica en un entorno donde las decisiones tienen consecuencias directas sobre la salud de los pacientes. Es en este espacio de necesidad donde los asistentes de consulta bibliográfica basados en LLMs y arquitecturas RAG tienen el potencial de convertirse en una herramienta de impacto clínico real.
+Esta presión temporal, ya documentada por \citeA{laker_quality_2018} en su impacto sobre la calidad de la decisión clínica, hace particularmente difícil que el profesional sanitario pueda consultar de forma directa la literatura primaria (artículos, guías clínicas y revisiones sistemáticas) durante la jornada asistencial. Las alternativas habituales (buscadores genéricos o resúmenes editoriales) alivian la carga cognitiva pero introducen una capa de mediación que reduce la trazabilidad de la evidencia, un déficit identificado de forma recurrente en la revisión sistemática de \citeA{amugongo_retrieval_2025} sobre asistentes basados en LLMs y RAG en el ámbito sanitario. Es en este espacio de necesidad donde los asistentes de consulta bibliográfica basados en LLMs y arquitecturas RAG tienen el potencial de convertirse en una herramienta de impacto clínico real.
 
 \section{Grandes Modelos de Lenguaje}
 
@@ -148,7 +149,7 @@ La arquitectura Transformer, introducida por \citeA{vaswani2023attentionneed}, e
 \begin{equation}
   \text{Attention}(Q, K, V) = \text{softmax}\!\left(\frac{QK^{\top}}{\sqrt{d_k}}\right)V
 \end{equation}
-donde $Q$, $K$ y $V$ son las matrices de consulta (\textit{query}), clave (\textit{key}) y valor (\textit{value}) proyectadas desde la representación de entrada, es el núcleo de todos los modelos revisados en este capítulo.
+donde $Q$, $K$ y $V$ son las matrices de consulta (\textit{query}), clave (\textit{key}) y valor (\textit{value}) proyectadas desde la representación de entrada. Este mecanismo es el núcleo de todos los modelos revisados en este capítulo.
 
 \citeA{devlin-etal-2019-bert} aplicaron la arquitectura Transformer encoder-only para introducir BERT (\textit{Bidirectional Encoder Representations from Transformers}), estableciendo el paradigma de preentrenamiento masivo con ajuste fino (\textit{pretraining + fine-tuning}). BERT se preentrenó sobre texto no etiquetado con dos objetivos: modelado de lenguaje enmascarado (MLM) y predicción de la siguiente oración (NSP), produciendo representaciones contextuales densas que se convirtieron en la base de los modelos de embeddings biomédicos.
 
@@ -156,7 +157,7 @@ donde $Q$, $K$ y $V$ son las matrices de consulta (\textit{query}), clave (\text
 
 El preentrenamiento Transformer dio lugar a los LLMs actuales, modelos con miles de millones de parámetros capaces de razonar y generar texto en prácticamente cualquier dominio. Entre los modelos propietarios, GPT-4 \cite{openai_gpt-4_2024} representa el estado del arte en capacidades de razonamiento general, aunque su aplicación en entornos clínicos está condicionada por las restricciones de privacidad que impone el envío de datos a infraestructura de terceros.
 
-En el espacio de código abierto, la familia LLaMA-3 de Meta AI \cite{grattafiori2024llama3herdmodels} ha demostrado capacidades de razonamiento comparables a los modelos propietarios en múltiples benchmarks, con la ventaja de poder desplegarse en infraestructura propia. El modelo LLaMA-3.1-8B-Instruct, variante ajustada con instrucciones, es especialmente relevante para este trabajo por su capacidad de seguir instrucciones estructuradas en formato sistema/usuario/asistente y por su viabilidad de despliegue en GPU con memoria de 10 GB mediante cuantización de 4 bits. Revisiones sistemáticas recientes sobre LLMs en entornos clínicos \cite{jcm13113041} identifican asistencia diagnóstica, triaje y soporte documental como los campos de aplicación más maduros, aunque señalan limitaciones críticas de precisión factual que justifican la combinación con sistemas de recuperación de información.
+En el espacio de código abierto, la familia LLaMA-3 de Meta AI \cite{grattafiori2024llama3herdmodels} ha demostrado capacidades de razonamiento comparables a los modelos propietarios en múltiples \textit{benchmarks}, con la ventaja de poder desplegarse en infraestructura propia. El modelo LLaMA-3.1-8B-Instruct, variante ajustada con instrucciones, es especialmente relevante para este trabajo por su capacidad de seguir instrucciones estructuradas en formato sistema/usuario/asistente y por su viabilidad de despliegue en GPU con memoria de 10 GB mediante cuantización de 4 bits. Revisiones sistemáticas recientes sobre LLMs en entornos clínicos \cite{jcm13113041} identifican asistencia diagnóstica, triaje y soporte documental como los campos de aplicación más maduros, aunque señalan limitaciones críticas de precisión factual que justifican la combinación con sistemas de recuperación de información.
 
 \section{Ajuste fino eficiente de LLMs}
 
@@ -188,9 +189,9 @@ La arquitectura Retrieval-Augmented Generation (RAG) fue introducida por \citeA{
 \begin{equation}
   p(y \mid x) = \sum_{z \in \mathcal{Z}} p_\eta(z \mid x)\, p_\theta(y \mid x, z)
 \end{equation}
-donde $p_\eta$ es el retriever (en el trabajo original, DPR) y $p_\theta$ es el generador.
+donde $p_\eta$ es el \textit{retriever} (en el trabajo original, DPR, \textit{Dense Passage Retrieval}) y $p_\theta$ es el generador.
 
-Esta arquitectura presenta ventajas directamente relevantes para el dominio clínico: la base de conocimiento puede actualizarse sin reentrenar el LLM, cada respuesta es trazable a fragmentos de documentos concretos con identificador PMID, y la recuperación actúa como restricción factual que reduce la generación de contenido inventado.
+Esta arquitectura presenta ventajas directamente relevantes para el dominio clínico: la base de conocimiento puede actualizarse sin reentrenar el LLM, cada respuesta es trazable a fragmentos de documentos concretos identificados mediante su PMID (\textit{PubMed Identifier}), y la recuperación actúa como restricción factual que reduce la generación de contenido inventado.
 
 \subsection{RAG frente a ajuste fino: contribuciones diferenciales}
 
@@ -204,7 +205,7 @@ La calidad de la recuperación en un sistema RAG depende críticamente del model
 
 \citeA{lee_biobert_2020} introdujeron BioBERT, que adapta la arquitectura BERT de \citeA{devlin-etal-2019-bert} continuando el preentrenamiento sobre abstracts de PubMed y artículos de texto completo de PubMed Central (PMC). El preentrenamiento en el dominio médico mejora de forma consistente el rendimiento en tareas de reconocimiento de entidades biomédicas (NER), extracción de relaciones y pregunta-respuesta sobre textos científicos. \citeA{alsentzer_publicly_2019} propusieron ClinicalBERT, preentrenado sobre notas clínicas del corpus MIMIC-III, orientado a documentación hospitalaria interna en lugar de literatura científica; esta distinción motiva la elección de BioBERT sobre ClinicalBERT cuando la base de conocimiento está formada por abstracts de PubMed.
 
-\citeA{gu_pubmedbert_2021} demostraron que el preentrenamiento \textit{desde cero} sobre PubMed (en lugar de adaptar un modelo BERT general) produce representaciones superiores en el benchmark BLURB, que agrega 8 tareas de NLP biomédico. Su variante optimizada para abstracts, \textit{BiomedNLP-BiomedBERT-base-uncased-abstract}, es un candidato para sistemas RAG cuyo corpus de recuperación está formado por abstracts de PubMed. \citeA{fang2023bioformerefficienttransformerlanguage} presentaron Bioformer, un modelo un 40\% más pequeño que PubMedBERT que mantiene una diferencia de rendimiento inferior al 1\% en los mismos benchmarks BLURB, con la ventaja adicional de haber sido preentrenado sobre PubMed y texto completo de PubMed Central (PMC). La selección empírica entre ambos modelos para el pipeline de este trabajo se detalla en el Capítulo~5.
+\citeA{gu_pubmedbert_2021} demostraron que el preentrenamiento \textit{desde cero} sobre PubMed (en lugar de adaptar un modelo BERT general) produce representaciones superiores en el \textit{benchmark} BLURB (\textit{Biomedical Language Understanding and Reasoning Benchmark}), que agrega ocho tareas de NLP biomédico. Su variante optimizada para abstracts, \textit{BiomedNLP-BiomedBERT-base-uncased-abstract}, es un candidato para sistemas RAG cuyo corpus de recuperación está formado por abstracts de PubMed. \citeA{fang2023bioformerefficienttransformerlanguage} presentaron Bioformer, un modelo un 40\% más pequeño que PubMedBERT que mantiene una diferencia de rendimiento inferior al 1\% en los mismos benchmarks BLURB, con la ventaja adicional de haber sido preentrenado sobre PubMed y texto completo de PubMed Central (PMC). La selección empírica entre ambos modelos para el pipeline de este trabajo se detalla en el Capítulo~5.
 
 \section{Bases de datos vectoriales y búsqueda de similitud}
 
@@ -214,13 +215,15 @@ El componente no paramétrico de RAG requiere estructuras de datos especializada
 
 \citeA{ji_survey_2023} presentan el fenómeno de alucinación en modelos de lenguaje: la generación de texto coherente y gramaticalmente correcto que no se corresponde con hechos verificables ni con el contexto de entrada. La revisión distingue alucinaciones intrínsecas (contradicción con la fuente de entrada) y extrínsecas (información no verificable), y documenta la prevalencia del problema en modelos generativos independientemente de su tamaño. En el dominio médico, la magnitud del problema es especialmente grave: \citeA{pal_med-halt_2023} diseñaron Med-HALT, un benchmark específico para alucinaciones médicas que incluye pruebas de memoria y razonamiento, y documentaron tasas de error significativas en LLMs de última generación cuando operan sobre preguntas clínicas fuera de su distribución de entrenamiento.
 
-Para la evaluación cuantitativa de sistemas RAG, \citeA{es2025ragasautomatedevaluationretrieval} propusieron RAGAS (\textit{Retrieval Augmented Generation Assessment}), un framework de evaluación automatizada sin referencias (\textit{reference-free}) que mide cuatro dimensiones: \textit{Faithfulness} (fidelidad de la respuesta al contexto recuperado), \textit{Answer Relevancy} (relevancia de la respuesta a la pregunta), \textit{Context Precision} (proporción de fragmentos recuperados que son realmente útiles) y \textit{Context Recall} (cobertura de la información necesaria por el contexto recuperado). RAGAS es el marco de evaluación principal de este trabajo, empleado para comparar las cuatro configuraciones experimentales sobre un benchmark de preguntas clínicas.
+Para la evaluación cuantitativa de sistemas RAG, \citeA{es2025ragasautomatedevaluationretrieval} propusieron RAGAS (\textit{Retrieval Augmented Generation Assessment}), un \textit{framework} de evaluación automatizada sin referencias (\textit{reference-free}) que mide cuatro dimensiones: \textit{Faithfulness} (fidelidad de la respuesta al contexto recuperado), \textit{Answer Relevancy} (relevancia de la respuesta a la pregunta), \textit{Context Precision} (proporción de fragmentos recuperados que son realmente útiles) y \textit{Context Recall} (cobertura de la información necesaria por el contexto recuperado). RAGAS es el marco de evaluación principal de este trabajo, empleado para comparar las cuatro configuraciones experimentales sobre un \textit{benchmark} de preguntas clínicas.
 
 \section{Aplicaciones de RAG y LLMs en entornos clínicos}
 
-\citeA{amugongo_retrieval_2025} ofrecen la revisión sistemática más reciente y exhaustiva de sistemas RAG aplicados en sanidad, identificando tres variantes (RAG Naive, RAG avanzado y RAG modular) y documentando la dominancia de modelos propietarios (GPT-3.5/4) en los estudios publicados, así como la ausencia de marcos de evaluación estandarizados. Esta brecha (modelos propietarios y evaluación ad-hoc) es precisamente el espacio que este trabajo busca abordar con LLaMA-3 de código abierto y evaluación sistemática mediante RAGAS.
+\citeA{amugongo_retrieval_2025} ofrecen la revisión sistemática más reciente y exhaustiva de sistemas RAG aplicados en sanidad, identificando tres variantes (RAG Naive, RAG avanzado y RAG modular) y documentando la dominancia de modelos propietarios (GPT-3.5/4) en los estudios publicados, así como la ausencia de marcos de evaluación estandarizados. Esta brecha (modelos propietarios y evaluación \textit{ad hoc}) es precisamente el espacio que este trabajo busca abordar con LLaMA-3 de código abierto y evaluación sistemática mediante RAGAS.
 
 En cuanto a aplicaciones concretas, \citeA{rau_context-based_2023} demostraron que un chatbot RAG construido sobre LlamaIndex y GPT-3.5-turbo supera a radiólogos expertos y a ChatGPT genérico en el seguimiento de las guías de adecuación del American College of Radiology, reduciendo el tiempo de decisión de 50 a 5 minutos. \citeA{yu_zero-shot_2023} aplicaron RAG en modalidad \textit{zero-shot} para el diagnóstico de arritmias y apnea del sueño a partir de señales ECG, ilustrando la versatilidad del paradigma más allá del texto. \citeA{thompson_large_2023} emplearon RAG con MapReduce para la fenotipización de hipertensión pulmonar en historias clínicas electrónicas, superando la lógica de reglas diseñada por médicos (F1: 0{,}75 vs. 0{,}62), lo que resulta especialmente relevante como referencia comparativa dado que MTSamples es un corpus de características similares: texto clínico no estructurado con escasez de datos etiquetados.
+
+En el subdominio específico de la consulta bibliográfica clínica asistida, tres sistemas constituyen la referencia comparativa más cercana al presente trabajo. \citeA{zakka_almanac_2024} desarrollaron Almanac, un sistema RAG con corpus curado de guías clínicas evaluado mediante un panel de ocho clínicos certificados sobre 314 preguntas en nueve especialidades, que demostró mejoras significativas en factualidad, completitud y seguridad adversarial frente a ChatGPT-4, Bing y Bard. \citeA{lozano_clinfoai_2023} presentaron Clinfo.ai, un sistema modular formado por cuatro LLMs encadenados (formulación de la consulta, filtrado de relevancia, resumen y agregación) acoplado a PubMed o Semantic Scholar, y publicaron junto con él el dataset PubMedRS-200 para evaluar pipelines RAG sobre literatura científica de forma reproducible. \citeA{xiong_benchmarking_2024} formalizaron este espacio con el \textit{benchmark} MIRAGE (7.663 preguntas sobre cinco datasets de QA médico) y el \textit{toolkit} MedRAG, evaluando 41 combinaciones de corpus, recuperadores y modelos, y mostrando que la combinación adecuada de corpus y recuperador puede elevar el rendimiento de modelos abiertos al nivel de GPT-4. Estos tres sistemas comparten dos rasgos relevantes para situar la contribución del presente trabajo: emplean predominantemente modelos propietarios (GPT-3.5/4) o arquitecturas multi-LLM, y centran su aportación en la dimensión de evaluación o de orquestación más que en el análisis ablativo de los componentes individuales del sistema. Frente a ese patrón, el presente trabajo se concentra en cuantificar la contribución diferencial del ajuste fino y de RAG sobre un único modelo de código abierto cuantizado en hardware modesto, integrando además un mecanismo de verificación automática de citaciones que permite medir directamente la reducción de alucinaciones atribuible a la recuperación.
 
 \section{Síntesis y brecha de la literatura}
 
@@ -233,10 +236,10 @@ La revisión anterior permite identificar las siguientes conclusiones que orient
 
   \item La combinación FT+RAG demuestra ventajas cuantificables sobre cualquiera de las técnicas por separado, tanto en dominios generales \cite{balaguer2024ragvsfinetuningpipelines} como en el ámbito médico específico \cite{pingua_medical_FT_vs_RAG_2025, bioengineering13020225}.
 
-  \item Los sistemas RAG clínicos publicados se apoyan mayoritariamente en modelos propietarios con evaluación ad-hoc, sin un diseño ablativo que cuantifique la contribución diferencial de cada componente \cite{amugongo_retrieval_2025}.
+  \item Los sistemas RAG clínicos publicados se apoyan mayoritariamente en modelos propietarios con evaluación \textit{ad hoc}, sin un diseño ablativo que cuantifique la contribución diferencial de cada componente \cite{amugongo_retrieval_2025}.
 \end{itemize}
 
-La brecha identificada es, por tanto, la ausencia de un sistema híbrido de código abierto (LLM + QLoRA + RAG sobre PubMed) evaluado sistemáticamente mediante un diseño ablativo de cuatro configuraciones con métricas RAGAS estandarizadas en el ámbito de la asistencia bibliográfica clínica. Este trabajo pretende cubrir ese espacio.
+La brecha identificada es, por tanto, la ausencia de un sistema híbrido de código abierto (LLM + QLoRA + RAG sobre PubMed) evaluado sistemáticamente mediante un diseño ablativo de cuatro configuraciones con métricas RAGAS estandarizadas, y reforzado con verificación automática de citaciones, en el ámbito específico de la asistencia bibliográfica clínica. Este trabajo pretende cubrir ese espacio.
 
 \chapter{Objetivos y Metodología de Trabajo}
 
@@ -246,7 +249,7 @@ Este capítulo presenta los objetivos del trabajo en términos medibles y descri
 
 El objetivo general de este trabajo es diseñar, implementar y evaluar un sistema híbrido de asistencia bibliográfica clínica que combine el ajuste fino eficiente de un LLM de código abierto con una arquitectura RAG sobre literatura biomédica verificada, cuantificando la contribución diferencial de cada componente sobre la calidad de las respuestas generadas.
 
-Expresado en términos SMART \cite{doran1981there}: el objetivo es construir un sistema funcional, evaluado automáticamente mediante RAGAS y validado por al menos un profesional sanitario, que en la configuración híbrida completa (FT+RAG) obtenga una puntuación de \textit{Faithfulness} superior a 0{,}90 y una \textit{Context Precision} superior a 0{,}80.
+Expresado en términos SMART \cite{doran1981there}, el objetivo es construir un sistema funcional, evaluado automáticamente mediante RAGAS sobre las cuatro configuraciones experimentales y validado de forma cualitativa. La configuración híbrida completa (FT+RAG) debe superar a la configuración base (modelo sin ajuste fino y sin recuperación) en al menos $0{,}10$ puntos absolutos de \textit{Faithfulness} y $0{,}10$ puntos de \textit{Answer Relevancy}, evidenciando una contribución diferencial cuantificable de cada componente. La formulación se plantea en términos relativos al \textit{baseline}: los criterios de éxito dependen así del comportamiento del propio sistema bajo cada configuración y no de un valor absoluto cuya alcanzabilidad está condicionada por el modelo base elegido y por las características del corpus PubMed indexado.
 
 \section{Objetivos específicos}
 
@@ -259,7 +262,7 @@ Para lograr el objetivo general, se plantean los siguientes objetivos específic
 
   \item \textbf{OE3: Integración en arquitectura híbrida con MLOps.} Integrar el módulo de ajuste fino y el pipeline RAG en una arquitectura unificada gestionada mediante MLflow, garantizando la trazabilidad de todos los experimentos y la reproducibilidad de resultados.
 
-  \item \textbf{OE4: Evaluación ablativa en cuatro configuraciones.} Evaluar el sistema bajo cuatro configuraciones experimentales (modelo base (A), ajuste fino exclusivo (B), RAG exclusivo (C) y sistema híbrido completo (D)) sobre un benchmark de 50 preguntas clínicas, midiendo \textit{Faithfulness}, \textit{Answer Relevancy}, \textit{Context Precision} y \textit{Context Recall} mediante RAGAS \cite{es2025ragasautomatedevaluationretrieval}.
+  \item \textbf{OE4: Evaluación ablativa en cuatro configuraciones.} Evaluar el sistema bajo cuatro configuraciones experimentales (modelo base (A), ajuste fino exclusivo (B), RAG exclusivo (C) y sistema híbrido completo (D)) sobre un \textit{benchmark} de 50 preguntas clínicas, midiendo \textit{Faithfulness}, \textit{Answer Relevancy}, \textit{Context Precision} y \textit{Context Recall} mediante RAGAS \cite{es2025ragasautomatedevaluationretrieval}.
 
   \item \textbf{OE5: Determinación de la contribución diferencial.} Determinar si la configuración híbrida FT+RAG ofrece ventajas estadísticamente interpretables sobre las configuraciones parciales, identificando qué limitación específica mitiga cada técnica: el ajuste fino para la adaptación de estilo y terminología clínica, y RAG para la reducción de alucinaciones y la incorporación de evidencia actualizada.
 
@@ -270,15 +273,15 @@ Para lograr el objetivo general, se plantean los siguientes objetivos específic
 
 La metodología propuesta en este trabajo está estructurada en las siguientes fases:
 
-\textbf{Fase 1: Adquisición y preparación de datos.} Se descargan abstracts de PubMed para las especialidades médicas objetivo mediante la API Entrez de NCBI, utilizando una estrategia de ingestión por especialidad para minimizar las llamadas a la API. Paralelamente, los registros del corpus MTSamples se transforman al formato instrucción-respuesta (sistema/usuario/asistente) para el ajuste fino supervisado.
+\textbf{Fase 1: Adquisición y preparación de datos.} Se descargan abstracts de PubMed para las categorías clínicas objetivo mediante la API Entrez del NCBI (\textit{National Center for Biotechnology Information}), utilizando una estrategia de ingestión anclada en el árbol MeSH (\textit{Medical Subject Headings}) que minimiza las llamadas a la API. Paralelamente, los registros del corpus MTSamples se transforman al formato instrucción-respuesta (sistema/usuario/asistente) para el ajuste fino supervisado.
 
-\textbf{Fase 2: Construcción del índice vectorial.} Los abstracts de PubMed se fragmentan en chunks y se codifican con el modelo de embeddings \textit{Bioformer-16L} \cite{fang2023bioformerefficienttransformerlanguage}. Los vectores se indexan en Qdrant con distancia coseno y metadatos de año y categoría MeSH.
+\textbf{Fase 2: Construcción del índice vectorial.} Los abstracts de PubMed se fragmentan en \textit{chunks} y se codifican con el modelo de embeddings \textit{Bioformer-16L} \cite{fang2023bioformerefficienttransformerlanguage}. Los vectores se indexan en Qdrant con distancia coseno y metadatos de año y categoría MeSH, junto con vectores dispersos BM25 (\textit{Best Matching 25}, \cite{robertson2009bm25}) que habilitan la recuperación híbrida densa-dispersa.
 
 \textbf{Fase 3: Ajuste fino QLoRA.} El modelo base LLaMA-3.1-8B-Instruct se ajusta mediante la librería Unsloth. Los experimentos necesarios para lograr el ajuste fino se registran en MLflow.
 
 \textbf{Fase 4: Construcción del pipeline RAG.} Se implementa un pipeline de recuperación augmentada que, ante una consulta clínica, (a) genera su embedding, (b) recupera los $k$ fragmentos más similares de Qdrant filtrados por año, y (c) concatena el contexto recuperado al prompt del LLM con baja temperatura para mejorar la coherencia.
 
-\textbf{Fase 5: Evaluación.} Se construye un benchmark de 50 preguntas clínicas con respuestas de referencia extraídas de guías clínicas y revisiones sistemáticas. Las cuatro configuraciones experimentales se evalúan automáticamente con RAGAS y mediante una sesión de evaluación de usabilidad con al menos un profesional sanitario.
+\textbf{Fase 5: Evaluación.} Se construye un \textit{benchmark} de 50 preguntas clínicas con respuestas de referencia extraídas de guías clínicas y revisiones sistemáticas. Las cuatro configuraciones experimentales se evalúan automáticamente con RAGAS y mediante una sesión de evaluación de usabilidad con al menos un profesional sanitario.
 
 \textbf{Fase 6: Interfaz de demostración.} Se implementa una interfaz web con Gradio que permite seleccionar la configuración del sistema y visualizar las respuestas junto con las fuentes recuperadas (PMID y fragmento de abstract).
 
@@ -331,6 +334,139 @@ Redacción memoria & $\bullet$ & $\bullet$ & $\bullet$ & $\bullet$ & $\bullet$ \
 \end{table}
 
 \chapter{Identificación de Requisitos}
+
+Este capítulo concreta el qué debe hacer el sistema y bajo qué condiciones, traduciendo los objetivos específicos del Capítulo~3 a requisitos verificables. En primer lugar se presenta el trabajo previo que ha guiado la formulación de los requisitos, en segundo lugar se describe el perfil de usuario objetivo y un escenario habitual de uso, en tercer lugar se enumeran los requisitos funcionales y no funcionales que el sistema debe satisfacer y, por último, se describe el procedimiento mediante el cual cada requisito se validará a lo largo del Capítulo~6.
+
+\section{Trabajo previo e identificación del problema}
+
+La identificación de requisitos parte del problema clínico planteado en el Capítulo~1: la sobrecarga informacional dificulta que el profesional sanitario localice, durante su actividad asistencial, la evidencia bibliográfica relevante para una decisión concreta. La revisión de la literatura del Capítulo~2 acota técnicamente el espacio de soluciones (LLMs, ajuste fino eficiente y RAG sobre corpus biomédico) y, simultáneamente, evidencia las limitaciones que un sistema de asistencia clínica debe gestionar de forma explícita: la propensión de los modelos generativos a producir contenido plausible pero factualmente incorrecto (alucinaciones), la dificultad de garantizar la trazabilidad de las afirmaciones generadas y la necesidad de combinar adaptación estilística con incorporación de evidencia actualizada.
+
+Antes de fijar los requisitos del sistema se ha llevado a cabo un análisis exploratorio de los corpus (notas clínicas de MTSamples y abstracts de PubMed), así como un primer prototipo del pipeline de recuperación y generación. Este trabajo previo ha cumplido dos funciones. En primer lugar, se ha validado la viabilidad técnica de la arquitectura propuesta dentro de las restricciones de hardware del proyecto. En segundo lugar, y más relevante para este capítulo, ha servido para identificar de forma temprana los modos de fallo característicos de un asistente clínico basado en LLMs y RAG: respuestas semánticamente plausibles construidas sobre evidencia clínicamente irrelevante, citas a fuentes inexistentes y respuestas generadas en ausencia de información suficiente. Estos modos de fallo, observados en la fase exploratoria, se traducen directamente en requisitos del sistema en forma de mecanismos de abstención, de verificación automática de citaciones y de exposición de la tasa de citas no verificables como métrica.
+
+La identificación inicial de los requisitos se ha derivado de la literatura clínica y técnica y del análisis exploratorio descrito. La participación de un profesional sanitario en la fase de validación de usabilidad se contempla como vía deseable de contraste posterior, condicionada a la disponibilidad de dicha colaboración; en su defecto, la validación cualitativa se sustituirá por una revisión crítica documentada por parte del autor sobre los mismos criterios de uso y se identificará explícitamente como punto a revisitar en trabajo futuro.
+
+\section{Perfil de usuario objetivo y escenario de uso}
+
+El sistema se diseña para un único perfil de usuario: el profesional sanitario (médico, médico residente o personal de enfermería con responsabilidades asistenciales avanzadas) que necesita resolver una pregunta clínica concreta apoyándose en evidencia bibliográfica reciente, sin disponer de tiempo para una revisión manual de la literatura. El sistema se diseña para mitigar la sobrecarga informacional que afecta específicamente a los profesionales que ejercen con pacientes \cite{rebitzer_influence_2008, laker_quality_2018}, y los patrones de uso considerados se alinean con los descritos en revisiones recientes sobre asistentes clínicos basados en LLMs y RAG \cite{jcm13113041, amugongo_retrieval_2025}.
+
+Las características relevantes del usuario para el diseño del sistema son las siguientes:
+
+\begin{itemize}
+  \item \textbf{Dominio del lenguaje clínico:} el usuario formula consultas en terminología médica habitual (nombres de patologías, fármacos, procedimientos, abreviaturas clínicas) y espera respuestas en el mismo registro.
+  \item \textbf{Tolerancia nula al error factual:} una respuesta plausible pero incorrecta puede inducir decisiones clínicas equivocadas, por lo que el usuario necesita que cada afirmación sea trazable a una fuente verificable.
+  \item \textbf{Restricciones de tiempo:} el usuario consulta el sistema durante la actividad asistencial, por lo que la latencia y la legibilidad de la respuesta son determinantes para su utilidad.
+  \item \textbf{Sensibilidad de los datos manejados:} la consulta puede contener información derivada de un caso clínico real, lo que impone restricciones de privacidad sobre la infraestructura en la que el sistema se ejecuta.
+\end{itemize}
+
+El sistema no se dirige a pacientes ni a usuarios sin formación sanitaria; tampoco sustituye a sistemas de soporte a la decisión clínica certificados, sino que actúa como un asistente bibliográfico complementario.
+
+El escenario de uso de referencia es el siguiente: un profesional sanitario, ante una pregunta clínica concreta surgida durante su actividad asistencial, accede a la interfaz del sistema y formula la consulta en lenguaje natural. El sistema recupera de su base de conocimiento los fragmentos de literatura biomédica más relevantes, genera una respuesta estructurada que sintetiza la evidencia disponible y la presenta junto con las fuentes utilizadas, identificadas de forma que el profesional pueda acudir a la publicación original. Si la evidencia recuperada es insuficiente para fundamentar una respuesta, el sistema lo comunica de forma explícita en lugar de generar una respuesta no respaldada. La interacción se completa, por tanto, con una respuesta verificable o con una notificación clara de ausencia de evidencia, nunca con una afirmación cuya base el profesional no pueda contrastar.
+
+\section{Requisitos funcionales}
+
+Los requisitos funcionales describen las capacidades que el sistema debe ofrecer, expresadas de forma observable y verificable. La Tabla~\ref{tab:rf} resume los requisitos funcionales identificados, asociándolos al objetivo específico del Capítulo~3 que los origina.
+
+{\small
+\begin{longtable}{|p{0.09\textwidth}|p{0.70\textwidth}|p{0.12\textwidth}|}
+\caption{Requisitos funcionales del sistema}
+\label{tab:rf} \\
+\hline
+\textbf{ID} & \textbf{Descripción} & \textbf{Origen} \\
+\hline
+\endfirsthead
+\multicolumn{3}{l}{\textit{(Continuación de la Tabla \ref{tab:rf})}} \\
+\hline
+\textbf{ID} & \textbf{Descripción} & \textbf{Origen} \\
+\hline
+\endhead
+\hline
+\multicolumn{3}{r}{\textit{Continúa en la página siguiente}} \\
+\endfoot
+\hline
+\endlastfoot
+RF-01 & Ingestar abstracts de PubMed mediante la API Entrez de NCBI, almacenándolos junto con sus metadatos (PMID, título, año, MeSH terms, tipos de publicación) en un corpus local. & OE1 \\
+\hline
+RF-02 & Indexar el corpus en una base de datos vectorial Qdrant con vectores densos generados por el modelo de embeddings biomédico seleccionado y vectores dispersos BM25, soportando filtrado por metadatos. & OE1 \\
+\hline
+RF-03 & Recuperar evidencia mediante búsqueda híbrida (densa + BM25) fusionada por Reciprocal Rank Fusion y reordenada por un cross-encoder biomédico, produciendo un conjunto reducido de fragmentos relevantes para la consulta. & OE1, OE3 \\
+\hline
+RF-04 & Abstenerse de generar respuesta cuando la evidencia recuperada no supera un umbral mínimo de relevancia, devolviendo una notificación explícita al usuario en lugar de una respuesta no fundamentada. & OE5 \\
+\hline
+RF-05 & Generar una respuesta estructurada en tres bloques (recomendación, base de evidencia e incertidumbres), citando exclusivamente los PMID presentes en el contexto recuperado. & OE3, OE5 \\
+\hline
+RF-06 & Verificar automáticamente que todos los PMID citados en la respuesta forman parte del contexto recuperado y exponer la métrica \texttt{hallucinated\_pmids} (número de citas no verificables por consulta) como salida directa del proceso de generación. & OE5 \\
+\hline
+RF-07 & Ajustar el modelo base mediante QLoRA sobre el corpus MTSamples, generando un adaptador LoRA reutilizable para la configuración con ajuste fino. & OE2 \\
+\hline
+RF-08 & Permitir al usuario seleccionar la configuración del sistema entre las cuatro variantes ablativas (Base, FT, RAG, FT+RAG) en el momento de la consulta. & OE4, OE6 \\
+\hline
+RF-09 & Mostrar al usuario, junto con la respuesta, las fuentes bibliográficas utilizadas indicando como mínimo el PMID y un fragmento del abstract recuperado. & OE6 \\
+\hline
+RF-10 & Evaluar las cuatro configuraciones experimentales sobre un \textit{benchmark} de preguntas clínicas mediante las métricas RAGAS de \textit{Faithfulness}, \textit{Answer Relevancy}, \textit{Context Precision} y \textit{Context Recall}, además de la tasa de PMID alucinados. & OE4, OE5 \\
+\hline
+RF-11 & Registrar de forma automática hiperparámetros, métricas y artefactos de cada experimento en MLflow, garantizando la trazabilidad de los resultados reportados. & OE3 \\
+\hline
+RF-12 & Ofrecer una interfaz web que permita al profesional sanitario formular consultas en lenguaje natural y consultar el resultado junto con sus fuentes. & OE6 \\
+\hline
+\end{longtable}
+}
+
+\section{Requisitos no funcionales}
+
+Los requisitos no funcionales describen las propiedades transversales que condicionan la calidad del sistema. La Tabla~\ref{tab:rnf} agrupa estos requisitos por categoría.
+
+{\small
+\begin{longtable}{|p{0.09\textwidth}|p{0.20\textwidth}|p{0.62\textwidth}|}
+\caption{Requisitos no funcionales del sistema}
+\label{tab:rnf} \\
+\hline
+\textbf{ID} & \textbf{Categoría} & \textbf{Descripción} \\
+\hline
+\endfirsthead
+\multicolumn{3}{l}{\textit{(Continuación de la Tabla \ref{tab:rnf})}} \\
+\hline
+\textbf{ID} & \textbf{Categoría} & \textbf{Descripción} \\
+\hline
+\endhead
+\hline
+\multicolumn{3}{r}{\textit{Continúa en la página siguiente}} \\
+\endfoot
+\hline
+\endlastfoot
+RNF-01 & Privacidad & Todos los componentes (LLM, embeddings, base vectorial, interfaz) deben ejecutarse en infraestructura local, sin envío de la consulta del usuario a servicios de terceros durante la inferencia. \\
+\hline
+RNF-02 & Trazabilidad & Toda afirmación factual generada por el sistema debe poder asociarse a un PMID concreto presente en el contexto recuperado, de forma que el usuario pueda consultar la fuente original. \\
+\hline
+RNF-03 & Reproducibilidad & Las dependencias del entorno deben estar bloqueadas mediante un \textit{lockfile} y los experimentos deben ser reproducibles a partir de los artefactos registrados en MLflow y de las semillas aleatorias fijadas en los ficheros de configuración. \\
+\hline
+RNF-04 & Mantenibilidad & El código de producción debe organizarse en módulos reutilizables separados de los notebooks exploratorios, y la configuración (hiperparámetros, modelos, umbrales) debe centralizarse en ficheros YAML para evitar valores codificados en el código. \\
+\hline
+RNF-05 & Rendimiento computacional & El sistema debe ejecutarse íntegramente sobre una GPU con 10~GB de VRAM, lo que obliga a cuantización del modelo base y a tamaños de \textit{batch} acordes al hardware disponible. \\
+\hline
+RNF-06 & Latencia percibida & La respuesta a una consulta clínica en la configuración híbrida completa (FT+RAG) debe entregarse en un tiempo compatible con el uso interactivo del sistema durante la actividad asistencial. La cuantificación exacta del umbral depende del hardware de despliegue final y se documentará tras las primeras mediciones de extremo a extremo. \\
+\hline
+RNF-07 & Calidad de la respuesta & La configuración híbrida completa (FT+RAG) debe superar a la configuración base en al menos $0{,}10$ puntos absolutos de \textit{Faithfulness} y $0{,}10$ puntos de \textit{Answer Relevancy} sobre el \textit{benchmark} de evaluación RAGAS, según el objetivo cuantitativo relativo declarado en el Capítulo~3. \\
+\hline
+RNF-08 & Coste de licencias & Todos los componentes principales (modelo base, embeddings, base vectorial, gestor de experimentos, interfaz) deben ser de código abierto y de uso libre para fines académicos. \\
+\hline
+RNF-09 & Idioma de interacción & El sistema debe operar en inglés, dado que tanto el corpus PubMed como el corpus MTSamples están redactados en este idioma. La extensión del sistema a un modo \textit{language-agnostic} o multilingüe se contempla como línea de trabajo futuro (Capítulo~7). \\
+\hline
+RNF-10 & Auditoría de citaciones & La métrica \texttt{hallucinated\_pmids} debe exponerse como salida medible del proceso de generación para permitir su monitorización en el flujo de evaluación y su comparación entre configuraciones. \\
+\hline
+\end{longtable}
+}
+
+% TODO (post-medición): cuantificar el umbral de latencia de RNF-06 con datos reales de inferencia extremo a extremo en el hardware de despliegue.
+
+\section{Validación de requisitos}
+
+La validación de los requisitos se centra en tres aspectos, cada uno de los cuales cubre un subconjunto identificable de los requisitos propuestos.
+
+\textbf{Validación funcional del sistema.} Cada requisito funcional se valida demostrando que el módulo correspondiente del sistema produce la salida esperada sobre entradas conocidas.
+
+\textbf{Validación cuantitativa de la calidad de respuesta.} Los requisitos relativos a calidad y trazabilidad (RF-04, RF-05, RF-06, RF-10, RNF-02, RNF-07 y RNF-10) se validan mediante la evaluación automática descrita en el Capítulo~6: cuatro configuraciones ablativas (Base, FT, RAG y FT+RAG) sobre un \textit{benchmark} de preguntas clínicas, calificadas con las métricas RAGAS de \textit{Faithfulness}, \textit{Answer Relevancy}, \textit{Context Precision} y \textit{Context Recall} \cite{es2025ragasautomatedevaluationretrieval}, complementadas por la tasa de PMID alucinados producida por el verificador de citaciones del propio sistema. El cumplimiento de RNF-07 se considera demostrado si la configuración FT+RAG supera a la configuración base en los umbrales relativos declarados de \textit{Faithfulness} y \textit{Answer Relevancy}.
+
+\textbf{Validación cualitativa de usabilidad.} Los requisitos centrados en la interacción y la utilidad clínica percibida (RF-08, RF-09, RF-12 y RNF-06) se validan, idealmente, mediante una sesión de evaluación con un profesional sanitario, en la que se le solicita formular consultas representativas de su práctica, comparar las respuestas obtenidas en distintas configuraciones del sistema y valorar la legibilidad de la respuesta, la utilidad de las fuentes mostradas y el tiempo de respuesta percibido. Esta colaboración queda condicionada a la disponibilidad efectiva de un profesional sanitario dentro del calendario del trabajo: si dicha disponibilidad no resulta posible, la validación cualitativa se realizará mediante una revisión crítica documentada por parte del autor sobre los mismos criterios, dejando expresamente constancia de esta limitación como elemento a revisitar en trabajo futuro. En cualquiera de los dos escenarios, los hallazgos cualitativos se documentan en el Capítulo~6.
 
 \chapter{Descripción de la Herramienta Software Desarrollada}
 

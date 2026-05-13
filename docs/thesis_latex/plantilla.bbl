@@ -545,6 +545,34 @@ Lewis, P.%
 \PrintBackRefs{\CurrentBib}
 
 \bibitem [\protect \citeauthoryear {%
+Lozano%
+, Fleming%
+, Chiang%
+\BCBL {}\ \BBA {} Shah%
+}{%
+Lozano%
+\ \protect \BOthers {.}}{%
+{\protect \APACyear {2023}}%
+}]{%
+lozano_clinfoai_2023}
+\APACinsertmetastar {%
+lozano_clinfoai_2023}%
+\begin{APACrefauthors}%
+Lozano, A.%
+, Fleming, S\BPBI L.%
+, Chiang, C\BHBI C.%
+\BCBL {}\ \BBA {} Shah, N.%
+\end{APACrefauthors}%
+\unskip\
+\newblock
+\APACrefYearMonthDay{2023}{}{}.
+\newblock
+{\BBOQ}\APACrefatitle {Clinfo.ai: An Open-Source Retrieval-Augmented Large Language Model System for Answering Medical Questions using Scientific Literature} {Clinfo.ai: An open-source retrieval-augmented large language model system for answering medical questions using scientific literature}.{\BBCQ}.
+\newblock
+\begin{APACrefURL} \url{https://arxiv.org/abs/2310.16146} \end{APACrefURL}
+\PrintBackRefs{\CurrentBib}
+
+\bibitem [\protect \citeauthoryear {%
 Malkov%
 \ \BBA {} Yashunin%
 }{%
@@ -829,6 +857,35 @@ Rebitzer, J\BPBI B.%
 \PrintBackRefs{\CurrentBib}
 
 \bibitem [\protect \citeauthoryear {%
+Robertson%
+\ \BBA {} Zaragoza%
+}{%
+Robertson%
+\ \BBA {} Zaragoza%
+}{%
+{\protect \APACyear {2009}}%
+}]{%
+robertson2009bm25}
+\APACinsertmetastar {%
+robertson2009bm25}%
+\begin{APACrefauthors}%
+Robertson, S.%
+\BCBT {}\ \BBA {} Zaragoza, H.%
+\end{APACrefauthors}%
+\unskip\
+\newblock
+\APACrefYearMonthDay{2009}{{\APACmonth{04}}}{}.
+\newblock
+{\BBOQ}\APACrefatitle {The Probabilistic Relevance Framework: BM25 and Beyond} {The probabilistic relevance framework: Bm25 and beyond}.{\BBCQ}
+\newblock
+\APACjournalVolNumPages{Found. Trends Inf. Retr.}{3}{4}{333–389}.
+\newblock
+\begin{APACrefURL} \url{https://doi.org/10.1561/1500000019} \end{APACrefURL}
+\newblock
+\begin{APACrefDOI} \doi{10.1561/1500000019} \end{APACrefDOI}
+\PrintBackRefs{\CurrentBib}
+
+\bibitem [\protect \citeauthoryear {%
 Thompson%
 \ \protect \BOthers {.}}{%
 Thompson%
@@ -895,6 +952,40 @@ Vaswani, A.%
 \PrintBackRefs{\CurrentBib}
 
 \bibitem [\protect \citeauthoryear {%
+Xiong%
+, Jin%
+, Lu%
+\BCBL {}\ \BBA {} Zhang%
+}{%
+Xiong%
+\ \protect \BOthers {.}}{%
+{\protect \APACyear {2024}}%
+}]{%
+xiong_benchmarking_2024}
+\APACinsertmetastar {%
+xiong_benchmarking_2024}%
+\begin{APACrefauthors}%
+Xiong, G.%
+, Jin, Q.%
+, Lu, Z.%
+\BCBL {}\ \BBA {} Zhang, A.%
+\end{APACrefauthors}%
+\unskip\
+\newblock
+\APACrefYearMonthDay{2024}{{\APACmonth{08}}}{}.
+\newblock
+{\BBOQ}\APACrefatitle {Benchmarking Retrieval-Augmented Generation for Medicine} {Benchmarking retrieval-augmented generation for medicine}.{\BBCQ}
+\newblock
+\BIn{} L\BHBI W.~Ku, A.~Martins\BCBL {}\ \BBA {} V.~Srikumar\ (\BEDS), \APACrefbtitle {Findings of the Association for Computational Linguistics: ACL 2024} {Findings of the association for computational linguistics: Acl 2024}\ (\BPGS\ 6233--6251).
+\newblock
+\APACaddressPublisher{Bangkok, Thailand}{Association for Computational Linguistics}.
+\newblock
+\begin{APACrefURL} \url{https://aclanthology.org/2024.findings-acl.372/} \end{APACrefURL}
+\newblock
+\begin{APACrefDOI} \doi{10.18653/v1/2024.findings-acl.372} \end{APACrefDOI}
+\PrintBackRefs{\CurrentBib}
+
+\bibitem [\protect \citeauthoryear {%
 Yu%
 , Guo%
 \BCBL {}\ \BBA {} Sano%
@@ -922,6 +1013,38 @@ Yu, H.%
 \APACaddressPublisher{}{PMLR}.
 \newblock
 \begin{APACrefURL} [{2025-12-11}]\url{https://proceedings.mlr.press/v225/yu23b.html} \end{APACrefURL}
+\PrintBackRefs{\CurrentBib}
+
+\bibitem [\protect \citeauthoryear {%
+Zakka%
+\ \protect \BOthers {.}}{%
+Zakka%
+\ \protect \BOthers {.}}{%
+{\protect \APACyear {2024}}%
+}]{%
+zakka_almanac_2024}
+\APACinsertmetastar {%
+zakka_almanac_2024}%
+\begin{APACrefauthors}%
+Zakka, C.%
+, Shad, R.%
+, Chaurasia, A.%
+, Dalal, A\BPBI R.%
+, Kim, J\BPBI L.%
+, Moor, M.%
+\BDBL {}Hiesinger, W.%
+\end{APACrefauthors}%
+\unskip\
+\newblock
+\APACrefYearMonthDay{2024}{}{}.
+\newblock
+{\BBOQ}\APACrefatitle {Almanac — Retrieval-Augmented Language Models for Clinical Medicine} {Almanac — retrieval-augmented language models for clinical medicine}.{\BBCQ}
+\newblock
+\APACjournalVolNumPages{NEJM AI}{1}{2}{AIoa2300068}.
+\newblock
+\begin{APACrefURL} \url{https://ai.nejm.org/doi/full/10.1056/AIoa2300068} \end{APACrefURL}
+\newblock
+\begin{APACrefDOI} \doi{10.1056/AIoa2300068} \end{APACrefDOI}
 \PrintBackRefs{\CurrentBib}
 
 \end{thebibliography}

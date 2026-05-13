@@ -450,3 +450,66 @@ year = {2018}
   year={2023},
   publisher={Oxford University Press}
 }
+
+@article{zakka_almanac_2024,
+  author = {Cyril Zakka  and Rohan Shad  and Akash Chaurasia  and Alex R. Dalal  and Jennifer L. Kim  and Michael Moor  and Robyn Fong  and Curran Phillips  and Kevin Alexander  and Euan Ashley  and Jack Boyd  and Kathleen Boyd  and Karen Hirsch  and Curt Langlotz  and Rita Lee  and Joanna Melia  and Joanna Nelson  and Karim Sallam  and Stacey Tullis  and Melissa Ann Vogelsong  and John Patrick Cunningham  and William Hiesinger },
+  title = {Almanac — Retrieval-Augmented Language Models for Clinical Medicine},
+  journal = {NEJM AI},
+  volume = {1},
+  number = {2},
+  pages = {AIoa2300068},
+  year = {2024},
+  doi = {10.1056/AIoa2300068},
+  URL = {https://ai.nejm.org/doi/full/10.1056/AIoa2300068},
+  eprint = {https://ai.nejm.org/doi/pdf/10.1056/AIoa2300068},
+  abstract = {Augmenting LLMs with knowledge databases (e.g., browser, calculators) demonstrated improved factuality, safety, completeness, and physician preference when compared to other models.}
+}
+
+@inproceedings{lozano_clinfoai_2023,
+  title={Clinfo.ai: An Open-Source Retrieval-Augmented Large Language Model System for Answering Medical Questions using Scientific Literature}, 
+  author={Alejandro Lozano and Scott L Fleming and Chia-Chun Chiang and Nigam Shah},
+  year={2023},
+  eprint={2310.16146},
+  archivePrefix={arXiv},
+  primaryClass={cs.IR},
+  url={https://arxiv.org/abs/2310.16146}, 
+}
+
+@inproceedings{xiong_benchmarking_2024,
+  title = "Benchmarking Retrieval-Augmented Generation for Medicine",
+    author = "Xiong, Guangzhi  and
+      Jin, Qiao  and
+      Lu, Zhiyong  and
+      Zhang, Aidong",
+    editor = "Ku, Lun-Wei  and
+      Martins, Andre  and
+      Srikumar, Vivek",
+    booktitle = "Findings of the Association for Computational Linguistics: ACL 2024",
+    month = aug,
+    year = "2024",
+    address = "Bangkok, Thailand",
+    publisher = "Association for Computational Linguistics",
+    url = "https://aclanthology.org/2024.findings-acl.372/",
+    doi = "10.18653/v1/2024.findings-acl.372",
+    pages = "6233--6251",
+    abstract = "While large language models (LLMs) have achieved state-of-the-art performance on a wide range of medical question answering (QA) tasks, they still face challenges with hallucinations and outdated knowledge. Retrieval-augmented generation (RAG) is a promising solution and has been widely adopted. However, a RAG system can involve multiple flexible components, and there is a lack of best practices regarding the optimal RAG setting for various medical purposes. To systematically evaluate such systems, we propose the Medical Information Retrieval-Augmented Generation Evaluation (MIRAGE), a first-of-its-kind benchmark including 7,663 questions from five medical QA datasets. Using MIRAGE, we conducted large-scale experiments with over 1.8 trillion prompt tokens on 41 combinations of different corpora, retrievers, and backbone LLMs through the MedRAG toolkit introduced in this work. Overall, MedRAG improves the accuracy of six different LLMs by up to 18{\%} over chain-of-thought prompting, elevating the performance of GPT-3.5 and Mixtral to GPT-4-level. Our results show that the combination of various medical corpora and retrievers achieves the best performance. In addition, we discovered a log-linear scaling property and the ``lost-in-the-middle'' effects in medical RAG. We believe our comprehensive evaluations can serve as practical guidelines for implementing RAG systems for medicine."
+}
+
+@article{robertson2009bm25,
+  author = {Robertson, Stephen and Zaragoza, Hugo}, 
+  title = {The Probabilistic Relevance Framework: BM25 and Beyond}, 
+  year = {2009}, 
+  issue_date = {April 2009}, 
+  publisher = {Now Publishers Inc.}, 
+  address = {Hanover, MA, USA}, 
+  volume = {3}, 
+  number = {4}, 
+  issn = {1554-0669}, 
+  url = {https://doi.org/10.1561/1500000019}, 
+  doi = {10.1561/1500000019}, 
+  abstract = {The Probabilistic Relevance Framework (PRF) is a formal framework for document retrieval, grounded in work done in the 1970—1980s, which led to the development of one of the most successful text-retrieval algorithms, BM25. In recent years, research in the PRF has yielded new retrieval models capable of taking into account document meta-data (especially structure and link-graph information). Again, this has led to one of the most successful Web-search and corporate-search algorithms, BM25F. This work presents the PRF from a conceptual point of view, describing the probabilistic modelling assumptions behind the framework and the different ranking algorithms that result from its application: the binary independence model, relevance feedback models, BM25 and BM25F. It also discusses the relation between the PRF and other statistical models for IR, and covers some related topics, such as the use of non-textual features, and parameter optimisation for models with free parameters.}, 
+  journal = {Found. Trends Inf. Retr.}, 
+  month = apr, 
+  pages = {333–389}, 
+  numpages = {57} 
+}
