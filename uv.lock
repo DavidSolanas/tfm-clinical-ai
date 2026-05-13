@@ -213,6 +213,25 @@ wheels = [
 ]
 
 [[package]]
+name = "anthropic"
+version = "0.100.0"
+source = { registry = "https://pypi.org/simple" }
+dependencies = [
+    { name = "anyio" },
+    { name = "distro" },
+    { name = "docstring-parser" },
+    { name = "httpx" },
+    { name = "jiter" },
+    { name = "pydantic" },
+    { name = "sniffio" },
+    { name = "typing-extensions" },
+]
+sdist = { url = "https://files.pythonhosted.org/packages/9c/2d/24caf0ff727cba2ed863925017c8f93463a2ea6224a0efe5626e672bc3d2/anthropic-0.100.0.tar.gz", hash = "sha256:650dee9e023afb16395939ee4104bbc21f966b380210119fb91122c12099c79a", size = 758255, upload-time = "2026-05-06T15:07:13.578Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/5d/a0/c775c59ab9445ecabb57ef3d5c24027de060139189a9e312ef9ef889a665/anthropic-0.100.0-py3-none-any.whl", hash = "sha256:1c15769efa15d8fd5c1ebf900e25c57e3ee540f8554a29aa56e4edefffe2951d", size = 753596, upload-time = "2026-05-06T15:07:12.106Z" },
+]
+
+[[package]]
 name = "anyio"
 version = "4.13.0"
 source = { registry = "https://pypi.org/simple" }
@@ -6469,12 +6488,14 @@ version = "0.1.0"
 source = { virtual = "." }
 dependencies = [
     { name = "accelerate" },
+    { name = "anthropic" },
     { name = "biopython" },
     { name = "datasets" },
     { name = "fastembed" },
     { name = "gradio" },
     { name = "huggingface-hub" },
     { name = "mlflow" },
+    { name = "openai" },
     { name = "pandas" },
     { name = "python-dotenv" },
     { name = "pyyaml" },
@@ -6506,6 +6527,7 @@ finetuning = [
 [package.metadata]
 requires-dist = [
     { name = "accelerate", specifier = ">=0.33" },
+    { name = "anthropic", specifier = ">=0.40" },
     { name = "biopython", specifier = ">=1.83" },
     { name = "datasets", specifier = ">=2.19" },
     { name = "fastembed", specifier = ">=0.4.0" },
@@ -6516,6 +6538,7 @@ requires-dist = [
     { name = "jupyterlab", marker = "extra == 'dev'", specifier = ">=4.2" },
     { name = "matplotlib", marker = "extra == 'dev'", specifier = ">=3.9" },
     { name = "mlflow", specifier = ">=2.16" },
+    { name = "openai", specifier = ">=1.40" },
     { name = "pandas", specifier = ">=2.2" },
     { name = "pytest", marker = "extra == 'dev'", specifier = ">=8.3" },
     { name = "python-dotenv", specifier = ">=1.0.0" },

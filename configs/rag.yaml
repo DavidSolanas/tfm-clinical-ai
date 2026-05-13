@@ -34,9 +34,9 @@ retrieval:
       enabled: true
       weights:
         cross_encoder: 0.60
-        mesh_overlap: 0.20
+        mesh_overlap: 0.15
         publication_type: 0.12
-        recency: 0.05
+        recency: 0.10
         title_keyword: 0.03
       min_final_score: 0.35
 
