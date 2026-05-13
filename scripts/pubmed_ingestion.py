@@ -8,7 +8,7 @@ diversity (mixes reviews, trials, case reports, observational studies).
 
 Usage::
 
-    uv run python -m src.data.pubmed_ingestion [options]
+    uv run python scripts/pubmed_ingestion.py [options]
 
 Options:
     --output PATH       Output JSON path          (default: data/raw/pubmed_bulk_corpus.json)
