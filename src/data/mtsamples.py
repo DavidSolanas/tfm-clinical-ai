@@ -41,11 +41,14 @@ def split_by_medical_specialty(
     train_ratio: float = 0.80,
     val_ratio: float = 0.10,
     seed: int = 42,
+    min_class_size: int = 10,
 ) -> tuple[pd.DataFrame, pd.DataFrame, pd.DataFrame]:
     """Split dataset into train/validation/test stratified by medical specialty.
 
     Uses stratified random sampling to ensure each medical specialty is
-    represented proportionally in all three splits.
+    represented proportionally in all three splits. Specialties with fewer
+    than min_class_size records are dropped before splitting because they
+    cannot be reliably stratified across three folds.
 
     Args:
         df: Input DataFrame with 'medical_specialty' column.
@@ -53,10 +56,15 @@ def split_by_medical_specialty(
         val_ratio: Fraction of data for validation (default 0.10).
             Remaining fraction (1 - train_ratio - val_ratio) is reserved for test.
         seed: Random seed for reproducibility.
+        min_class_size: Drop specialties with fewer than this many records
+            (default 10). Must be at least 3 for a three-way stratified split.
 
     Returns:
         Tuple of (train_df, val_df, test_df), each with reset index.
     """
+    counts = df["medical_specialty"].value_counts()
+    rare = counts[counts < min_class_size].index
+    df = df[~df["medical_specialty"].isin(rare)].reset_index(drop=True)
 
     train_df, temp_df = train_test_split(
         df,
