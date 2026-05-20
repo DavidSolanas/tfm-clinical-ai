@@ -3,30 +3,31 @@
 # These are initial values -- experiment during Phase 2
 
 model:
-  base: "meta-llama/Meta-Llama-3-8B-Instruct"  # Confirm in Phase 2
-  max_seq_length: 2048
+  base: "unsloth/Meta-Llama-3.1-8B-Instruct"
+  max_seq_length: 4096
 
 qlora:
   r: 16                    # LoRA rank (experiment with: 8, 16, 32)
   lora_alpha: 32           # Typically 2x r
-  lora_dropout: 0.05
-  target_modules:          # Modules to adapt
+  lora_dropout: 0.0        # Unsloth recommends 0 for best gradient-checkpointing perf
+  target_modules:          # Modules to adapt (attention + MLP)
     - q_proj
     - k_proj
     - v_proj
     - o_proj
+    - gate_proj
+    - up_proj
+    - down_proj
 
 training:
   num_epochs: 3            # Experiment with: 1, 2, 3
   learning_rate: 2.0e-4    # Experiment with: 1e-4, 2e-4, 5e-5
-  batch_size: 4
-  gradient_accumulation_steps: 4  # Effective batch size = 16
+  per_device_batch_size: 2
+  gradient_accumulation_steps: 4   # Effective batch size = 8
   warmup_ratio: 0.03
   weight_decay: 0.01
-  lr_scheduler: "cosine"
-  fp16: true
+  lr_scheduler_type: "cosine"
   logging_steps: 10
-  save_steps: 100
 
 data:
   dataset: "mtsamples"
