@@ -26,6 +26,85 @@ Each entry documents what was decided, why, and which alternatives were consider
 ## Decisions
 
 
+### 2026-05-21 — Evaluation methodology: ablation study orchestration, prompt fairness, abstention accounting, RAGAS judging
+
+**Decision:** The ablation study comparing configurations A (Base) / B (FT-only) / C (RAG-only) / D (FT+RAG) is structured as follows: (1) **Phased execution** — Phase 1 evaluates A+C with the base GGUF loaded in llama.cpp, Phase 2 evaluates B+D after a manual swap to the FT GGUF (single-server hardware constraint). (2) **Prompt fairness** — configs A/B reuse the exact training template (`_SYSTEM_PROMPT` + `_USER_QUESTION` from `dataset_builder.py`) with an empty evidence section, rather than `RAGPipeline.run_base()`'s minimal prompt, so the FT model sees its in-distribution scaffold. (3) **Retrieval query for C/D** is the bare MTSamples transcription, matching what was used at training-data-build time. (4) **Abstention** is excluded from RAGAS denominators and reported as a separate `abstention_rate`; abstained samples count as 0 hallucinated PMIDs (correct — no response = no fabrication). (5) **RAGAS judge** is Claude Sonnet 4.6 (independent of the system under test); embeddings for AnswerRelevancy use OpenAI `text-embedding-3-small`. (6) **Custom metrics** added beyond RAGAS: `hallucinated_pmids_rate` (already supported by `verify_citations`) and `format_adherence_among_answered` (regex check for the 3-section structure or the no-evidence refusal template). (7) **Sample size** is 50 examples stratified by `medical_specialty`, seed=42, no-evidence training examples excluded, indices frozen to `data/processed/eval_sample_indices.json`. (8) **MLflow structure** is one parent run per phase + 2 nested children, plus one separate rollup run for cross-config deltas, all sharing a `tags.ablation_id` for grouping. (9) **Orchestration lives in `scripts/`** (`build_eval_sample.py`, `run_evaluation_phase.py --phase`, `run_evaluation_rollup.py`); `notebooks/06_evaluation.ipynb` is inspection-only. (10) **Plots are written to both** MLflow artifacts and `docs/thesis_latex/figures/eval_*.png` for direct LaTeX inclusion.
+
+**Context:** The 4-config ablation is the central empirical contribution of the thesis. Getting the methodology wrong invalidates the study. Two specific risks shaped the design: (a) the FT model is trained with a rigid prompt template, so evaluating it under any other prompt format would conflate "FT changed model behavior" with "FT model degraded on OOD prompts"; (b) the dataset contains ~15% no-evidence training examples (`_apply_no_evidence_cap`), which means the headline narrative "FT-only hallucinates PMIDs" (from the 2026-05-07 decision) may not hold — the FT model may instead emit structured refusals. Format adherence becomes the real signal that "FT taught structured citation behavior" independent of whether PMIDs are fabricated.
+
+**Alternatives considered:**
+
+- **Single-script all-configs orchestration (auto-restart llama.cpp between configs) vs phased manual swap:** Auto-restart would require subprocess management of the llama.cpp server, port checks, and waiting for `/v1/models` to come back up — fragile across hours-long runs. Manual swap with `server_check.py` validation at script startup is one explicit human step, zero fragility.
+
+- **Two llama.cpp servers on different ports (one base, one FT):** Cleanest API (no swap, no phasing) but doubles VRAM — 8B+8B with 4-bit quant ≈ 12GB on a 10GB card. Infeasible.
+
+- **OpenAI/local-Qwen judge vs Claude Sonnet 4.6:** GPT-4o-mini saves ~€4 but published faithfulness-grading comparisons show it is noticeably less stable on clinical text. Local Qwen3-35B reuse (no API cost) would extend judge wall time to hours and reintroduce judge instability. Opus 4.7 (~€20) is overkill for grading. Sonnet 4.6 at ~€5 is the methodological + cost sweet spot.
+
+- **`RAGPipeline.run_base()` vs training-template prompt for A/B:** `run_base` emits `"CLINICAL QUERY: ... EVIDENCE-BASED RESPONSE:"` — a scaffold the FT model has never seen. Using it would produce OOD format collapse in config B, conflating prompt mismatch with FT behavior. Rejected; A/B build a training-template prompt with `RETRIEVED PUBMED EVIDENCE:\n(none)`.
+
+- **Abstention scoring strategies:** Treating abstained samples as `faithfulness=1.0, answer_relevancy=0` invents scores RAGAS didn't compute (methodologically shaky). Treating them as `0` penalizes correct behavior (abstention is the design intent when evidence is insufficient). Excluding them from the RAGAS denominator and reporting `abstention_rate` separately is the only honest accounting.
+
+- **ContextRecall gold = teacher response (cached-retrieval bias) vs skip ContextRecall vs build hand-curated gold:** The teacher response was conditioned on a different retrieved set than live retrieval will produce, biasing ContextRecall downward in absolute terms. Skipping the metric drops a RAGAS dimension. Hand-curating gold for 20+ queries is an annotation project the thesis schedule doesn't fit. Chosen: keep the metric, interpret comparatively (the bias cancels across C vs D since they share gold), document the ceiling caveat in Cap. 6.
+
+- **Filesystem manifest (`evaluation_runs/<ablation_id>/`) vs MLflow-only artifact store:** A filesystem index creates two sources of truth that can diverge. MLflow already stores per-run artifacts and supports tag-based queries (`tags.ablation_id`), so the rollup script can find phase parents and walk to their children via `tags.mlflow.parentRunId` with no filesystem coordination.
+
+- **Sample size 50 vs 100 vs full test split:** 50 fits in ~2h per phase (4h total), tolerable RAGAS variance for thesis-grade comparison reported with bootstrap 95% CIs. 100 doubles wall time and crash risk. Full test split (~250) risks GPU/llama.cpp instability over ~11h.
+
+- **Including no-evidence training examples in the eval sample vs excluding:** Including them muddies answer-quality metrics with non-answerable cases (the teacher's gold is itself a refusal). Excluding focuses metrics on the answering behavior the ablation actually studies; the system's refusal/abstention behavior is already captured by `abstention_rate` and `format_adherence`.
+
+**Rationale:** Every component of the methodology is justifiable in isolation, but the coupling between them matters: phased execution makes the per-phase MLflow parent structure natural (no run kept open across the swap); training-template prompts for A/B make `format_adherence` a meaningful cross-config metric; abstention exclusion + `abstention_rate` makes RAGAS scores interpretable as "when the system answered, how good was it?" rather than mixing two questions; live-retrieval ContextRecall is unbiased *as a delta* across C vs D, which is what the ablation cares about. The system-under-test code (`RAGPipeline`, `dataset_builder`) is the source of truth for prompts, generation params, and citation verification — the evaluation code imports from it rather than duplicating, eliminating drift.
+
+**Consequences:**
+
+- New module `src/evaluation/` with focused files: `sample.py`, `prompts.py`, `runner.py`, `metrics.py`, `aggregation.py`, `mlflow_logging.py`, `server_check.py`. No fat modules; each file has one responsibility tied to a locked decision.
+- New scripts: `scripts/build_eval_sample.py`, `scripts/run_evaluation_phase.py`, `scripts/run_evaluation_rollup.py`. The notebook `06_evaluation.ipynb` is rewritten as inspection-only (loads MLflow artifacts, draws comparison plots, drafts Cap. 6 narrative).
+- New dependencies likely required: `ragas` (version-pinned), `openai` (for RAGAS embeddings), `scipy` (bootstrap CIs), `matplotlib`, `pandas`. Verify against `pyproject.toml`.
+- `configs/evaluation.yaml` is unchanged in spirit; the new code reads `num_questions`, `seed`, `mlflow_experiment` from it.
+- Sample indices file `data/processed/eval_sample_indices.json` becomes a versioned thesis artifact (commit it).
+- Plot outputs land in `docs/thesis_latex/figures/eval_*.png`; the thesis Cap. 6 `\includegraphics` commands reference them directly.
+- `CONTEXT.md` added at repo root to glossary the terms that emerged during this design (Abstention vs Refusal, Ablation configuration A/B/C/D, Phase 1/2, Eval sample, Ablation ID, Judge vs Teacher) — terms previously implicit in code and easy to confuse in thesis prose.
+- Full implementation spec: `plans/06_evaluation_implementation_plan.md` (signatures, CLI workflow, failure modes, sanity-check thresholds).
+- Open implementation questions deferred to coding: exact llama.cpp model ID strings reported by `/v1/models`, RAGAS version to pin, bootstrap CI implementation choice, plot styling to match thesis figures.
+
+---
+
+### 2026-05-07 — Fine-tuning strategy: behavioral alignment via synthetic per-note data generation
+
+**Decision:** Fine-tune Llama 3.1 8B Instruct with QLoRA on a single task — given a patient clinical transcription (MTSamples) + a generic evidence question + retrieved PubMed abstracts, generate a grounded structured response citing only provided PMIDs. Training examples are generated synthetically by a local teacher LLM (Qwen3-35B-A3B served via llama.cpp; `--teacher local`) using real per-note retrieved context. Training is **predominantly** with-context (≥85%), with up to 15% no-evidence examples where the teacher emits a structured refusal — see `max_no_evidence_ratio=0.15` in `dataset_builder.py`. The goal is behavioral alignment, not knowledge injection.
+
+*(Updated 2026-05-20: teacher changed from Claude Opus 4.7 to local Qwen3-35B-A3B-UD-Q5\_K\_XL. Rationale: local inference eliminates API cost at ~2K calls and avoids network dependency; thinking-block stripping already implemented in `dataset_builder.py` (`_strip_thinking`). The `--teacher local` flag passes an OpenAI-compatible endpoint at `http://localhost:8001/v1`.)*
+
+**Context:** The ablation study requires four configurations (Base / FT-only / RAG-only / FT+RAG). For the comparison to be meaningful, fine-tuning must teach a *behavior* the base model does not already exhibit reliably — specifically, the discipline of citing PMIDs from provided context and structuring responses as Recommendation / Evidence basis / Uncertainty. The base Llama 3.1 8B Instruct already has clinical domain knowledge; injecting more via SFT is neither feasible at this scale nor the thesis goal. The behavioral target is: "when retrieved context with PMIDs is provided, always cite them; structure the response consistently."
+
+The critical implication is that the fine-tuned model learns a strong PMID-citation pattern *and* a structured refusal template (the no-evidence response). When deployed without context (FT-only config B), the model may either hallucinate PMIDs (if the with-context behavior dominates) or emit the refusal template out-of-distribution (if the no-evidence behavior generalizes). Which behavior wins is an empirical question for the 06_evaluation ablation. The `hallucinated_pmids` rate and the new `format_adherence` rate (see 2026-05-21 entry) jointly characterize what FT actually taught — and which behavior separates configs B and D.
+
+**Alternatives considered:**
+
+- **Multi-task fine-tuning (summarization + classification + keyword extraction + RAG):** Originally planned, influenced by multi-task medical SFT literature. Rejected because: (1) the downstream use case is a single chatbot query, not multi-task inference; (2) classification and keyword tasks would dilute the training signal for the main task; (3) LIMA (Zhou et al., 2023) shows 1K curated single-task examples outperform 52K+ noisy multi-task examples for behavioral alignment.
+
+- **JSON structured output vs structured free text:** JSON allows Gradio parsing but an 8B model under clinical reasoning produces malformed JSON often enough to break the parser, and hallucinated PMIDs would fill `evidence_used` fields in FT-only mode. Structured free text (1. Recommendation / 2. Evidence basis / 3. Uncertainty) is regex-parseable, always well-formed, and works identically for all query types.
+
+- **Derived questions from `sample_name` vs generic question:** Derived would be "What are evidence-based treatments for Kawasaki Disease?" Generic is "Based on this patient's clinical presentation, what evidence-based treatments are recommended?" Derived queries require cleaning messy `sample_name` values (procedure-only entries, administrative notes, enumerated suffixes like "Abscess I&D", "1-year-old Exam") that break templating. The generic format is simpler and works for all note types. Clinical specificity is carried by the transcription content, not the question wording.
+
+- **Per-specialty vs per-note retrieved context:** Per-specialty context (same PubMed pool for all cardiology notes) is too weak — it teaches the model that generic specialty background is acceptable evidence. Per-note context retrieves abstracts specific to the individual patient case, producing training examples that mirror the actual inference scenario. Feasible because the RAG pipeline is working before training data is built.
+
+- **With-context-only vs mixed (with + ≤15% no-evidence) training:** Strict with-context-only would maximize PMID-hallucination signal in config B but would also leave the model with no learned refusal behavior — risky for production. The chosen mix (≤15% no-evidence) teaches refusal as a safety floor, at the cost of weakening the hallucination demonstration. The trade-off is acknowledged: which behavior dominates in config B is now an empirical finding of the ablation rather than a predicted outcome.
+
+- **Existing clinical instruction datasets (MedAlpaca, PubMedQA, ClinicalCamel) vs synthetic generation from MTSamples:** Existing datasets target general medical QA, not the specific transcription → evidence → grounded response format. Synthetic generation from MTSamples + Claude produces examples in the exact format the system uses at inference, which is the critical alignment property.
+
+**Rationale:** LIMA principle (Zhou et al., 2023): for instruction fine-tuning, quality and format consistency dominate quantity. ~2,000 examples of consistent, high-quality transcription → grounded response pairs are sufficient for behavioral alignment. Generating them synthetically via a capable local teacher (Qwen3-35B) using real per-note retrieved context ensures: (1) PMID citations in training responses are always real and retrievable; (2) the training distribution matches inference exactly; (3) the ablation story is clean and quantitatively measurable via the existing citation verifier.
+
+**Consequences:**
+
+- `src/training/dataset_builder.py`: drives the full data generation pipeline (MTSamples load → RAG retrieve → quality filter → teacher LLM generate → cache → DatasetDict). Cache is written to disk after each call to allow resumable generation.
+- Quality filter: notes where RAG abstains or `min_doc_score < 0.40` are excluded. Note: 0.40 is the *dataset-build* threshold (stricter than the 0.35 inference threshold in `pipeline.py`) — training examples must rest on high-confidence evidence. Notes where teacher hallucinates PMIDs are also skipped. Expecting ~1,500–2,400 usable training examples after filtering.
+- Split happens at the medical-specialty level (stratified) before generating any examples, preventing leakage. Implemented in `src/data/mtsamples.py::split_by_medical_specialty`.
+- `src/training/finetune.py`: Unsloth + QLoRA (rank=16, alpha=32) + SFTTrainer, MLflow logging via `report_to="mlflow"`. Adapter saved to `checkpoints/llama-3.1-8b-mtsamples-qlora/`.
+- Evaluation metric added to `06_evaluation.ipynb`: `hallucinated_pmids` rate per config. Expected result: B (FT-only) high hallucination, D (FT+RAG) near-zero.
+- No-evidence examples capped at 15% of the total (`max_no_evidence_ratio=0.15`) to prevent imbalance.
+
+---
+
 ### 2026-05-06 — RAG pipeline upgrade: hybrid search, MedCPT reranking, ClinicalScorer, abstention gating, citation verification
 
 **Decision:** Replace the original single-stage dense-only retrieval pipeline with a five-layer architecture: (1) hybrid dense + BM25 search fused with Reciprocal Rank Fusion (RRF), (2) MedCPT cross-encoder reranking, (3) ClinicalScorer weighted combination of five signals, (4) abstention gating, (5) citation verification.
@@ -47,7 +126,7 @@ Each entry documents what was decided, why, and which alternatives were consider
 - **Wide retrieval + strict reranking** (`candidate_k=80 → final_k=6`): Dense retrieval alone conflates semantic similarity with clinical relevance. Retrieving 80 candidates and reranking to 6 decouples the "find related literature" step from the "select clinically useful evidence" step.
 - **RRF fusion**: Dense scores (cosine, bounded) and sparse scores (BM25, unbounded) are not directly comparable — raw score combination would require tuning a weight that generalises poorly. RRF combines by position rank (`1/(k+rank)`, k=60), bypassing score-scale incompatibility entirely. Implemented natively via Qdrant `FusionQuery(Fusion.RRF)` with `Prefetch` for each vector space.
 - **BM25 for clinical exact-term matching**: Clinical literature retrieval has a long-tail vocabulary problem — multi-drug-resistant organism names, procedure acronyms, specific drug classes. Dense retrieval returns semantically similar documents; BM25 returns documents that literally contain the query terms. Together they cover complementary failure modes.
-- **ClinicalScorer weights**: cross_encoder (0.60) dominates as the most direct relevance signal; mesh_overlap (0.20) ensures topical alignment with the corpus structure; publication_type (0.12) up-weights systematic reviews and RCTs over case reports; recency (0.05) provides a tie-break; title_keyword (0.03) adds a light exact-match bonus. Weights are interpretable, configurable in `configs/rag.yaml`, and match the clinical evidence hierarchy (meta-analyses > RCTs > observational).
+- **ClinicalScorer weights**: cross_encoder (0.60) dominates as the most direct relevance signal; mesh_overlap (0.15) ensures topical alignment with the corpus structure; publication_type (0.12) up-weights systematic reviews and RCTs over case reports; recency (0.10) penalises outdated evidence more strongly than the initial estimate; title_keyword (0.03) adds a light exact-match bonus. Weights sum to 1.0, are interpretable, configurable in `configs/rag.yaml`, and match the clinical evidence hierarchy (meta-analyses > RCTs > observational). *(Updated 2026-05-20: mesh_overlap revised from 0.20→0.15, recency from 0.05→0.10 after calibration; see `configs/rag.yaml` as the authoritative source.)*
 - **Citation verification**: Regex extraction of PMIDs from the generated response, checked against the retrieved set. Hallucinated citations are flagged in the result dict and logged to MLflow. This makes hallucination rate a directly measurable metric in `06_evaluation.ipynb` without requiring a separate NLI-based faithfulness model.
 
 **Consequences:**
@@ -89,7 +168,7 @@ Each entry documents what was decided, why, and which alternatives were consider
 
 ### 2026-04-28 — Broad MeSH-anchored PubMed corpus (final)
 
-**Decision:** Build a single broad reference corpus by querying PubMed once per top-level MeSH descriptor in the disease tree (Tree C, ~20 entries), the mental disorders tree (F03), and key procedure trees (Surgical Procedures, Diagnostic Techniques, Therapeutics). Each query targets `[MeSH Major Topic]` (descriptor must be the central focus, not incidentally indexed), filtered by recency (≥ 2015), publication-type whitelist (Review / Guideline / RCT / Meta-Analysis / Clinical Trial / Systematic Review), and publication-type blacklist (Editorial / Letter / Comment / News / Biography / Personal Narrative). Result: a flat `pubmed_bulk_corpus.json` of ~30–50K abstracts, each tagged with `mesh_category`. Supersedes the 2026-04-20 "Bulk Ingestion Strategy" and the (same-day) per-`sample_name` attempt.
+**Decision:** Build a single broad reference corpus by querying PubMed once per top-level MeSH descriptor in the disease tree (Tree C, ~20 entries), the mental disorders tree (F03), and key procedure trees (Surgical Procedures, Diagnostic Techniques, Therapeutics). Each query targets `[MeSH Major Topic]` (descriptor must be the central focus, not incidentally indexed), filtered by recency (≥ 2015), publication-type whitelist (Review / Guideline / RCT / Meta-Analysis / Clinical Trial / Systematic Review), and publication-type blacklist (Editorial / Letter / Comment / News / Biography / Personal Narrative). Result: a flat `pubmed_bulk_corpus.json` of ~320K abstracts, each tagged with `mesh_category`. Supersedes the 2026-04-20 "Bulk Ingestion Strategy" and the (same-day) per-`sample_name` attempt.
 
 **Context:** Two prior strategies failed for the same underlying reason — PubMed indexes literature by **controlled vocabulary** (MeSH), not by free-text strings drawn from MTSamples. (1) Per-specialty queries (`query = spec`, e.g. `"Allergy / Immunology"`) returned specialty-meta papers (training, ethics, journal year-in-review, country reports) that don't represent disease-specific clinical evidence; ~80% of golden-set candidates were irrelevant. (2) Per-`sample_name` queries (e.g. `"AVM with Hemorrhage"`, `"Abdominal Abscess I"`, `"1-year-old Exam"`) returned 0 hits because case-instance titles aren't strings PubMed indexes — and loosening the query reintroduces the meta-paper noise.
 
@@ -111,7 +190,7 @@ The fundamental issue is **trying to align corpus construction with case-level q
 - `notebooks/03a_golden_dataset.ipynb` must be refactored: the current "per-specialty candidate pool" assumption no longer holds. New design: BM25 over the full corpus to select top-N candidates per query, optionally filtered by `mesh_category` derived from the MTSamples specialty.
 - `notebooks/03b_embedding_benchmark.ipynb` Section-6 sanity check must switch from `specialty` labels to `mesh_category` labels.
 - The 3 already-labeled queries in `data/raw/golden_retrieval_labels.json` are obsolete (different candidate pools); discard before re-annotation.
-- New ingestion volume is ~50K abstracts vs ~1K previously — verify Qdrant collection sizing (still trivial at <100MB embeddings).
+- New ingestion volume is ~320K abstracts — verify Qdrant collection sizing (384d × 320K ≈ ~500MB embeddings). *(2026-05-21: actual final corpus is ~320K in `data/raw/pubmed_bulk_corpus.json`. The file `data/raw/pubmed_bulk_corpus_180k.json` is an older intermediate from a partial ingestion run and is safe to delete.)*
 
 ---
 
@@ -137,9 +216,11 @@ The fundamental issue is **trying to align corpus construction with case-level q
 
 ---
 
-### 2026-04-28 — Embedding benchmark: two-tier evaluation strategy
+### 2026-04-28 — Embedding benchmark: two-tier evaluation strategy [PARTIALLY SUPERSEDED 2026-05-05 — Tier 2 deferred; selection rests on Tier 1 proxy]
 
 **Decision:** Evaluate embedding models using two tiers: (1) MeSH-category-proxy sanity check and (2) golden dataset with standard IR metrics as the primary benchmark.
+
+*(Updated 2026-05-21: Tier 2 was deferred — no `03a_golden_dataset.ipynb` was built, no `golden_retrieval_labels.json` exists. The 2026-05-05 Bioformer-vs-PubMedBERT decision was made on Tier 1 (proxy) evidence alone: 24/24 MeSH-category wins, MRR@10 deltas with non-overlapping bootstrap CIs, and confusion analysis. The 2026-04-28 "Golden retrieval dataset" entry below is also superseded. Cap. 5.2 will document embedding selection from Tier 1 only and acknowledge the absence of a golden IR benchmark as a scope limitation in Cap. 6 — standard caveat for thesis-scale work where annotation cost outweighs the marginal evidential value once a clear proxy-level winner is identified.)*
 
 **Context:** The original plan was a simple embedding comparison. A pure category proxy measures embedding-space organisation, not clinical retrieval relevance. A rigorous thesis needs quantitative IR evidence for the model selection decision in Cap. 5. *(Updated 2026-04-28: Tier-1 proxy was originally specialty-based, derived from the per-specialty corpus. Following the broad MeSH-anchored corpus pivot, the proxy label switches to `mesh_category` — same methodology, different label source.)*
 
@@ -150,10 +231,11 @@ The fundamental issue is **trying to align corpus construction with case-level q
 
 **Rationale:** The two-tier design separates a fast sanity check (is the embedding space structured by clinical topic?) from the actual benchmark (does the model retrieve clinically relevant abstracts for real clinical queries?). Only the second tier is cited in the thesis as evidence.
 
-**Consequences:**
-- `03a_golden_dataset.ipynb` is annotation-creation only; all benchmark logic lives in `03b`.
-- `03b_embedding_benchmark.ipynb` Section 6 = proxy (always runnable, label = `mesh_category`); Section 10 = golden evaluation (conditional on annotation).
-- Annotation of ~3K relevance judgments (BM25-pooled, ~25 per query) is required before Cap. 5.2 can be written.
+**Consequences (as originally planned — Tier 2 not executed):**
+- ~~`03a_golden_dataset.ipynb` is annotation-creation only; all benchmark logic lives in `03b`.~~
+- ~~`03b_embedding_benchmark.ipynb` Section 6 = proxy; Section 10 = golden evaluation.~~
+- ~~Annotation of ~3K relevance judgments (BM25-pooled, ~25 per query) is required before Cap. 5.2 can be written.~~
+- **Actual outcome:** consolidated into a single `03_embedding_benchmark.ipynb` containing only Tier 1 (proxy). Golden-dataset annotation was deferred and not produced. Cap. 5.2 cites the proxy benchmark; Cap. 6 documents the absence of golden IR evaluation as a scope limitation.
 
 ---
 
@@ -177,15 +259,18 @@ The fundamental issue is **trying to align corpus construction with case-level q
 
 ---
 
-### 2026-04-28 — Golden retrieval dataset: MTSamples descriptions as queries, BM25-pooled candidates from the broad MeSH corpus
+### 2026-04-28 — Golden retrieval dataset: MTSamples descriptions as queries, BM25-pooled candidates from the broad MeSH corpus [SUPERSEDED 2026-05-05 — golden dataset deferred; Bioformer selected on Tier 1 proxy alone]
+
+*(2026-05-21 status: this entry documents work that was planned but not executed. No `03a_golden_dataset.ipynb`, no `golden_retrieval_labels.json`, no annotation was performed. The Bioformer-vs-PubMedBERT selection (2026-05-05) used Tier 1 proxy evidence only, which proved decisive (24/24 categories, non-overlapping CIs). The entry is retained for historical context — it documents the IR-rigorous path that was considered and descoped.)*
+
 
 **Decision:** Build the golden retrieval dataset using MTSamples `description` fields as clinical queries; for each query, select the top-N candidates by BM25 over the **broad MeSH-anchored corpus** (optionally pre-filtered by the `mesh_category` aligned with the query's MTSamples specialty). Annotate the resulting pool. BM25 is used only to select candidates for the annotator, not as the evaluated system.
 
-**Context:** A golden IR dataset requires human-labeled query–document pairs. MTSamples `description` fields are 1–3 sentence case summaries written by clinicians — they closely match how a practitioner would phrase a literature search. *(Updated 2026-04-28: this entry was originally written assuming the per-specialty corpus from the 2026-04-20 ingestion strategy. Following the pivot to a broad MeSH-anchored corpus, the candidate-pool design changes from "complete pool annotation per specialty" to "BM25-pooled top-N over the broad corpus" — standard TREC pooling, since the full ~50K corpus cannot be annotated end-to-end.)*
+**Context:** A golden IR dataset requires human-labeled query–document pairs. MTSamples `description` fields are 1–3 sentence case summaries written by clinicians — they closely match how a practitioner would phrase a literature search. *(Updated 2026-04-28: this entry was originally written assuming the per-specialty corpus from the 2026-04-20 ingestion strategy. Following the pivot to a broad MeSH-anchored corpus, the candidate-pool design changes from "complete pool annotation per specialty" to "BM25-pooled top-N over the broad corpus" — standard TREC pooling, since the full ~320K corpus cannot be annotated end-to-end.)*
 
 **Alternatives considered:**
 - **Queries from transcriptions:** More realistic distribution but harder to formulate consistently; transcriptions are long and noisy.
-- **Complete pool annotation per specialty:** Original design under the per-specialty corpus. No longer feasible against a 50K-paper broad corpus.
+- **Complete pool annotation per specialty:** Original design under the per-specialty corpus. No longer feasible against a 320K-paper broad corpus.
 - **Dense retrieval pooling (use the candidate retriever to select pool):** Couples gold set to the system being evaluated → biased.
 - **BM25 pooling (chosen):** Standard TREC methodology. BM25 is independent of the dense retrievers under evaluation, so the gold set remains a fair benchmark for them.
 
@@ -199,7 +284,7 @@ The fundamental issue is **trying to align corpus construction with case-level q
 
 ---
 
-### 2026-04-20 -- Bulk Ingestion Strategy for RAG Corpus
+### 2026-04-20 -- Bulk Ingestion Strategy for RAG Corpus [SUPERSEDED 2026-04-28 — see "Broad MeSH-anchored PubMed corpus" above]
 
 **Decision:** Query PubMed abstracts per *medical specialty* (extracted from MTSamples) rather than per individual MTSamples patient record, forming a corpus of 50-100 high-relevance papers per specialty.
 
