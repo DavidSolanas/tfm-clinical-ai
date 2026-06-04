@@ -256,9 +256,9 @@ Expresado en términos SMART \cite{doran1981there}, el objetivo es construir un 
 Para lograr el objetivo general, se plantean los siguientes objetivos específicos:
 
 \begin{enumerate}
-  \item \textbf{OE1: Pipeline de ingestión semántica.} Construir un pipeline de descarga, fragmentación e indexación semántica de artículos biomédicos de PubMed en una base de datos vectorial Qdrant, empleando un modelo de embeddings especializado en texto biomédico, de modo que la colección contenga al menos 10.000 fragmentos indexados para las especialidades médicas objetivo.
+  \item \textbf{OE1: Pipeline de ingestión semántica.} Construir un pipeline de descarga e indexación semántica de abstracts biomédicos de PubMed en una base de datos vectorial Qdrant, empleando un modelo de embeddings especializado en texto biomédico, de modo que la colección contenga del orden de cientos de miles de abstracts indexados que cubran las categorías clínicas objetivo del árbol MeSH.
 
-  \item \textbf{OE2: Ajuste fino del LLM.} Realizar el ajuste fino del modelo LLaMA-3.1-8B \cite{grattafiori2024llama3herdmodels} mediante QLoRA \cite{dettmers2023qloraefficientfinetuningquantized} sobre el corpus MTSamples \cite{mtsamples_medical_2017}, adaptando el estilo y la terminología de las respuestas al contexto clínico.
+  \item \textbf{OE2: Ajuste fino del LLM.} Realizar el ajuste fino del modelo LLaMA-3.1-8B \cite{grattafiori2024llama3herdmodels} mediante QLoRA \cite{dettmers2023qloraefficientfinetuningquantized} sobre un conjunto SFT sintético derivado de las transcripciones de MTSamples \cite{mtsamples_medical_2017} y del contexto bibliográfico recuperado por el propio pipeline RAG, adaptando el estilo, la terminología y la disciplina de citación de las respuestas al contexto clínico.
 
   \item \textbf{OE3: Integración en arquitectura híbrida con MLOps.} Integrar el módulo de ajuste fino y el pipeline RAG en una arquitectura unificada gestionada mediante MLflow, garantizando la trazabilidad de todos los experimentos y la reproducibilidad de resultados.
 
@@ -275,11 +275,11 @@ La metodología propuesta en este trabajo está estructurada en las siguientes f
 
 \textbf{Fase 1: Adquisición y preparación de datos.} Se descargan abstracts de PubMed para las categorías clínicas objetivo mediante la API Entrez del NCBI (\textit{National Center for Biotechnology Information}), utilizando una estrategia de ingestión anclada en el árbol MeSH (\textit{Medical Subject Headings}) que minimiza las llamadas a la API. Paralelamente, los registros del corpus MTSamples se transforman al formato instrucción-respuesta (sistema/usuario/asistente) para el ajuste fino supervisado.
 
-\textbf{Fase 2: Construcción del índice vectorial.} Los abstracts de PubMed se fragmentan en \textit{chunks} y se codifican con el modelo de embeddings \textit{Bioformer-16L} \cite{fang2023bioformerefficienttransformerlanguage}. Los vectores se indexan en Qdrant con distancia coseno y metadatos de año y categoría MeSH, junto con vectores dispersos BM25 (\textit{Best Matching 25}, \cite{robertson2009bm25}) que habilitan la recuperación híbrida densa-dispersa.
+\textbf{Fase 2: Construcción del índice vectorial.} Los abstracts de PubMed se codifican íntegros (sin fragmentación adicional) con el modelo de embeddings \textit{Bioformer-16L} \cite{fang2023bioformerefficienttransformerlanguage}. Los vectores densos se indexan en Qdrant con distancia coseno y metadatos de año, tipos de publicación y categoría MeSH, junto con vectores dispersos BM25 (\textit{Best Matching 25}, \cite{robertson2009bm25}) que habilitan la recuperación híbrida densa-dispersa.
 
 \textbf{Fase 3: Ajuste fino QLoRA.} El modelo base LLaMA-3.1-8B-Instruct se ajusta mediante la librería Unsloth. Los experimentos necesarios para lograr el ajuste fino se registran en MLflow.
 
-\textbf{Fase 4: Construcción del pipeline RAG.} Se implementa un pipeline de recuperación augmentada que, ante una consulta clínica, (a) genera su embedding, (b) recupera los $k$ fragmentos más similares de Qdrant filtrados por año, y (c) concatena el contexto recuperado al prompt del LLM con baja temperatura para mejorar la coherencia.
+\textbf{Fase 4: Construcción del pipeline RAG.} Se implementa un pipeline de recuperación augmentada de cinco capas que, ante una consulta clínica, (a) genera su embedding y lanza una búsqueda híbrida densa-dispersa sobre Qdrant filtrada por año, (b) fusiona los rankings mediante Reciprocal Rank Fusion, (c) reordena los candidatos con el \textit{cross-encoder} biomédico MedCPT, (d) aplica una puntuación clínica compuesta y una puerta de abstención sobre la evidencia recuperada, y (e) construye el prompt del LLM con baja temperatura y verifica las citas generadas frente al contexto recuperado.
 
 \textbf{Fase 5: Evaluación.} Se construye un \textit{benchmark} de 50 preguntas clínicas con respuestas de referencia extraídas de guías clínicas y revisiones sistemáticas. Las cuatro configuraciones experimentales se evalúan automáticamente con RAGAS y mediante una sesión de evaluación de usabilidad con al menos un profesional sanitario.
 
@@ -469,6 +469,244 @@ La validación de los requisitos se centra en tres aspectos, cada uno de los cua
 \textbf{Validación cualitativa de usabilidad.} Los requisitos centrados en la interacción y la utilidad clínica percibida (RF-08, RF-09, RF-12 y RNF-06) se validan, idealmente, mediante una sesión de evaluación con un profesional sanitario, en la que se le solicita formular consultas representativas de su práctica, comparar las respuestas obtenidas en distintas configuraciones del sistema y valorar la legibilidad de la respuesta, la utilidad de las fuentes mostradas y el tiempo de respuesta percibido. Esta colaboración queda condicionada a la disponibilidad efectiva de un profesional sanitario dentro del calendario del trabajo: si dicha disponibilidad no resulta posible, la validación cualitativa se realizará mediante una revisión crítica documentada por parte del autor sobre los mismos criterios, dejando expresamente constancia de esta limitación como elemento a revisitar en trabajo futuro. En cualquiera de los dos escenarios, los hallazgos cualitativos se documentan en el Capítulo~6.
 
 \chapter{Descripción de la Herramienta Software Desarrollada}
+
+Este capítulo detalla la implementación del sistema híbrido de asistencia bibliográfica clínica. La exposición sigue el flujo de datos del sistema: primero los corpus de entrada (Sección~\ref{sec:c5_corpus}), después el pipeline de recuperación (Sección~\ref{sec:c5_rag}), a continuación la generación del conjunto de entrenamiento y el ajuste fino (Secciones~\ref{sec:c5_sft} y~\ref{sec:c5_qlora}), y finalmente las configuraciones ablativas y la interfaz de usuario (Secciones~\ref{sec:c5_ablation} y~\ref{sec:c5_ui}). Los parámetros de configuración referenciados en este capítulo residen en los ficheros \texttt{configs/rag.yaml} y \texttt{configs/training.yaml} del repositorio, de forma que cualquier modificación sea trazable y reproducible (RNF-03, RNF-04).
+
+\section{Visión general de la arquitectura}
+\label{sec:c5_overview}
+
+El sistema está compuesto por cuatro módulos funcionales que se integran en torno al diseño ablativo de cuatro configuraciones descrito en la Sección~\ref{sec:c5_ablation}: (1)~un corpus de literatura biomédica indexado en una base de datos vectorial, (2)~un pipeline de recuperación híbrida de cinco capas, (3)~un adaptador LoRA obtenido mediante ajuste fino supervisado del modelo base, y (4)~una interfaz web de demostración. El modelo base es LLaMA-3.1-8B-Instruct \cite{grattafiori2024llama3herdmodels}, cargado en cuantización de 4~bits NF4 (\textit{NormalFloat4}) mediante Unsloth; el modelo de embeddings es Bioformer-16L \cite{fang2023bioformerefficienttransformerlanguage}; y el motor de búsqueda vectorial es Qdrant \cite{malkov_efficient_2020}.
+
+El flujo de datos de la configuración híbrida completa (FT+RAG, configuración~D) opera de la siguiente manera. Ante una consulta clínica en lenguaje natural, el sistema: (a)~genera su representación vectorial densa mediante Bioformer-16L; (b)~lanza una búsqueda híbrida densa y dispersa sobre la colección Qdrant, recuperando $k_c = 80$ candidatos filtrados por año $\geq 2015$ mediante fusión RRF (\textit{Reciprocal Rank Fusion}); (c)~aplica el reordenador \textit{cross-encoder} MedCPT \cite{jin2023medcpt} sobre los 80~candidatos; (d)~calcula la puntuación clínica compuesta ClinicalScorer y retiene los $k_f = 6$ documentos mejor valorados; (e)~evalúa la puerta de abstención y, si la evidencia es insuficiente, devuelve un mensaje explícito sin generar respuesta; (f)~construye el \textit{prompt} con el contexto recuperado y llama al LLM a temperatura $T = 0{,}1$; y (g)~verifica que todos los PMID citados en la respuesta pertenezcan al contexto recuperado. Los pasos (b)--(g) satisfacen los requisitos RF-03 a RF-06.
+
+Los módulos LoRA y RAG son independientes entre sí: pueden activarse o desactivarse selectivamente para obtener las cuatro configuraciones ablativas. Todos los experimentos se registran de forma automática en MLflow \cite{Zaharia_Accelerating_the_Machine_2018} (RF-11).
+
+\section{Corpus y preparación de datos}
+\label{sec:c5_corpus}
+
+\subsection{Notas clínicas: MTSamples}
+\label{sec:c5_mtsamples}
+
+MTSamples \cite{mtsamples_medical_2017} es una colección de 4.999~transcripciones clínicas anonimizadas procedentes de informes de alta, consultas y procedimientos médicos en inglés, organizada en 40~especialidades médicas. El corpus se descarga en tiempo de ejecución desde HuggingFace Hub mediante la librería \texttt{datasets}. Cada registro incluye los campos \texttt{sample\_name} (caso clínico), \texttt{medical\_specialty} (especialidad), \texttt{transcription} (texto clínico completo) y \texttt{description} (resumen de una a tres frases redactado por un transcriptor clínico).
+
+El corpus cumple dos funciones diferenciadas en el sistema. En primer lugar, las transcripciones proporcionan el contexto clínico per-nota para la generación sintética del conjunto de datos SFT (Sección~\ref{sec:c5_sft}), asegurando que cada ejemplo de entrenamiento esté anclado a un caso real. En segundo lugar, el campo \texttt{medical\_specialty} actúa como variable de estratificación para la partición del conjunto de datos, garantizando que ninguna especialidad quede representada en una única división y que ninguna nota clínica aparezca en más de una de ellas. La partición resultante es 80\,\% entrenamiento / 10\,\% validación / 10\,\% test.
+
+\subsection{Corpus bibliográfico: PubMed (ingesta MeSH)}
+\label{sec:c5_pubmed}
+
+El corpus bibliográfico está formado por 323.616~abstracts de PubMed descargados mediante la API Entrez del NCBI (\textit{National Center for Biotechnology Information}). La estrategia de ingestión se basa en el árbol de descriptores MeSH (\textit{Medical Subject Headings}), siguiendo la práctica estándar de los sistemas clínicos de RAG \cite{zakka_almanac_2024, lozano_clinfoai_2023, xiong_benchmarking_2024}: el corpus se construye como base de conocimiento amplia y la relevancia per-consulta se delega íntegramente al componente de recuperación, evitando el acoplamiento entre ingestión y consultas concretas.
+
+Se ejecutan aproximadamente 25~consultas a la API, una por cada descriptor de nivel superior del árbol de enfermedades de MeSH (Árbol~C, enfermedades), el árbol de trastornos mentales (F03) y los árboles de procedimientos quirúrgicos, técnicas diagnósticas y terapéutica. Cada consulta aplica el calificador \texttt{[MeSH Major Topic]}, que restringe los resultados a artículos para los que el descriptor constituye el tema principal (no una mención aislada). Sobre esta base se aplican dos filtros adicionales: (a)~un filtro de recencia que limita los resultados a publicaciones desde 2015, y (b)~una lista blanca de tipos de publicación (\textit{Publication Type}) que incluye exclusivamente \textit{Review}, \textit{Guideline}, \textit{Randomized Controlled Trial}, \textit{Meta-Analysis}, \textit{Clinical Trial} y \textit{Systematic Review}. Los tipos \textit{Editorial}, \textit{Letter}, \textit{Comment}, \textit{News}, \textit{Biography} y \textit{Personal Narrative} quedan excluidos explícitamente; en estudios previos con consultas de especialidad en texto libre, estos tipos dominaban los resultados y concentraban literatura meta-especialidad sin evidencia clínica directa.
+
+Cada abstract se almacena con los siguientes campos: \texttt{pmid}~(identificador PubMed), \texttt{title}, \texttt{abstract}, \texttt{year}~(entero), \texttt{mesh\_terms}~(descriptores MeSH), \texttt{publication\_types} (lista de tipos de publicación) y \texttt{mesh\_category}~(categoría MeSH de nivel superior asignada en el momento de la ingestión). El corpus se serializa como lista JSON plana. Solo se recuperan abstracts, no texto completo: el texto completo únicamente está disponible para el subconjunto de acceso abierto de PubMed Central ($\sim$40\,\% de artículos), lo que introduciría un sesgo de cobertura; los abstracts estructurados de MEDLINE son consistentes entre publicaciones y contienen la densidad de información necesaria para la consulta bibliográfica clínica.
+
+\section{Pipeline de recuperación (RAG)}
+\label{sec:c5_rag}
+
+El pipeline está organizado en cinco capas consecutivas. Esta arquitectura surgió del análisis cualitativo de los modos de fallo del pipeline original de recuperación densa simple: documentos semánticamente próximos pero clínicamente irrelevantes, citas a PMID no recuperados y respuestas generadas en ausencia de evidencia suficiente. Cada capa corrige uno o más de estos modos de fallo.
+
+\subsection{Selección del modelo de embeddings}
+\label{sec:c5_embedding}
+
+La selección del modelo de embeddings se realizó mediante un benchmark de proximidad por categoría MeSH ejecutado sobre el corpus con muestreo aleatorio estratificado. Se evaluaron dos candidatos: \texttt{BiomedNLP-PubMedBERT-base-uncased-abstract} (PubMedBERT, 768 dimensiones) \cite{gu_pubmedbert_2021} y \texttt{bioformer-16L} (Bioformer-16L, 384 dimensiones) \cite{fang2023bioformerefficienttransformerlanguage}. Las métricas del benchmark son la precisión media a $k$~documentos recuperados de la misma categoría MeSH (\textit{same\_category@}$k$) y el MRR@10 (\textit{Mean Reciprocal Rank}), con intervalos de confianza bootstrap del 95\,\% para el MRR@10.
+
+La Tabla~\ref{tab:c5_embedding_bench} resume los resultados obtenidos.
+
+\begin{table}[h]
+\centering
+\begin{tabular}{|l|c|c|c|}
+\hline
+\textbf{Modelo} & \textbf{same\_category@1} & \textbf{same\_category@5} & \textbf{MRR@10} \\
+\hline
+PubMedBERT (768d) & 0{,}352 & 0{,}269 & 0{,}484 \\
+Bioformer-16L (384d) & \textbf{0{,}395} & \textbf{0{,}316} & \textbf{0{,}530} \\
+\hline
+\end{tabular}
+\caption{Benchmark de proximidad por categoría MeSH. Los IC~bootstrap del 95\,\% de MRR@10 no se solapan entre modelos; Bioformer-16L supera a PubMedBERT en las 24~categorías analizadas.}
+\label{tab:c5_embedding_bench}
+\end{table}
+
+Bioformer-16L supera a PubMedBERT en las 24~categorías MeSH analizadas (24/24), con +0{,}046~puntos en MRR@10 y sin solapamiento de los IC~bootstrap. El análisis de confusión revela que los errores de ambos modelos son clínicamente sensatos (por ejemplo, Musculoesquelético $\leftrightarrow$ Heridas y Lesiones; Trastornos Mentales $\leftrightarrow$ Sistema Nervioso), lo que indica que la diferencia de rendimiento no se debe a modos de fallo cualitativamente distintos, sino a una organización global más efectiva del espacio de representación de Bioformer-16L.
+
+El argumento de alineación de dominio que habría favorecido a PubMedBERT (preentrenado exclusivamente sobre abstracts de PubMed \cite{gu_pubmedbert_2021}) queda debilitado por un desajuste de distribución: las consultas del sistema son notas clínicas del tipo MTSamples, no abstracts. Bioformer-16L, preentrenado sobre PubMed y texto completo de PubMed Central \cite{fang2023bioformerefficienttransformerlanguage}, muestra mejor alineación con esta distribución real de consultas. A esto se suman ventajas prácticas: 384~dimensiones frente a 768 (la mitad de memoria en Qdrant) y una velocidad de codificación aproximadamente dos veces superior.
+
+Ambos modelos se cargan mediante la API de \texttt{SentenceTransformer} con \textit{mean pooling} y normalización L2, haciendo la estrategia de agregación un parámetro explícito del código en lugar de un valor inferido por la librería en tiempo de ejecución.
+
+\subsection{Indexación híbrida en Qdrant}
+\label{sec:c5_qdrant_index}
+
+El corpus de 323.616~abstracts se indexa en una colección Qdrant con dos espacios vectoriales nombrados:
+
+\begin{itemize}
+  \item \textbf{\texttt{dense}:} \texttt{VectorParams(size=384, distance=cosine)}, que almacena el embedding denso de Bioformer-16L. El índice HNSW (\textit{Hierarchical Navigable Small World}) \cite{malkov_efficient_2020} permite búsquedas de vecinos aproximados con complejidad logarítmica.
+  \item \textbf{\texttt{sparse}:} \texttt{SparseVectorParams}, que almacena el vector BM25 \cite{robertson2009bm25} generado por el modelo \texttt{Qdrant/bm25} de FastEmbed. Los pesos IDF se calculan sobre el corpus completo en el momento de la indexación mediante \texttt{fit()}; en tiempo de consulta se usa \texttt{query\_embed()} con $\mathrm{TF}=1$ para cada término de consulta.
+\end{itemize}
+
+Cada punto de la colección incluye los campos de \textit{payload}: \texttt{pmid}, \texttt{title}, \texttt{abstract}, \texttt{year}~(entero), \texttt{mesh\_terms}~(lista), \texttt{publication\_types}~(lista) y \texttt{mesh\_category}~(cadena). Estos metadatos son consumidos directamente por ClinicalScorer (Sección~\ref{sec:c5_clinical_scorer}) sin necesidad de llamadas adicionales a la API de PubMed.
+
+La indexación doble responde a dos modos de fallo complementarios: (a)~los modelos densos capturan similitud semántica pero pueden omitir términos técnicos de baja frecuencia (nombres de organismos multirresistentes, siglas de fármacos, denominaciones de procedimientos específicos) que BM25 identifica con alta precisión gracias al peso IDF elevado de los términos raros; (b)~BM25 por sí solo no generaliza a formulaciones semánticamente equivalentes del mismo concepto. La indexación doble permite recuperar los mejores candidatos bajo ambos paradigmas antes de la fusión.
+
+\subsection{Recuperación híbrida y fusión RRF}
+\label{sec:c5_rrf}
+
+La recuperación se ejecuta mediante la primitiva \texttt{FusionQuery} de Qdrant, que combina dos búsquedas paralelas (\texttt{Prefetch}) sobre los espacios \texttt{dense} y \texttt{sparse}. La fusión emplea RRF (\textit{Reciprocal Rank Fusion}), donde la puntuación compuesta de un documento~$d$ se calcula como:
+\begin{equation}
+  \mathrm{RRF}(d) = \frac{1}{k + r_{\text{dense}}(d)} + \frac{1}{k + r_{\text{sparse}}(d)}
+\end{equation}
+con $k = 60$ (parámetro de suavizado estándar) y $r_{\text{dense}}(d)$, $r_{\text{sparse}}(d)$ las posiciones ordinales de $d$ en los rankings denso y disperso, respectivamente. Al combinar por rango posicional en lugar de por puntuación directa, RRF evita el problema de incompatibilidad de escala entre la similitud coseno (acotada en $[{-1}, 1]$) y la puntuación BM25 (no acotada), sin necesidad de calibrar un peso de combinación que puede no generalizar entre consultas.
+
+Se recuperan $k_c = 80$~candidatos por consulta. El filtro de recencia \texttt{year}~$\geq 2015$ se aplica en la misma llamada a Qdrant como filtro de metadatos, de modo que los candidatos que no cumplen el criterio de recencia no participan en la fusión (RF-03).
+
+\subsection{Reordenación con MedCPT}
+\label{sec:c5_medcpt}
+
+Los 80~candidatos se reordenan mediante el \textit{cross-encoder} \texttt{MedCPT-Cross-Encoder} \cite{jin2023medcpt}. A diferencia de los modelos de embedding, que codifican consulta y documento de forma independiente, un \textit{cross-encoder} procesa el par (consulta, documento) de forma conjunta, permitiendo la interacción completa entre todos los tokens de ambos textos a través del mecanismo de atención \cite{vaswani2023attentionneed}. Esto produce puntuaciones de relevancia más precisas a costa de un coste computacional superior, lo que justifica su aplicación únicamente sobre los candidatos preseleccionados y no sobre el corpus completo.
+
+MedCPT fue preentrenado mediante aprendizaje contrastivo (\textit{contrastive learning}) sobre registros de búsqueda de PubMed a gran escala \cite{jin2023medcpt}, orientándolo directamente hacia el escenario de este sistema: consulta clínica en lenguaje natural frente a abstract biomédico. Los pares se procesan en lotes de 16 con longitud máxima de 512~tokens. La salida es una puntuación $s_{\mathrm{CE}} \in [0, 1]$ por candidato.
+
+\subsection{Puntuación clínica y puerta de abstención}
+\label{sec:c5_clinical_scorer}
+
+La capa ClinicalScorer combina la puntuación del \textit{cross-encoder} con cuatro señales adicionales derivadas de los metadatos de cada documento para obtener una puntuación clínica final $s_{\text{final}}$:
+\begin{equation}
+  s_{\text{final}} = 0{,}60\cdot s_{\mathrm{CE}} + 0{,}15\cdot s_{\mathrm{mesh}} + 0{,}12\cdot s_{\mathrm{pt}} + 0{,}10\cdot s_{\mathrm{rec}} + 0{,}03\cdot s_{\mathrm{kw}}
+\end{equation}
+
+La Tabla~\ref{tab:c5_clinical_scorer} describe cada señal, su formulación y el peso asignado. Los pesos suman~1{,}0 y están configurados en \texttt{configs/rag.yaml}.
+
+\begin{table}[h]
+\centering
+\small
+\begin{tabular}{|p{0.09\textwidth}|p{0.08\textwidth}|p{0.73\textwidth}|}
+\hline
+\textbf{Señal} & \textbf{Peso} & \textbf{Descripción} \\
+\hline
+$s_{\mathrm{CE}}$ & 0{,}60 & Puntuación MedCPT \textit{cross-encoder}: señal de relevancia más directa y dominante. \\
+\hline
+$s_{\mathrm{mesh}}$ & 0{,}15 & Solapamiento MeSH: fracción de tokens de la consulta presentes en los descriptores MeSH del documento (\textit{token recall}). Asegura alineación temática con la categoría del corpus. \\
+\hline
+$s_{\mathrm{pt}}$ & 0{,}12 & Tipo de publicación, alineado con la pirámide de evidencia clínica: \textit{Guideline}~$\to 1{,}0$; \textit{Systematic Review} / \textit{Meta-Analysis}~$\to 0{,}90$; \textit{RCT}~$\to 0{,}75$; \textit{Clinical Trial}~$\to 0{,}70$; \textit{Review}~$\to 0{,}55$; artículo de revista genérico~$\to 0{,}30$. \\
+\hline
+$s_{\mathrm{rec}}$ & 0{,}10 & Recencia: decaimiento escalonado por antigüedad ($\leq 3$~años $\to 1{,}0$; $\leq 7$~años $\to 0{,}75$; $\leq 12$~años $\to 0{,}60$; $> 12$~años $\to 0{,}20$). \\
+\hline
+$s_{\mathrm{kw}}$ & 0{,}03 & Solapamiento de palabras clave en título: fracción de tokens de la consulta presentes en el título del documento. Bonificación leve para coincidencias léxicas exactas. \\
+\hline
+\end{tabular}
+\caption{Señales y pesos de ClinicalScorer (configurados en \texttt{configs/rag.yaml}).}
+\label{tab:c5_clinical_scorer}
+\end{table}
+
+Los $k_f = 6$~documentos con mayor $s_{\text{final}}$ se pasan al LLM como contexto. Antes de la generación, se aplica la \textbf{puerta de abstención}: si el número de documentos que superan el umbral $s_{\text{final}} \geq 0{,}35$ es inferior a dos, el sistema devuelve un mensaje explícito de abstención en lugar de generar una respuesta (RF-04). Este umbral garantiza que el LLM solo opera cuando existe evidencia relevante y suficiente, y convierte la abstención en un resultado de primera clase: medible, registrable en MLflow y comparable entre configuraciones en el Capítulo~6.
+
+\subsection{Verificación de citaciones}
+\label{sec:c5_citation}
+
+Tras la generación de la respuesta, un módulo de verificación extrae mediante expresiones regulares todos los PMID mencionados en el texto y comprueba su pertenencia al conjunto de documentos recuperados en la consulta. Los PMID citados pero no recuperados se clasifican como citas alucinadas:
+\begin{equation}
+  \texttt{hallucinated\_pmids} = \{\mathrm{PMID} \in \text{citados}\} \setminus \{\mathrm{PMID} \in \text{recuperados}\}
+\end{equation}
+
+Esta métrica satisface directamente RF-06, RNF-02 y RNF-10, y actúa como medida directa del fenómeno de alucinación en el dominio de citaciones \cite{ji_survey_2023, pal_med-halt_2023} sin necesidad de un modelo NLI externo. En la configuración FT+RAG (D), el \textit{prompt} de sistema instruye explícitamente al LLM a citar únicamente PMID del contexto proporcionado; en la configuración FT (B), el modelo recibe exactamente la misma plantilla de \textit{prompt} pero con una sección de evidencia vacía, reproduciendo así el escenario operativo en el que la recuperación no devuelve nada y permitiendo medir si el ajuste fino induce a fabricar PMID plausibles o a rehusar la respuesta. La diferencia cuantitativa de \texttt{hallucinated\_pmids} entre ambas configuraciones es la evidencia directa de la contribución de RAG a la reducción de alucinaciones (OE5).
+
+\section{Generación del conjunto de entrenamiento SFT}
+\label{sec:c5_sft}
+
+El conjunto de entrenamiento para el ajuste fino supervisado se genera sintéticamente mediante un modelo docente (\textit{teacher LLM}). El objetivo no es inyectar conocimiento clínico en el modelo base, LLaMA-3.1-8B-Instruct ya dispone de competencia clínica general adecuada, sino alinear su comportamiento hacia un formato de respuesta específico: estructura en tres bloques y disciplina de citación de PMID a partir del contexto recuperado \cite{parthasarathy_ultimate_2024, ai6060109}.
+
+\textbf{Modelo docente y formato de ejemplo.} El modelo docente es Qwen3.6-35B-A3B (cuantización Q5\_K\_XL), servido localmente mediante \texttt{llama.cpp} con interfaz compatible con la API de OpenAI. El uso de un modelo local elimina el coste de llamadas a APIs externas, evita la dependencia de red y garantiza que todos los datos permanezcan en infraestructura propia (RNF-01). Qwen3.6-35B genera respuestas con bloques de razonamiento interno (\textit{thinking blocks}), que se eliminan antes de incorporar la salida al ejemplo de entrenamiento.
+
+Cada ejemplo de entrenamiento es una conversación de tres turnos en el \textit{chat template} de LLaMA-3.1:
+\begin{itemize}
+  \item \textbf{Sistema:} instrucciones de síntesis clínica con reglas explícitas de citación (citar únicamente PMID del contexto y estructurar la respuesta en tres bloques).
+  \item \textbf{Usuario:} la transcripción MTSamples del paciente más una pregunta genérica sobre tratamientos basados en evidencia más el contexto de evidencia recuperado por el pipeline RAG específicamente para esa nota (los $k_f = 6$~abstracts de PubMed con sus PMID).
+  \item \textbf{Asistente:} respuesta estructurada generada por el docente con los tres bloques: (1)~Recomendación o hallazgo con citas de PMID, (2)~Base de evidencia con tipo de publicación y diseño del estudio, (3)~Incertidumbres o lagunas en la evidencia recuperada.
+\end{itemize}
+
+El uso de contexto por nota (abstracts recuperados específicamente para cada transcripción clínica) garantiza que los PMID citados en el ejemplo sean reales y verificables, y que la distribución de entrenamiento reproduzca exactamente el escenario de inferencia de la configuración FT+RAG. Todos los ejemplos incluyen contexto recuperado en el turno del usuario; la respuesta del docente puede, no obstante, ser una síntesis de evidencia o bien una declaración explícita de evidencia insuficiente cuando los abstracts recuperados no responden a la pregunta. Esta elección produce el contraste ablativo más nítido entre las configuraciones B y D.
+
+\textbf{Filtros de calidad.} Antes de incluir un ejemplo en el conjunto de datos se aplican tres filtros secuenciales:
+\begin{enumerate}
+  \item \textbf{Puntuación mínima de documento y mínimo de evidencia por nota:} se excluyen del contexto del usuario los documentos con $s_{\text{final}} < 0{,}40$; si tras este filtro la nota cuenta con menos de dos documentos válidos, la nota completa se descarta.
+  \item \textbf{Verificación de citas del docente:} si la respuesta generada por el docente contiene PMID no presentes en el contexto proporcionado (\texttt{hallucinated\_pmids}~$> 0$), el ejemplo se descarta.
+  \item \textbf{Ratio máximo de respuestas sin evidencia:} el porcentaje de ejemplos en los que el docente declara evidencia insuficiente se limita al 15\,\% del total, de modo que el modelo aprenda a abstenerse sin sobrerrepresentar este patrón frente a las síntesis con evidencia.
+\end{enumerate}
+
+\textbf{Partición y generación resumible.} La partición del corpus MTSamples en entrenamiento (80\,\%), validación (10\,\%) y prueba (10\,\%) se realiza a nivel de especialidad médica \emph{antes} de generar cualquier ejemplo. Los ejemplos se almacenan en caché en disco tras cada llamada al modelo docente, permitiendo reiniciar la generación desde el último punto de control en caso de interrupción. Tras la aplicación de los filtros de calidad, el conjunto de datos final contiene 1.318~ejemplos repartidos en 1.064 de entrenamiento, 135 de validación y 119 de prueba, con un 15{,}0\,\% de respuestas sin evidencia (cap establecido en el filtro 3 anterior) y una mediana de 3 citas PMID por respuesta. Este volumen es coherente con la evidencia sobre alineación de comportamiento mediante SFT de alta calidad revisada por \citeA{parthasarathy_ultimate_2024}, que sitúa el umbral útil para SFT instructivo en el orden de $10^3$~ejemplos cuando el dataset está cuidadosamente filtrado.
+
+\section{Ajuste fino con QLoRA}
+\label{sec:c5_qlora}
+
+El ajuste fino del modelo base se realiza mediante QLoRA \cite{dettmers2023qloraefficientfinetuningquantized} implementado sobre Unsloth, que añade optimizaciones de kernels CUDA sobre la implementación de referencia de LoRA \cite{hu2021loralowrankadaptationlarge}. El modelo base LLaMA-3.1-8B-Instruct se carga en cuantización de 4~bits NF4, reduciendo el uso de memoria a aproximadamente 6~GB de VRAM y dejando margen suficiente para los estados del optimizador y las activaciones dentro del límite de 10~GB de la GPU disponible (RNF-05).
+
+Las matrices de adaptación LoRA se insertan en siete módulos del modelo: las proyecciones de la atención multi-cabeza (\texttt{q\_proj}, \texttt{k\_proj}, \texttt{v\_proj}, \texttt{o\_proj}) y las proyecciones de la capa MLP (\texttt{gate\_proj}, \texttt{up\_proj}, \texttt{down\_proj}). Para cada capa con matriz de pesos $W_0 \in \mathbb{R}^{d \times k}$, la actualización se factoriza como $\Delta W = BA$ con $B \in \mathbb{R}^{d \times r}$, $A \in \mathbb{R}^{r \times k}$ y rango $r = 16$, de modo que solo se optimizan $A$ y $B$ mientras $W_0$ permanece congelado \cite{hu2021loralowrankadaptationlarge}.
+
+La Tabla~\ref{tab:c5_qlora} resume los hiperparámetros de entrenamiento, definidos en \texttt{configs/training.yaml}.
+
+\begin{table}[h]
+\centering
+\begin{tabular}{|l|l|p{0.43\textwidth}|}
+\hline
+\textbf{Parámetro} & \textbf{Valor} & \textbf{Justificación} \\
+\hline
+Rango LoRA ($r$) & 16 & Equilibrio entre capacidad de adaptación y número de parámetros entrenables. \\
+\hline
+Escala LoRA ($\alpha$) & 32 & Convención $\alpha = 2r$; escala efectiva de la actualización adaptativa. \\
+\hline
+\textit{Dropout} LoRA & 0{,}0 & Recomendado por Unsloth para compatibilidad con \textit{gradient checkpointing}. \\
+\hline
+Épocas & 3 & Pasadas completas sobre el conjunto de entrenamiento. \\
+\hline
+Tasa de aprendizaje & $2 \times 10^{-4}$ & Valor estándar para SFT con QLoRA en modelos de 7--8B parámetros. \\
+\hline
+Planificador & coseno & Decaimiento suave de la tasa de aprendizaje. \\
+\hline
+\textit{Warmup ratio} & 0{,}03 & Fracción de pasos de calentamiento lineal inicial. \\
+\hline
+\textit{Batch} por dispositivo & 2 & Condicionado por la VRAM disponible (10~GB, RNF-05). \\
+\hline
+Acumulación de gradientes & 4 & \textit{Batch} efectivo $= 2 \times 4 = 8$ ejemplos. \\
+\hline
+Optimizador & adamw\_8bit & Reducción adicional de memoria frente a AdamW en fp32. \\
+\hline
+\end{tabular}
+\caption{Hiperparámetros de ajuste fino con QLoRA (\texttt{configs/training.yaml}).}
+\label{tab:c5_qlora}
+\end{table}
+
+El entrenamiento se realiza mediante \texttt{SFTTrainer} de TRL (\textit{Transformer Reinforcement Learning}), aplicando el \textit{chat template} de LLaMA-3.1 para formatear los ejemplos antes de la tokenización. Los parámetros, hiperparámetros, pérdida de entrenamiento y pérdida de validación por paso se registran automáticamente en MLflow mediante \texttt{report\_to="mlflow"} (RF-11). El adaptador LoRA resultante se guarda en \texttt{checkpoints/llama-3.1-8b-mtsamples-qlora/} como un conjunto de pesos ligero que puede cargarse de forma independiente sobre cualquier instancia del modelo base cuantizado sin modificar sus pesos originales, permitiendo alternar entre las configuraciones FT y FT+RAG cargando o descargando el adaptador en tiempo de ejecución.
+
+\section{Configuraciones ablativas}
+\label{sec:c5_ablation}
+
+El diseño experimental se articula en cuatro configuraciones que activan o desactivan selectivamente el adaptador LoRA y el pipeline RAG. La Tabla~\ref{tab:c5_ablations} resume las configuraciones y el comportamiento esperado de cada una.
+
+\begin{table}[h]
+\centering
+\begin{tabular}{|l|l|c|c|p{0.36\textwidth}|}
+\hline
+\textbf{Config.} & \textbf{Nombre} & \textbf{LoRA} & \textbf{RAG} & \textbf{Comportamiento esperado} \\
+\hline
+A & Base & No & No & Respuestas generales; alucinaciones no controladas; sin trazabilidad de citaciones. \\
+\hline
+B & FT & Sí & No & Terminología clínica adaptada; el contexto se sustituye por una sección de evidencia vacía sobre la misma plantilla de \textit{prompt} de D, permitiendo cuantificar si el modelo fabrica PMID o rehúsa la respuesta. \\
+\hline
+C & RAG & No & Sí & Evidencia trazable y verificada; estilo de respuesta potencialmente genérico. \\
+\hline
+D & FT+RAG & Sí & Sí & Terminología clínica adaptada y evidencia trazable; tasa de alucinación mínima. Sistema primario. \\
+\hline
+\end{tabular}
+\caption{Cuatro configuraciones ablativas del sistema. La configuración~D es el sistema híbrido completo.}
+\label{tab:c5_ablations}
+\end{table}
+
+La configuración~B se evalúa reutilizando exactamente la misma plantilla de \textit{prompt} y el mismo \textit{system prompt} que la configuración~D, pero con la sección de evidencia vacía (\texttt{RETRIEVED PUBMED EVIDENCE: (none)}). Esta elección reproduce el escenario operativo en el que la recuperación no devuelve resultados y constituye la comparación justa frente a D: permite cuantificar mediante \texttt{hallucinated\_pmids} si el ajuste fino induce al modelo a fabricar PMID plausibles o a rehusar la respuesta de forma elegante cuando falta evidencia. La comparación B $\to$ D aísla el efecto de RAG con ajuste fino constante; la comparación A $\to$ C aísla el efecto de RAG sobre el modelo base; la comparación A $\to$ B aísla el efecto del ajuste fino, siguiendo el diseño factorial empleado en estudios previos de dominio especializado \cite{balaguer2024ragvsfinetuningpipelines, pingua_medical_FT_vs_RAG_2025, bioengineering13020225}.
+
+\section{Interfaz de usuario}
+\label{sec:c5_ui}
+
+La interfaz web del sistema se implementa mediante Gradio, satisfaciendo el requisito RF-12. La interfaz permite al usuario: (a)~formular una consulta clínica en lenguaje natural, (b)~seleccionar la configuración del sistema entre las cuatro variantes ablativas (RF-08), y (c)~visualizar la respuesta estructurada junto con los abstracts de PubMed recuperados, incluyendo el PMID y un fragmento del texto de cada abstract (RF-09). La selección de configuración activa o desactiva el pipeline RAG y el cargado del adaptador LoRA de forma transparente para el usuario.
+
+\noindent\textbf{Estado de implementación:} la interfaz se encuentra en fase de integración final al cierre de la presente memoria. Los resultados de evaluación del Capítulo~6 se obtienen invocando el pipeline directamente desde código, sin depender de la interfaz, por lo que su estado no condiciona la validez del estudio ablativo. La validación de usabilidad (RF-12, RNF-06) se realizará una vez completada la integración, en los términos descritos en la Sección~4.4.
 
 \chapter{Evaluación}
 

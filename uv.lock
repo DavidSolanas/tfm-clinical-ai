@@ -6544,7 +6544,7 @@ requires-dist = [
     { name = "python-dotenv", specifier = ">=1.0.0" },
     { name = "pyyaml", specifier = ">=6.0" },
     { name = "qdrant-client", extras = ["fastembed"], specifier = ">=1.9.0" },
-    { name = "ragas", specifier = ">=0.1.10" },
+    { name = "ragas", specifier = "==0.4.3" },
     { name = "rank-bm25", marker = "extra == 'dev'", specifier = ">=0.2" },
     { name = "ruff", marker = "extra == 'dev'", specifier = ">=0.5" },
     { name = "scikit-learn", marker = "extra == 'dev'", specifier = ">=1.5" },

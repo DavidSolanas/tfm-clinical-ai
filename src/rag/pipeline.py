@@ -1,5 +1,6 @@
 from src.llm_clients import LLMClient
 from src.logging_config import get_logger
+from src.prompts import _SYSTEM_PROMPT, _user_message, build_no_rag_user_message
 
 from .reranker import MedCPTReranker
 from .retriever import Retriever
@@ -22,7 +23,7 @@ class RAGPipeline:
         reranker: MedCPTReranker,
         scorer: ClinicalScorer,
         client: LLMClient,
-        system_prompt: str,
+        system_prompt: str = _SYSTEM_PROMPT,
         candidate_k: int = 80,
         final_k: int = 6,
         min_year: int = 2015,
@@ -82,27 +83,19 @@ class RAGPipeline:
         )
 
     def _build_prompt(self, query: str, docs: list[dict]) -> str:
-        """Format retrieved documents and clinical query into a structured prompt.
+        """Format retrieved documents and clinical query into the training-time prompt.
 
         Args:
-            query: Clinical question or query string.
+            query: Clinical transcription (per locked decision #4 the retrieval
+                query passed in is the bare patient transcription).
             docs: List of scored and ranked documents, each containing rank, pmid,
-                year, mesh_category, title, and abstract.
+                year, title, and abstract.
 
         Returns:
-            Formatted prompt string with evidence section and clinical query.
+            User message matching the fine-tuning prompt template.
 
         """
-        parts = "\n\n---\n\n".join(
-            f"[{d['rank']}] PMID: {d['pmid']} | Year: {d['year']} | MeSH: {d['mesh_category']}\n"
-            f"Title: {d['title']}\nAbstract: {d['abstract']}"
-            for d in docs
-        )
-        return (
-            f"=== RETRIEVED EVIDENCE ===\n\n{parts}\n\n"
-            f"=== END OF EVIDENCE ===\n\n"
-            f"CLINICAL QUERY: {query}\n\nEVIDENCE-BASED RESPONSE:"
-        )
+        return _user_message(query, docs)
 
     def retrieve(self, query: str) -> list[dict]:
         """Retrieve and score documents via hybrid search, reranking, and clinical relevance.
@@ -212,14 +205,15 @@ class RAGPipeline:
     def run_base(self, query: str) -> str:
         """Generate a response using LLM only, without retrieval (baseline).
 
-        Used for ablation studies to measure the contribution of RAG components.
-        The LLM receives only the clinical query, no retrieved evidence or citations.
+        Used for ablation configs A/B. The LLM receives the training-time prompt
+        with an empty evidence section (``(none)``) so the fine-tuned model sees
+        an in-distribution prompt format.
 
         Args:
-            query: Clinical question.
+            query: Clinical transcription.
 
         Returns:
             Generated response text from the LLM.
 
         """
-        return self._generate(f"CLINICAL QUERY: {query}\n\nEVIDENCE-BASED RESPONSE:")
+        return self._generate(build_no_rag_user_message(query))

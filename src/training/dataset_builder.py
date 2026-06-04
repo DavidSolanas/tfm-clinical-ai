@@ -11,45 +11,35 @@ from tqdm import tqdm
 from src.data.mtsamples import split_by_medical_specialty
 from src.llm_clients import LLMClient
 from src.logging_config import get_logger
+from src.prompts import (
+    _NO_EVIDENCE_PREFIX,
+    _SYSTEM_PROMPT,
+    _USER_QUESTION,
+    _format_evidence,
+    _is_no_evidence_response,
+    _user_message,
+)
 from src.rag.pipeline import RAGPipeline
 from src.tracking import mlflow_run
 
 logger = get_logger(__name__)
 
+# Re-exports kept so external callers (`src.evaluation.*`) can keep importing
+# the training constants from this module per the evaluation plan.
+__all__ = [
+    "_NO_EVIDENCE_PREFIX",
+    "_SYSTEM_PROMPT",
+    "_USER_QUESTION",
+    "_format_evidence",
+    "_is_no_evidence_response",
+    "_user_message",
+    "build_dataset",
+]
+
 # Strips thinking blocks from Gemma-4 (<|channel>thought...<channel|>) and Qwen3/DeepSeek-R1 (<think>...</think>)
 _THINKING_RE = re.compile(
     r"(<\|channel>thought.*?<channel\|>|<think>.*?</think>)", re.DOTALL
 )
-
-_SYSTEM_PROMPT = """\
-You are a clinical evidence synthesis assistant.
-
-Given a patient's clinical transcription and retrieved PubMed evidence, generate a structured \
-evidence-based response. Use ONLY the provided PubMed evidence. Do not use outside medical knowledge.
-
-Rules:
-- Cite ONLY PMIDs from the provided evidence. Do not invent PMIDs.
-- Do not cite a PMID unless that document directly supports the claim.
-- Format every citation as (PMID: XXXXXXXX) using the exact PMID number shown after "PMID:" in \
-each document header. The leading [1], [2], etc. are rank indicators only — never use them as \
-citation handles.
-- Structure your response exactly as:
-  1. Recommendation or finding (with PMID citations)
-  2. Evidence basis (study type if inferable from the abstract)
-  3. Uncertainty or gaps in the retrieved evidence
-- If the retrieved evidence does not address the clinical question, respond ONLY with:
-  "The retrieved context is off-topic or insufficient for this clinical case. \
-The provided documents address [one concise sentence describing the topics covered \
-by the retrieved documents, derived solely from the documents themselves]. \
-No evidence-based recommendation can be made from the provided documents."
-  Do NOT describe, summarize, diagnose, or add any details about the patient's \
-clinical presentation or condition.\
-"""
-
-_USER_QUESTION = (
-    "Based on this patient's clinical presentation, what evidence-based treatments are recommended?"
-)
-
 
 _PMID_CITATION_RE = re.compile(r"\(PMID:\s*(\d+)\)")
 
@@ -65,22 +55,6 @@ def _invalid_pmids(response: str, docs: list[dict]) -> set[str]:
     return cited - allowed
 
 
-def _format_evidence(docs: list[dict]) -> str:
-    return "\n\n---\n\n".join(
-        f"[{d['rank']}] PMID: {d['pmid']} | Year: {d['year']}\n"
-        f"Title: {d['title']}\nAbstract: {d['abstract']}"
-        for d in docs
-    )
-
-
-def _user_message(transcription: str, docs: list[dict]) -> str:
-    return (
-        f"PATIENT NOTE:\n{transcription}\n\n"
-        f"QUESTION: {_USER_QUESTION}\n\n"
-        f"RETRIEVED PUBMED EVIDENCE:\n{_format_evidence(docs)}"
-    )
-
-
 def _make_example(transcription: str, docs: list[dict], response: str) -> dict:
     return {
         "messages": [
@@ -89,14 +63,6 @@ def _make_example(transcription: str, docs: list[dict], response: str) -> dict:
             {"role": "assistant", "content": response},
         ]
     }
-
-
-_NO_EVIDENCE_PREFIX = "the retrieved context is off-topic or insufficient for this clinical case."
-
-
-def _is_no_evidence_response(example: dict) -> bool:
-    content = next(m["content"] for m in example["messages"] if m["role"] == "assistant")
-    return content.lower().strip().startswith(_NO_EVIDENCE_PREFIX)
 
 
 def _apply_no_evidence_cap(

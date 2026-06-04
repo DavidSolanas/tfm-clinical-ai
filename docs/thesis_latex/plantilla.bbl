@@ -417,6 +417,34 @@ Ji, Z.%
 \PrintBackRefs{\CurrentBib}
 
 \bibitem [\protect \citeauthoryear {%
+Jin%
+\ \protect \BOthers {.}}{%
+Jin%
+\ \protect \BOthers {.}}{%
+{\protect \APACyear {2023}}%
+}]{%
+jin2023medcpt}
+\APACinsertmetastar {%
+jin2023medcpt}%
+\begin{APACrefauthors}%
+Jin, Q.%
+, Kim, W.%
+, Chen, Q.%
+, Comeau, D\BPBI C.%
+, Yeganova, L.%
+, Wilbur, W\BPBI J.%
+\BCBL {}\ \BBA {} Lu, Z.%
+\end{APACrefauthors}%
+\unskip\
+\newblock
+\APACrefYearMonthDay{2023}{}{}.
+\newblock
+{\BBOQ}\APACrefatitle {MedCPT: Contrastive Pre-trained Transformers with large-scale PubMed search logs for zero-shot biomedical information retrieval} {Medcpt: Contrastive pre-trained transformers with large-scale pubmed search logs for zero-shot biomedical information retrieval}.{\BBCQ}
+\newblock
+\APACjournalVolNumPages{Bioinformatics}{39}{11}{btad651}.
+\PrintBackRefs{\CurrentBib}
+
+\bibitem [\protect \citeauthoryear {%
 Johnson%
 , Douze%
 \BCBL {}\ \BBA {} Jegou%
@@ -599,6 +627,36 @@ Malkov, Y\BPBI A.%
 \begin{APACrefURL} [{2026-04-13}]\url{https://ieeexplore.ieee.org/document/8594636/} \end{APACrefURL}
 \newblock
 \begin{APACrefDOI} \doi{10.1109/TPAMI.2018.2889473} \end{APACrefDOI}
+\PrintBackRefs{\CurrentBib}
+
+\bibitem [\protect \citeauthoryear {%
+Montenegro%
+, Gomes%
+\BCBL {}\ \BBA {} Machado%
+}{%
+Montenegro%
+\ \protect \BOthers {.}}{%
+{\protect \APACyear {2025}}%
+}]{%
+ai6060109}
+\APACinsertmetastar {%
+ai6060109}%
+\begin{APACrefauthors}%
+Montenegro, L.%
+, Gomes, L\BPBI M.%
+\BCBL {}\ \BBA {} Machado, J\BPBI M.%
+\end{APACrefauthors}%
+\unskip\
+\newblock
+\APACrefYearMonthDay{2025}{}{}.
+\newblock
+{\BBOQ}\APACrefatitle {What We Know About the Role of Large Language Models for Medical Synthetic Dataset Generation} {What we know about the role of large language models for medical synthetic dataset generation}.{\BBCQ}
+\newblock
+\APACjournalVolNumPages{AI}{6}{6}{}.
+\newblock
+\begin{APACrefURL} \url{https://www.mdpi.com/2673-2688/6/6/109} \end{APACrefURL}
+\newblock
+\begin{APACrefDOI} \doi{10.3390/ai6060109} \end{APACrefDOI}
 \PrintBackRefs{\CurrentBib}
 
 \bibitem [\protect \citeauthoryear {%
@@ -1013,6 +1071,36 @@ Yu, H.%
 \APACaddressPublisher{}{PMLR}.
 \newblock
 \begin{APACrefURL} [{2025-12-11}]\url{https://proceedings.mlr.press/v225/yu23b.html} \end{APACrefURL}
+\PrintBackRefs{\CurrentBib}
+
+\bibitem [\protect \citeauthoryear {%
+Zaharia%
+\ \protect \BOthers {.}}{%
+Zaharia%
+\ \protect \BOthers {.}}{%
+{\protect \APACyear {2018}}%
+}]{%
+Zaharia_Accelerating_the_Machine_2018}
+\APACinsertmetastar {%
+Zaharia_Accelerating_the_Machine_2018}%
+\begin{APACrefauthors}%
+Zaharia, M\BPBI A.%
+, Chen, A.%
+, Davidson, A.%
+, Ghodsi, A.%
+, Hong, S\BPBI A.%
+, Konwinski, A.%
+\BDBL {}Zumar, C.%
+\end{APACrefauthors}%
+\unskip\
+\newblock
+\APACrefYearMonthDay{2018}{}{}.
+\newblock
+{\BBOQ}\APACrefatitle {{Accelerating the Machine Learning Lifecycle with MLflow}} {{Accelerating the Machine Learning Lifecycle with MLflow}}.{\BBCQ}
+\newblock
+\APACjournalVolNumPages{IEEE Data Eng. Bull.}{41}{}{39--45}.
+\newblock
+\begin{APACrefURL} \url{https://api.semanticscholar.org/CorpusID:83459546} \end{APACrefURL}
 \PrintBackRefs{\CurrentBib}
 
 \bibitem [\protect \citeauthoryear {%

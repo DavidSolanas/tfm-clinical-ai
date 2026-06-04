@@ -33,7 +33,10 @@ dependencies = [
     "mlflow>=2.16",
 
     # --- Evaluation ---
-    "ragas>=0.1.10",
+    # Pinned: src/evaluation/metrics.py targets the 0.4.x collections API
+    # (Faithfulness/AnswerRelevancy/ContextPrecisionWithReference/ContextRecall
+    # under ragas.metrics.collections). Bump cautiously — the public API churns.
+    "ragas==0.4.3",
 
     # --- Interface ---
     "gradio>=4.40",
