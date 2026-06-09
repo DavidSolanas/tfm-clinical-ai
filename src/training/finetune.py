@@ -6,6 +6,9 @@ from trl import SFTConfig, SFTTrainer
 from unsloth import FastLanguageModel
 from unsloth.chat_templates import get_chat_template
 
+# Imported after unsloth to preserve the patching order (see DECISIONS.md 2026-03-24).
+import torch
+
 from src.logging_config import get_logger
 from src.tracking import mlflow_run
 
@@ -51,6 +54,11 @@ def finetune(
         output_dir,
     )
 
+    # bf16 on Ampere+ (e.g. RTX 3090) is numerically stable for long-context
+    # training; fp16 needs loss scaling and can NaN. Fall back to fp16 only where
+    # bf16 is unsupported. Auto-detect so the same code is correct on any GPU.
+    use_bf16 = torch.cuda.is_bf16_supported()
+
     with mlflow_run(
         experiment=mlflow_experiment,
         run_name="qlora-training",
@@ -68,6 +76,7 @@ def finetune(
             "max_seq_length": max_seq_length,
             "effective_batch_size": per_device_batch_size * gradient_accumulation_steps,
             "quantization": "4bit",
+            "precision": "bf16" if use_bf16 else "fp16",
         })
         mlflow.log_metrics({
             "train_dataset_size": len(dataset["train"]),
@@ -124,7 +133,8 @@ def finetune(
                 weight_decay=weight_decay,
                 lr_scheduler_type=lr_scheduler_type,
                 logging_steps=logging_steps,
-                fp16=True,
+                fp16=not use_bf16,
+                bf16=use_bf16,
                 optim="adamw_8bit",
                 seed=seed,
                 eval_strategy="epoch",

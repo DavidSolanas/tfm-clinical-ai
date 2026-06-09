@@ -4,7 +4,10 @@
 
 model:
   base: "unsloth/Meta-Llama-3.1-8B-Instruct"
-  max_seq_length: 4096
+  # Canonical: 14336 covers every SFT sample (dataset max ~12.6k tokens) with no
+  # truncation. Trained on a 24 GB cloud GPU (see DECISIONS.md 2026-06-04).
+  # For local 10 GB training, override: --max-seq-length 4096 (truncates ~30%).
+  max_seq_length: 14336
 
 qlora:
   r: 16                    # LoRA rank (experiment with: 8, 16, 32)
@@ -22,8 +25,8 @@ qlora:
 training:
   num_epochs: 3            # Experiment with: 1, 2, 3
   learning_rate: 2.0e-4    # Experiment with: 1e-4, 2e-4, 5e-5
-  per_device_batch_size: 2
-  gradient_accumulation_steps: 4   # Effective batch size = 8
+  per_device_batch_size: 2  # canonical (24 GB GPU); override to 1 for local 10 GB
+  gradient_accumulation_steps: 4   # Effective batch size = 8 (override to 8 if batch=1)
   warmup_ratio: 0.03
   weight_decay: 0.01
   lr_scheduler_type: "cosine"

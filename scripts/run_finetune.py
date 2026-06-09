@@ -18,6 +18,7 @@ Options:
     --lr FLOAT              Learning rate                        (default: from configs/training.yaml)
     --batch-size INT        Per-device train batch size          (default: from configs/training.yaml)
     --grad-accum INT        Gradient accumulation steps          (default: from configs/training.yaml)
+    --max-seq-length INT    Maximum token sequence length        (default: from configs/training.yaml)
     --seed INT              Random seed                          (default: 42)
     --mlflow-experiment STR MLflow experiment name              (default: tfm-finetuning)
 """
@@ -97,6 +98,12 @@ def _build_parser() -> argparse.ArgumentParser:
         help="Gradient accumulation steps (default: training.gradient_accumulation_steps from configs/training.yaml)",
     )
     p.add_argument(
+        "--max-seq-length",
+        type=int,
+        default=None,
+        help="Maximum token sequence length (default: model.max_seq_length from configs/training.yaml)",
+    )
+    p.add_argument(
         "--seed",
         type=int,
         default=42,
@@ -136,6 +143,7 @@ def main() -> None:
         dataset=dataset,
         output_dir=args.output_dir,
         base_model=args.base_model or cfg["model"]["base"],
+        max_seq_length=args.max_seq_length or cfg["model"]["max_seq_length"],
         lora_rank=args.lora_rank or cfg["qlora"]["r"],
         lora_alpha=args.lora_alpha or cfg["qlora"]["lora_alpha"],
         lora_dropout=cfg["qlora"]["lora_dropout"],
