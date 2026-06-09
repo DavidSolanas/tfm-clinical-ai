@@ -2,9 +2,9 @@ from pathlib import Path
 
 import mlflow
 from datasets import DatasetDict
-from trl import SFTConfig, SFTTrainer
 from unsloth import FastLanguageModel
 from unsloth.chat_templates import get_chat_template
+from trl import SFTConfig, SFTTrainer
 
 # Imported after unsloth to preserve the patching order (see DECISIONS.md 2026-03-24).
 import torch
@@ -124,6 +124,7 @@ def finetune(
             args=SFTConfig(
                 output_dir=str(output_dir),
                 dataset_text_field="text",
+                eos_token="<|eot_id|>",
                 max_length=max_seq_length,
                 per_device_train_batch_size=per_device_batch_size,
                 gradient_accumulation_steps=gradient_accumulation_steps,
