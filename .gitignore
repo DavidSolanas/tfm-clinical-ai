@@ -19,9 +19,11 @@ build/
 *.ipynb_metadata/
 
 # Data (too large for Git)
-data/raw/
-data/processed/
-data/embeddings/
+data/raw/*
+data/processed/*
+# do not ignore evaluation sample file
+!data/processed/eval_sample_indices.json
+data/embeddings/*
 *.parquet
 *.arrow
 *.h5
@@ -29,24 +31,24 @@ data/embeddings/
 *.safetensors
 
 # Models (too large for Git)
-models/
+models/*
 checkpoints/
 *.gguf
 
 # MLflow
-mlruns/
+mlruns/*
 mlartifacts/
 
 # Docker
-docker-volumes/
+docker-volumes/*
 
 # Environment
 .env
 *.log
 
 # IDE
-.vscode/
-.idea/
+.vscode/*
+.idea/*
 *.swp
 *.swo
 *~
@@ -56,7 +58,7 @@ docker-volumes/
 Thumbs.db
 
 # Qdrant data
-qdrant_data/
+qdrant_data/*
 
 # Unsloth
 unsloth_compiled_cache/

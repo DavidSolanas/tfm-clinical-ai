@@ -52,8 +52,10 @@ def check_qdrant():
 
 
 def check_mlflow():
+    import os
+
     import mlflow
-    mlflow.set_tracking_uri("http://localhost:5000")
+    mlflow.set_tracking_uri(os.getenv("MLFLOW_TRACKING_URI", "http://localhost:5001"))
     experiments = mlflow.search_experiments()
     return f"v{mlflow.__version__} | Connected | {len(experiments)} experiment(s)"
 
