@@ -15,6 +15,9 @@ LoRA weights, which is what the ablation isolates (see DECISIONS.md 2026-05-21).
 
 Requires a CUDA GPU and Unsloth (clones/builds llama.cpp on first run).
 
+Unsloth writes the final ``.gguf`` files to ``{out}_gguf/`` (it appends ``_gguf`` to
+``--out``). Intermediate merged HuggingFace weights land in ``--out`` itself.
+
 Usage::
 
     # FT model (loads base + adapter, merges, quantizes)
@@ -36,6 +39,8 @@ Options:
 from __future__ import annotations
 
 import argparse
+import gc
+import os
 from pathlib import Path
 
 from dotenv import load_dotenv
@@ -44,10 +49,35 @@ from dotenv import load_dotenv
 # (see DECISIONS.md 2026-03-24). FastLanguageModel pulls them in internally.
 from unsloth import FastLanguageModel
 
+import torch
+
 from src.config import load_config
 from src.logging_config import get_logger
 
 logger = get_logger(__name__)
+
+
+def _ensure_llama_cpp_on_path() -> None:
+    """Put Unsloth's llama.cpp tree on PYTHONPATH for the ``conversion`` package."""
+    llama_cpp = Path.home() / ".unsloth" / "llama.cpp"
+    if not llama_cpp.is_dir():
+        return
+    root = str(llama_cpp)
+    existing = os.environ.get("PYTHONPATH", "")
+    if root not in existing.split(os.pathsep):
+        os.environ["PYTHONPATH"] = f"{root}{os.pathsep}{existing}" if existing else root
+
+
+def _free_gpu(model) -> None:
+    del model
+    gc.collect()
+    torch.cuda.empty_cache()
+
+
+def _to_gguf(model, tokenizer, out: Path, quant: str) -> Path:
+    model.save_pretrained_gguf(str(out), tokenizer, quantization_method=quant)
+    # Unsloth always appends ``_gguf`` to the save directory.
+    return Path(f"{out}_gguf")
 
 
 def _build_parser() -> argparse.ArgumentParser:
@@ -120,16 +150,32 @@ def main() -> None:
         args.out,
     )
 
+    _ensure_llama_cpp_on_path()
+    args.out.mkdir(parents=True, exist_ok=True)
+
     model, tokenizer = FastLanguageModel.from_pretrained(
         model_name=model_name,
         max_seq_length=max_seq_length,
         load_in_4bit=True,
     )
 
-    args.out.mkdir(parents=True, exist_ok=True)
-    # Merges the adapter (if any) to fp16, then quantizes via llama.cpp.
-    model.save_pretrained_gguf(str(args.out), tokenizer, quantization_method=args.quant)
-    logger.info("GGUF written to %s", args.out)
+    if args.base_only:
+        # Non-PEFT models cannot go straight to save_pretrained_gguf when loaded in
+        # 4-bit: Transformers 5.x raises NotImplementedError in revert_weight_conversion.
+        # Export fp16 to disk first (same fp16 pull Unsloth uses for adapter merges),
+        # then reload and quantize.
+        logger.info("Base model: exporting fp16 merged weights to %s", args.out)
+        model.save_pretrained_merged(str(args.out), tokenizer, save_method="merged_16bit")
+        _free_gpu(model)
+        logger.info("Base model: reloading fp16 weights for GGUF conversion")
+        model, tokenizer = FastLanguageModel.from_pretrained(
+            model_name=str(args.out),
+            max_seq_length=max_seq_length,
+            load_in_4bit=False,
+        )
+
+    gguf_dir = _to_gguf(model, tokenizer, args.out, args.quant)
+    logger.info("GGUF written to %s", gguf_dir)
 
 
 if __name__ == "__main__":
