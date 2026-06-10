@@ -39,7 +39,6 @@ Options:
 from __future__ import annotations
 
 import argparse
-import gc
 import os
 from pathlib import Path
 
@@ -48,8 +47,6 @@ from dotenv import load_dotenv
 # Imported after dotenv; unsloth must be imported before torch/transformers
 # (see DECISIONS.md 2026-03-24). FastLanguageModel pulls them in internally.
 from unsloth import FastLanguageModel
-
-import torch
 
 from src.config import load_config
 from src.logging_config import get_logger
@@ -66,12 +63,6 @@ def _ensure_llama_cpp_on_path() -> None:
     existing = os.environ.get("PYTHONPATH", "")
     if root not in existing.split(os.pathsep):
         os.environ["PYTHONPATH"] = f"{root}{os.pathsep}{existing}" if existing else root
-
-
-def _free_gpu(model) -> None:
-    del model
-    gc.collect()
-    torch.cuda.empty_cache()
 
 
 def _to_gguf(model, tokenizer, out: Path, quant: str) -> Path:
@@ -153,26 +144,18 @@ def main() -> None:
     _ensure_llama_cpp_on_path()
     args.out.mkdir(parents=True, exist_ok=True)
 
+    # Adapters load in 4-bit; Unsloth merges LoRA to fp16 inside save_pretrained_gguf.
+    # Base-only must load fp16/bf16 directly: 4-bit + no PEFT hits NotImplementedError
+    # in Transformers 5.x, and save_pretrained_merged is a no-op without LoRA adapters.
+    load_in_4bit = not args.base_only
+    if args.base_only:
+        logger.info("Base model: loading fp16/bf16 weights (~16 GB VRAM peak)")
+
     model, tokenizer = FastLanguageModel.from_pretrained(
         model_name=model_name,
         max_seq_length=max_seq_length,
-        load_in_4bit=True,
+        load_in_4bit=load_in_4bit,
     )
-
-    if args.base_only:
-        # Non-PEFT models cannot go straight to save_pretrained_gguf when loaded in
-        # 4-bit: Transformers 5.x raises NotImplementedError in revert_weight_conversion.
-        # Export fp16 to disk first (same fp16 pull Unsloth uses for adapter merges),
-        # then reload and quantize.
-        logger.info("Base model: exporting fp16 merged weights to %s", args.out)
-        model.save_pretrained_merged(str(args.out), tokenizer, save_method="merged_16bit")
-        _free_gpu(model)
-        logger.info("Base model: reloading fp16 weights for GGUF conversion")
-        model, tokenizer = FastLanguageModel.from_pretrained(
-            model_name=str(args.out),
-            max_seq_length=max_seq_length,
-            load_in_4bit=False,
-        )
 
     gguf_dir = _to_gguf(model, tokenizer, args.out, args.quant)
     logger.info("GGUF written to %s", gguf_dir)
