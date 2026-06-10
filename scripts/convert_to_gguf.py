@@ -6,14 +6,15 @@ Produces the two GGUFs the evaluation phases load into llama.cpp (port 8001):
   directory ``run_finetune.py`` wrote (a LoRA adapter). Unsloth loads the base
   model named in ``adapter_config.json``, merges the adapter to fp16, then
   quantizes.
-* **Base GGUF** (Phase 1, configs A/C): pass ``--base-only``. Converts the
-  untouched base model.
+* **Base GGUF** (Phase 1, configs A/C): pass ``--base-only``. Pulls the fp16
+  HuggingFace snapshot and quantizes via the same llama.cpp toolchain (no GPU).
 
 Both must be produced with the **same** ``--quant`` and ideally in the same pod
 session so they share one llama.cpp build — then base and FT differ only in the
 LoRA weights, which is what the ablation isolates (see DECISIONS.md 2026-05-21).
 
-Requires a CUDA GPU and Unsloth (clones/builds llama.cpp on first run).
+Adapter conversion requires a CUDA GPU and Unsloth (clones/builds llama.cpp on
+first run). Base conversion is CPU-only once llama.cpp is built.
 
 Unsloth writes the final ``.gguf`` files to ``{out}_gguf/`` (it appends ``_gguf`` to
 ``--out``). Intermediate merged HuggingFace weights land in ``--out`` itself.
@@ -40,34 +41,134 @@ from __future__ import annotations
 
 import argparse
 import os
+import subprocess
+import sys
 from pathlib import Path
 
 from dotenv import load_dotenv
-
-# Imported after dotenv; unsloth must be imported before torch/transformers
-# (see DECISIONS.md 2026-03-24). FastLanguageModel pulls them in internally.
-from unsloth import FastLanguageModel
+from huggingface_hub import snapshot_download
 
 from src.config import load_config
 from src.logging_config import get_logger
 
 logger = get_logger(__name__)
 
+_LLAMA_CPP = Path.home() / ".unsloth" / "llama.cpp"
+
 
 def _ensure_llama_cpp_on_path() -> None:
     """Put Unsloth's llama.cpp tree on PYTHONPATH for the ``conversion`` package."""
-    llama_cpp = Path.home() / ".unsloth" / "llama.cpp"
-    if not llama_cpp.is_dir():
+    if not _LLAMA_CPP.is_dir():
         return
-    root = str(llama_cpp)
+    root = str(_LLAMA_CPP)
     existing = os.environ.get("PYTHONPATH", "")
     if root not in existing.split(os.pathsep):
         os.environ["PYTHONPATH"] = f"{root}{os.pathsep}{existing}" if existing else root
 
 
-def _to_gguf(model, tokenizer, out: Path, quant: str) -> Path:
+def _llama_cpp_env() -> dict[str, str]:
+    _ensure_llama_cpp_on_path()
+    return os.environ.copy()
+
+
+def _require_llama_cpp() -> Path:
+    if not _LLAMA_CPP.is_dir():
+        raise RuntimeError(
+            f"llama.cpp not found at {_LLAMA_CPP}. "
+            "Run an adapter conversion first (it builds llama.cpp), or install manually."
+        )
+    return _LLAMA_CPP
+
+
+def _find_llama_cpp_binary(name: str) -> Path:
+    llama_cpp = _require_llama_cpp()
+    for candidate in (llama_cpp / name, llama_cpp / "build" / "bin" / name):
+        if candidate.is_file():
+            return candidate
+    matches = list(llama_cpp.rglob(name))
+    if not matches:
+        raise FileNotFoundError(f"{name} not found under {llama_cpp}")
+    return matches[0]
+
+
+def _convert_script() -> Path:
+    llama_cpp = _require_llama_cpp()
+    for name in ("convert_hf_to_gguf.py", "unsloth_convert_hf_to_gguf.py"):
+        path = llama_cpp / name
+        if path.is_file():
+            return path
+    raise FileNotFoundError(f"No HF→GGUF converter found under {llama_cpp}")
+
+
+def _quant_gguf_suffix(quant: str) -> str:
+    return quant.upper().replace("-", "_")
+
+
+def _convert_hf_dir_to_gguf(hf_dir: Path, gguf_dir: Path, model_slug: str, quant: str) -> None:
+    """Run llama.cpp HF→GGUF conversion and optional quantization."""
+    llama_cpp = _require_llama_cpp()
+    convert_script = _convert_script()
+    gguf_dir.mkdir(parents=True, exist_ok=True)
+
+    bf16_gguf = gguf_dir / f"{model_slug}.BF16.gguf"
+    logger.info("Converting HF weights at %s → bf16 GGUF", hf_dir)
+    subprocess.run(
+        [
+            sys.executable,
+            str(convert_script),
+            str(hf_dir),
+            "--outfile",
+            str(bf16_gguf),
+            "--outtype",
+            "bf16",
+            "--split-max-size",
+            "50G",
+        ],
+        check=True,
+        env=_llama_cpp_env(),
+        cwd=str(llama_cpp),
+    )
+
+    if quant in ("f16", "bf16", "f32"):
+        return
+
+    final_gguf = gguf_dir / f"{model_slug}.{_quant_gguf_suffix(quant)}.gguf"
+    quantize_bin = _find_llama_cpp_binary("llama-quantize")
+    logger.info("Quantizing GGUF → %s", quant)
+    subprocess.run(
+        [str(quantize_bin), str(bf16_gguf), str(final_gguf), quant],
+        check=True,
+        cwd=str(llama_cpp),
+    )
+    bf16_gguf.unlink(missing_ok=True)
+
+
+def _convert_base_to_gguf(model_id: str, out: Path, quant: str) -> Path:
+    """Base model: snapshot fp16 weights from HF hub, convert with llama.cpp (CPU)."""
+    logger.info("Base model: resolving fp16 HuggingFace snapshot for %s", model_id)
+    hf_dir = Path(snapshot_download(model_id))
+    gguf_dir = Path(f"{out}_gguf")
+    model_slug = Path(model_id).name.lower()
+    _convert_hf_dir_to_gguf(hf_dir, gguf_dir, model_slug, quant)
+    return gguf_dir
+
+
+def _convert_adapter_to_gguf(
+    adapter: Path,
+    out: Path,
+    quant: str,
+    max_seq_length: int,
+) -> Path:
+    """FT model: Unsloth loads adapter, merges LoRA to fp16, quantizes via llama.cpp."""
+    # Imported here so base-only conversion stays CPU-only (no CUDA init).
+    from unsloth import FastLanguageModel
+
+    model, tokenizer = FastLanguageModel.from_pretrained(
+        model_name=str(adapter),
+        max_seq_length=max_seq_length,
+        load_in_4bit=True,
+    )
     model.save_pretrained_gguf(str(out), tokenizer, quantization_method=quant)
-    # Unsloth always appends ``_gguf`` to the save directory.
     return Path(f"{out}_gguf")
 
 
@@ -129,8 +230,6 @@ def main() -> None:
         )
 
     max_seq_length = args.max_seq_length or cfg["model"]["max_seq_length"]
-    # For --base-only, load the base model id; otherwise load the adapter dir,
-    # which Unsloth resolves to base + LoRA via adapter_config.json.
     model_name = (args.base_model or cfg["model"]["base"]) if args.base_only else str(args.adapter)
 
     logger.info(
@@ -141,23 +240,14 @@ def main() -> None:
         args.out,
     )
 
-    _ensure_llama_cpp_on_path()
     args.out.mkdir(parents=True, exist_ok=True)
 
-    # Adapters load in 4-bit; Unsloth merges LoRA to fp16 inside save_pretrained_gguf.
-    # Base-only must load fp16/bf16 directly: 4-bit + no PEFT hits NotImplementedError
-    # in Transformers 5.x, and save_pretrained_merged is a no-op without LoRA adapters.
-    load_in_4bit = not args.base_only
     if args.base_only:
-        logger.info("Base model: loading fp16/bf16 weights (~16 GB VRAM peak)")
+        gguf_dir = _convert_base_to_gguf(model_name, args.out, args.quant)
+    else:
+        _ensure_llama_cpp_on_path()
+        gguf_dir = _convert_adapter_to_gguf(args.adapter, args.out, args.quant, max_seq_length)
 
-    model, tokenizer = FastLanguageModel.from_pretrained(
-        model_name=model_name,
-        max_seq_length=max_seq_length,
-        load_in_4bit=load_in_4bit,
-    )
-
-    gguf_dir = _to_gguf(model, tokenizer, args.out, args.quant)
     logger.info("GGUF written to %s", gguf_dir)
 
 
