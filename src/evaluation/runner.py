@@ -159,6 +159,8 @@ def run_config(
                     continue
 
     results: list[dict] = []
+    t_phase_start = time.perf_counter()
+    n_new = 0
     with open(out, "a") as f:
         for sample in samples:
             idx = int(sample["idx"])
@@ -191,6 +193,30 @@ def run_config(
             f.write(json.dumps(record, ensure_ascii=False) + "\n")
             f.flush()
             results.append(record)
+
+            n_new += 1
+            done_total = len(completed) + n_new
+            remaining = len(samples) - done_total
+            elapsed = time.perf_counter() - t_phase_start
+            avg_s = elapsed / n_new
+            eta_s = avg_s * remaining
+            if record.get("error"):
+                status = "error"
+            elif record.get("abstained"):
+                status = "abstained"
+            else:
+                status = "ok"
+            logger.info(
+                "[%s] %d/%d (%.0f%%) | %s | wall=%.1fs | avg=%.1fs | ETA=%s",
+                config.name,
+                done_total,
+                len(samples),
+                100.0 * done_total / len(samples),
+                status,
+                record["wall_time_s"],
+                avg_s,
+                f"{eta_s:.0f}s" if remaining > 0 else "done",
+            )
 
     logger.info(
         "Finished %s — wrote %d new records (%d total, %d errors, %d abstained)",

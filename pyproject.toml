@@ -10,12 +10,10 @@ dependencies = [
     "python-dotenv>=1.0.0",
     "pyyaml>=6.0",
     "tqdm>=4.66",
-
     # --- Data ---
     "datasets>=2.19",
     "biopython>=1.83",
     "pandas>=2.2",
-
     # --- LLM & Embeddings ---
     "transformers>=4.44",
     "torch>=2.3",
@@ -24,22 +22,20 @@ dependencies = [
     "huggingface-hub>=0.24",
     "anthropic>=0.40",
     "openai>=1.40",  # Used for any OpenAI-compatible endpoint (llama.cpp server, vLLM, Ollama, etc.)
-
     # --- RAG ---
     "fastembed>=0.4.0",
     "qdrant-client[fastembed]>=1.9.0",
-
     # --- MLOps ---
     "mlflow>=2.16",
-
     # --- Evaluation ---
     # Pinned: src/evaluation/metrics.py targets the 0.4.x collections API
     # (Faithfulness/AnswerRelevancy/ContextPrecisionWithReference/ContextRecall
     # under ragas.metrics.collections). Bump cautiously — the public API churns.
     "ragas==0.4.3",
-
     # --- Interface ---
     "gradio>=4.40",
+    "mlflow-export-import>=1.2.0",
+    "tabulate>=0.10.0",
 ]
 
 [project.optional-dependencies]

@@ -159,14 +159,21 @@ def _convert_adapter_to_gguf(
     quant: str,
     max_seq_length: int,
 ) -> Path:
-    """FT model: Unsloth loads adapter, merges LoRA to fp16, quantizes via llama.cpp."""
+    """FT model: Unsloth loads adapter, merges LoRA to 16-bit, quantizes via llama.cpp.
+
+    The base is loaded in 16-bit (``load_in_4bit=False``) so the LoRA merges into
+    full-precision weights and quantization to ``quant`` happens exactly once.
+    Loading in 4-bit instead would merge into already-quantized weights and then
+    quantize again — double quantization that degraded output quality
+    (see DECISIONS.md 2026-06-15). Needs ~16 GB VRAM for an 8B model.
+    """
     # Imported here so base-only conversion stays CPU-only (no CUDA init).
     from unsloth import FastLanguageModel
 
     model, tokenizer = FastLanguageModel.from_pretrained(
         model_name=str(adapter),
         max_seq_length=max_seq_length,
-        load_in_4bit=True,
+        load_in_4bit=False,
     )
     model.save_pretrained_gguf(str(out), tokenizer, quantization_method=quant)
     return Path(f"{out}_gguf")
