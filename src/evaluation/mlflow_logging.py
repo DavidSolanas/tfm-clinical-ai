@@ -198,16 +198,23 @@ def log_rollup_run(ablation_id: str) -> str:
                 m["D_finetuned_rag"].get("abstention_rate", math.nan)
                 - m["C_base_rag"].get("abstention_rate", math.nan)
             ),
+            "D_minus_C_citation_grounding_precision": (
+                m["D_finetuned_rag"].get("citation_grounding_precision", math.nan)
+                - m["C_base_rag"].get("citation_grounding_precision", math.nan)
+            ),
         }
         mlflow.log_metrics({k: v for k, v in deltas.items() if not math.isnan(v)})
         mlflow.log_param("child_run_ids", {n: children[n]["run_id"] for n in _CONFIG_ORDER})
 
         # Custom metrics bar charts (no CIs — these are rates/proportions).
         for metric_key, ylabel, plot_name in [
-            ("hallucinated_pmids_rate", "Hallucinated PMIDs / sample", "hallucinated_pmids"),
+            ("hallucinated_pmids_rate", "Answers w/ hallucinated PMID", "hallucinated_pmids"),
             ("format_adherence_among_answered", "Format adherence (answered)", "format_adherence"),
             ("abstention_rate", "Abstention rate", "abstention_rate"),
             ("error_rate", "Error rate", "error_rate"),
+            ("pmid_citation_rate", "Answers w/ (PMID: n) cite", "pmid_citation_rate"),
+            ("placeholder_citation_rate", "Answers w/ placeholder cite", "placeholder_cite"),
+            ("citation_grounding_precision", "Cited PMIDs in retrieved", "grounding_precision"),
         ]:
             means = [m[c].get(metric_key, math.nan) for c in _CONFIG_ORDER]
             fig, ax = plt.subplots(figsize=(6, 4))

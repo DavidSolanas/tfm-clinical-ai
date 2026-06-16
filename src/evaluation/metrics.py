@@ -33,6 +33,15 @@ logger = get_logger(__name__)
 _FORMAT_RE = re.compile(r"^\s*1\..+?\n.*?2\..+?\n.*?3\.", re.DOTALL)
 _NO_EVIDENCE_RE = re.compile(r"^the retrieved context is off-topic or insufficient", re.IGNORECASE)
 
+# Deterministic (judge-free) citation-style detectors. These characterise the
+# citation behaviour the fine-tuning teaches — and that RAGAS does not measure:
+# the trained format is the parenthesised ``(PMID: <digits>)`` handle, base
+# models tend to use ``[n]`` bracket refs, and a model with nothing real to
+# cite often regurgitates the prompt's literal ``(PMID: XXXXXXXX)`` placeholder.
+_PAREN_PMID_RE = re.compile(r"\(PMID:\s*(\d{4,9})\)", re.IGNORECASE)
+_BRACKET_REF_RE = re.compile(r"\[(\d{1,3})\]")
+_PLACEHOLDER_PMID_RE = re.compile(r"PMID:\s*[X#]{2,}", re.IGNORECASE)
+
 _FAITHFULNESS = "faithfulness"
 _ANSWER_RELEVANCY = "answer_relevancy"
 _CONTEXT_PRECISION = "context_precision"
@@ -64,6 +73,26 @@ def check_format_adherence(response: str | None) -> bool | None:
 def check_hallucinated_pmids(record: dict) -> int:
     """Number of hallucinated PMIDs in a runner record."""
     return len(record.get("hallucinated_pmids") or [])
+
+
+def extract_pmid_citations(response: str | None) -> list[str]:
+    """Real ``(PMID: <digits>)`` citations in the trained parenthesised format.
+
+    Returns the list (not set) so callers can count repeated citations.
+    """
+    if not response:
+        return []
+    return _PAREN_PMID_RE.findall(response)
+
+
+def has_bracket_reference(response: str | None) -> bool:
+    """True if the response uses base-model-style ``[n]`` reference handles."""
+    return bool(response) and _BRACKET_REF_RE.search(response) is not None
+
+
+def has_placeholder_citation(response: str | None) -> bool:
+    """True if the response emits an unfilled citation placeholder, e.g. ``(PMID: XXXXXXXX)``."""
+    return bool(response) and _PLACEHOLDER_PMID_RE.search(response) is not None
 
 
 def _build_judge() -> tuple[object, object]:

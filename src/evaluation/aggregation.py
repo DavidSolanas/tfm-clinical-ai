@@ -11,11 +11,96 @@ import math
 
 import numpy as np
 
-from src.evaluation.metrics import check_format_adherence, check_hallucinated_pmids
+from src.evaluation.metrics import (
+    check_format_adherence,
+    check_hallucinated_pmids,
+    extract_pmid_citations,
+    has_bracket_reference,
+    has_placeholder_citation,
+)
 
 _RAGAS_METRICS = ("faithfulness", "answer_relevancy", "context_precision", "context_recall")
 _BOOTSTRAP_RESAMPLES = 1000
 _BOOTSTRAP_SEED = 42
+
+# Keys produced by ``compute_citation_metrics`` — re-logged by the backfill
+# script so it stays in sync with native runs.
+CITATION_METRIC_KEYS = (
+    "pmid_citation_rate",
+    "bracket_citation_rate",
+    "placeholder_citation_rate",
+    "no_citation_rate",
+    "pmid_citations_per_answered_mean",
+    "citation_grounding_precision",
+    "hallucinated_pmids_rate",
+)
+
+
+def _answered(records: list[dict]) -> list[dict]:
+    """Records that produced a real answer (not abstained, not errored)."""
+    return [r for r in records if not r.get("error") and not r.get("abstained")]
+
+
+def compute_citation_metrics(records: list[dict]) -> dict[str, float]:
+    """Deterministic (judge-free) citation-behaviour metrics for one config.
+
+    All rates are over *answered* records (abstained/errored excluded). These
+    capture the citation axis RAGAS does not: format adherence of citations,
+    placeholder regurgitation, and how well cited PMIDs are grounded in what was
+    actually retrieved. Recomputable from JSONL alone, so they can be backfilled
+    onto existing MLflow runs without re-paying judge calls.
+
+    Args:
+        records: Runner records for one configuration.
+
+    Returns:
+        Flat ``{metric: value}`` dict; rates are NaN when no answered records,
+        and ``citation_grounding_precision`` is NaN when no real PMID is cited
+        from any retrieval-bearing record (e.g. the no-RAG configs A/B).
+    """
+    answered = _answered(records)
+    n_answered = len(answered)
+    n_total = len(records)
+
+    pmid_counts = [len(extract_pmid_citations(r.get("response"))) for r in answered]
+    n_with_pmid = sum(1 for c in pmid_counts if c > 0)
+    n_bracket = sum(1 for r in answered if has_bracket_reference(r.get("response")))
+    n_placeholder = sum(1 for r in answered if has_placeholder_citation(r.get("response")))
+    n_no_citation = sum(
+        1
+        for r, c in zip(answered, pmid_counts, strict=True)
+        if c == 0
+        and not has_bracket_reference(r.get("response"))
+        and not has_placeholder_citation(r.get("response"))
+    )
+
+    # Grounding precision: of the real PMIDs cited across records that actually
+    # carried retrieval, the fraction present in that record's retrieved set.
+    grounded = total_cited = 0
+    for r in answered:
+        retrieved = {str(p) for p in (r.get("retrieved_pmids") or [])}
+        if not retrieved:
+            continue  # no-RAG: grounding is undefined, not zero
+        for pmid in extract_pmid_citations(r.get("response")):
+            total_cited += 1
+            if pmid in retrieved:
+                grounded += 1
+
+    # Proper "rate": fraction of records with >=1 hallucinated PMID (the old
+    # value duplicated the per-sample mean; abstained count as 0 hallucinations).
+    n_with_halluc = sum(1 for r in records if check_hallucinated_pmids(r) > 0)
+
+    return {
+        "pmid_citation_rate": (n_with_pmid / n_answered) if n_answered else math.nan,
+        "bracket_citation_rate": (n_bracket / n_answered) if n_answered else math.nan,
+        "placeholder_citation_rate": (n_placeholder / n_answered) if n_answered else math.nan,
+        "no_citation_rate": (n_no_citation / n_answered) if n_answered else math.nan,
+        "pmid_citations_per_answered_mean": (
+            float(np.mean(pmid_counts)) if pmid_counts else math.nan
+        ),
+        "citation_grounding_precision": (grounded / total_cited) if total_cited else math.nan,
+        "hallucinated_pmids_rate": (n_with_halluc / n_total) if n_total else math.nan,
+    }
 
 
 def _bootstrap_ci(values: list[float], seed: int = _BOOTSTRAP_SEED) -> tuple[float, float]:
@@ -89,12 +174,12 @@ def aggregate_config(
         out.update(_ragas_stats(metric, ragas_per_sample))
 
     halluc_counts = [check_hallucinated_pmids(r) for r in records]
-    out["hallucinated_pmids_rate"] = (
-        sum(halluc_counts) / n_total if n_total else math.nan
-    )
+    # hallucinated_pmids_rate (fraction of answers with >=1 hallucination) is
+    # computed in compute_citation_metrics; keep the per-sample mean here.
     out["hallucinated_pmids_per_sample_mean"] = (
         float(np.mean(halluc_counts)) if halluc_counts else math.nan
     )
+    out.update(compute_citation_metrics(records))
 
     format_results = [
         check_format_adherence(r.get("response"))
