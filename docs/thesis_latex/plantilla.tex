@@ -249,7 +249,7 @@ Este capítulo presenta los objetivos del trabajo en términos medibles y descri
 
 El objetivo general de este trabajo es diseñar, implementar y evaluar un sistema híbrido de asistencia bibliográfica clínica que combine el ajuste fino eficiente de un LLM de código abierto con una arquitectura RAG sobre literatura biomédica verificada, cuantificando la contribución diferencial de cada componente sobre la calidad de las respuestas generadas.
 
-Expresado en términos SMART \cite{doran1981there}, el objetivo es construir un sistema funcional, evaluado automáticamente mediante RAGAS sobre las cuatro configuraciones experimentales y validado de forma cualitativa. La configuración híbrida completa (FT+RAG) debe superar a la configuración base (modelo sin ajuste fino y sin recuperación) en al menos $0{,}10$ puntos absolutos de \textit{Answer Relevancy}. Dado que la métrica \textit{Faithfulness} solo es computable cuando existe contexto recuperado ---y, por tanto, no está definida para las configuraciones sin RAG (A y B)---, el criterio de fidelidad se evalúa sobre el único eje en el que es comparable: la configuración FT+RAG (D) debe mejorar la \textit{Faithfulness} respecto a la configuración RAG sin ajuste fino (C), aislando así la contribución del ajuste fino a la fidelidad. En conjunto, ambos criterios evidencian una contribución diferencial cuantificable de cada componente. La formulación se plantea en términos relativos al \textit{baseline}: los criterios de éxito dependen así del comportamiento del propio sistema bajo cada configuración y no de un valor absoluto cuya alcanzabilidad está condicionada por el modelo base elegido y por las características del corpus PubMed indexado.
+Expresado en términos SMART \cite{doran1981there}, el objetivo es construir un sistema funcional, evaluado automáticamente mediante RAGAS sobre las cuatro configuraciones experimentales y validado de forma cualitativa. La configuración híbrida completa (FT+RAG) debe superar a la configuración base (modelo sin ajuste fino y sin recuperación) en al menos $0{,}10$ puntos absolutos de \textit{Answer Relevancy}. Dado que la métrica \textit{Faithfulness} solo es computable cuando existe contexto recuperado (y, por tanto, no está definida para las configuraciones sin RAG: A y B), el criterio de fidelidad se evalúa sobre el único eje en el que es comparable: la configuración FT+RAG (D) debe mejorar la \textit{Faithfulness} respecto a la configuración RAG sin ajuste fino (C), aislando así la contribución del ajuste fino a la fidelidad. En conjunto, ambos criterios evidencian una contribución diferencial cuantificable de cada componente. La formulación se plantea en términos relativos al \textit{baseline}: los criterios de éxito dependen así del comportamiento del propio sistema bajo cada configuración y no de un valor absoluto cuya alcanzabilidad está condicionada por el modelo base elegido y por las características del corpus PubMed indexado.
 
 \section{Objetivos específicos}
 
@@ -445,7 +445,7 @@ RNF-05 & Rendimiento computacional & El sistema debe ejecutarse íntegramente so
 \hline
 RNF-06 & Latencia percibida & La respuesta a una consulta clínica en la configuración híbrida completa (FT+RAG) debe entregarse en un tiempo compatible con el uso interactivo del sistema durante la actividad asistencial. La cuantificación exacta del umbral depende del hardware de despliegue final y se documentará tras las primeras mediciones de extremo a extremo. \\
 \hline
-RNF-07 & Calidad de la respuesta & La configuración híbrida completa (FT+RAG) debe superar a la configuración base en al menos $0{,}10$ puntos absolutos de \textit{Answer Relevancy} y mejorar la \textit{Faithfulness} respecto a la configuración RAG sin ajuste fino (C) ---único eje sobre el que esta métrica es computable, al requerir contexto recuperado--- sobre el \textit{benchmark} de evaluación RAGAS, según el objetivo cuantitativo relativo declarado en el Capítulo~3. \\
+RNF-07 & Calidad de la respuesta & La configuración híbrida completa (FT+RAG) debe superar a la configuración base en al menos $0{,}10$ puntos absolutos de \textit{Answer Relevancy} y mejorar la \textit{Faithfulness} respecto a la configuración RAG sin ajuste fino (C). Este es el único eje sobre el que esta métrica es computable, al requerir contexto recuperado. La evaluación se realiza sobre el \textit{benchmark} de evaluación RAGAS, según el objetivo cuantitativo relativo declarado en el Capítulo~3. \\
 \hline
 RNF-08 & Coste de licencias & Todos los componentes principales (modelo base, embeddings, base vectorial, gestor de experimentos, interfaz) deben ser de código abierto y de uso libre para fines académicos. \\
 \hline
@@ -712,7 +712,7 @@ La interfaz web del sistema se implementa mediante Gradio, satisfaciendo el requ
 \chapter{Evaluación}
 \label{cap:evaluacion}
 
-Este capítulo presenta los resultados del estudio ablativo que constituye la contribución empírica central del trabajo (OE4). Se evalúan las cuatro configuraciones definidas en la Sección~\ref{sec:c5_ablation} ---A~(base), B~(ajuste fino exclusivo), C~(RAG exclusivo) y D~(sistema híbrido completo)--- sobre un mismo conjunto de consultas clínicas, combinando métricas automáticas RAGAS \cite{es2025ragasautomatedevaluationretrieval} con un conjunto de métricas deterministas de comportamiento de citación diseñadas específicamente para este estudio. El capítulo cierra con una evaluación de aplicabilidad y usabilidad de la herramienta y con la discusión de los hallazgos.
+Este capítulo presenta los resultados del estudio ablativo que constituye la contribución empírica central del trabajo (OE4). Se evalúan las cuatro configuraciones definidas en la Sección~\ref{sec:c5_ablation} (A: base, B: ajuste fino exclusivo, C: RAG exclusivo y D: sistema híbrido completo) sobre un mismo conjunto de consultas clínicas, combinando métricas automáticas RAGAS \cite{es2025ragasautomatedevaluationretrieval} con un conjunto de métricas deterministas de comportamiento de citación diseñadas específicamente para este estudio. El capítulo cierra con una evaluación de aplicabilidad y usabilidad de la herramienta y con la discusión de los hallazgos.
 
 \section{Metodología de evaluación}
 \label{sec:c6_metodologia}
@@ -799,7 +799,7 @@ La Tabla~\ref{tab:c6_citacion} recoge las métricas deterministas de citación, 
 
 \textbf{Anclaje perfecto en las configuraciones con RAG.} La precisión de anclaje (\texttt{citation\_grounding\_precision}) es de 1{,}00 tanto en C~como en~D: todos los PMID citados pertenecen al conjunto efectivamente recuperado para esa consulta. Combinado con la verificación de citaciones del pipeline (Sección~\ref{sec:c5_citation}), esto indica que, cuando se proporciona evidencia real, ninguna de las dos configuraciones con RAG cita identificadores fuera del contexto.
 
-\textbf{Sin evidencia, el modelo base rehúsa y el modelo con ajuste fino exclusivo fabrica.} El contraste más informativo se da en las configuraciones sin RAG. La configuración~A no cita nunca (\texttt{no\_citation\_rate}~$=1{,}00$): el modelo base, ante el \textit{prompt} vacío de evidencia, rehúsa sistemáticamente. La configuración~B, en cambio, emite el marcador de posición literal \texttt{(PMID: XXXXXXXX)} en el 60\,\% de sus respuestas (Figura~\ref{fig:c6_placeholder}). Este comportamiento es \textbf{esperado y constituye en sí mismo el resultado ablativo}, no un defecto: la configuración~B recibe una entrada (\texttt{evidence = (none)}) fuera de la distribución de entrenamiento ---donde siempre había documentos reales--- y, al no disponer de nada legítimo que citar, reproduce el marcador de posición literal de la plantilla. La importancia de las métricas deterministas se hace aquí evidente: estas 30 de 50~respuestas con marcador de posición obtenían una adherencia de formato del 100\,\% y una alucinación nula bajo las métricas previas, que eran ciegas a este patrón. El marcador de posición no es un PMID con dígitos y, por tanto, no se contabiliza como alucinación; representa una fabricación de forma sin contenido, distinta de inventar un identificador concreto.
+\textbf{Sin evidencia, el modelo base rehúsa y el modelo con ajuste fino exclusivo fabrica.} El contraste más informativo se da en las configuraciones sin RAG. La configuración~A no cita nunca (\texttt{no\_citation\_rate}~$=1{,}00$): el modelo base, ante el \textit{prompt} vacío de evidencia, rehúsa sistemáticamente. La configuración~B, en cambio, emite el marcador de posición literal \texttt{(PMID: XXXXXXXX)} en el 60\,\% de sus respuestas (Figura~\ref{fig:c6_placeholder}). Este comportamiento es \textbf{esperado y constituye en sí mismo el resultado ablativo}, no un defecto: la configuración~B recibe una entrada (\texttt{evidence = (none)}) fuera de la distribución de entrenamiento (donde siempre había documentos reales) y, al no disponer de nada legítimo que citar, reproduce el marcador de posición literal de la plantilla. La importancia de las métricas deterministas se hace aquí evidente: estas 30 de 50~respuestas con marcador de posición obtenían una adherencia de formato del 100\,\% y una alucinación nula bajo las métricas previas, que eran ciegas a este patrón. El marcador de posición no es un PMID con dígitos y, por tanto, no se contabiliza como alucinación; representa una fabricación de forma sin contenido, distinta de inventar un identificador concreto.
 
 \begin{figure}[h]
 \centering
@@ -832,16 +832,16 @@ La Tabla~\ref{tab:c6_robustez} recoge las métricas de alucinación y de robuste
 \label{tab:c6_robustez}
 \end{table}
 
-La tasa de abstención es de 0{,}00 en las dos configuraciones que pueden abstenerse (C~y~D): el pipeline de recuperación superó la puerta de abstención (al menos dos documentos por encima del umbral \texttt{min\_final\_score}) en las 50~consultas, lo que es coherente con haber excluido del muestreo los casos sin evidencia. La tasa de error es nula en las cuatro configuraciones: ninguna generación falló durante las dos fases del estudio. La adherencia de formato satura en 1{,}00 en todas las configuraciones, lo que ---como se anticipó--- la convierte en una métrica poco discriminante: incluso la plantilla de rechazo de A y los marcadores de posición de B satisfacen la comprobación estructural. Es precisamente esta saturación la que motivó la introducción de las métricas deterministas de citación, capaces de distinguir comportamientos que la adherencia de formato agrega indistintamente.
+La tasa de abstención es de 0{,}00 en las dos configuraciones que pueden abstenerse (C~y~D): el pipeline de recuperación superó la puerta de abstención (al menos dos documentos por encima del umbral \texttt{min\_final\_score}) en las 50~consultas, lo que es coherente con haber excluido del muestreo los casos sin evidencia. La tasa de error es nula en las cuatro configuraciones: ninguna generación falló durante las dos fases del estudio. La adherencia de formato satura en 1{,}00 en todas las configuraciones (como se anticipó), lo que la convierte en una métrica poco discriminante: incluso la plantilla de rechazo de A y los marcadores de posición de B satisfacen la comprobación estructural. Es precisamente esta saturación la que motivó la introducción de las métricas deterministas de citación, capaces de distinguir comportamientos que la adherencia de formato agrega indistintamente.
 
 \section{Evaluación de aplicabilidad y usabilidad}
 \label{sec:c6_usabilidad}
 
 Por su tipología, este trabajo de desarrollo de software requiere, además de la evaluación cuantitativa anterior, una valoración de la aplicabilidad de la herramienta para resolver el problema propuesto y una evaluación mínima de su usabilidad. Esta sección cubre ambos aspectos.
 
-\textbf{Aplicabilidad.} La aplicabilidad del sistema para la asistencia bibliográfica clínica queda demostrada por el propio estudio ablativo. La configuración híbrida completa (D) responde a las 50~consultas clínicas sin errores ni abstenciones (Tabla~\ref{tab:c6_robustez}), cita literatura primaria real de PubMed en el 98\,\% de las respuestas (Tabla~\ref{tab:c6_citacion}) con una precisión de anclaje del 100\,\% ---ningún identificador citado queda fuera de la evidencia recuperada--- y mejora la fidelidad y la relevancia frente a las configuraciones parciales (Tabla~\ref{tab:c6_ragas}). El sistema cumple, por tanto, su función prevista sobre el conjunto de evaluación: producir respuestas clínicas estructuradas y trazables ancladas en evidencia verificable.
+\textbf{Aplicabilidad.} La aplicabilidad del sistema para la asistencia bibliográfica clínica queda demostrada por el propio estudio ablativo. La configuración híbrida completa (D) responde a las 50~consultas clínicas sin errores ni abstenciones (Tabla~\ref{tab:c6_robustez}), cita literatura primaria real de PubMed en el 98\,\% de las respuestas (Tabla~\ref{tab:c6_citacion}) con una precisión de anclaje del 100\,\% (ningún identificador citado queda fuera de la evidencia recuperada) y mejora la fidelidad y la relevancia frente a las configuraciones parciales (Tabla~\ref{tab:c6_ragas}). El sistema cumple, por tanto, su función prevista sobre el conjunto de evaluación: producir respuestas clínicas estructuradas y trazables ancladas en evidencia verificable.
 
-\textbf{Usabilidad: evaluación heurística del autor.} La validación cualitativa de usabilidad con un profesional sanitario quedó condicionada, ya en la Sección~\ref{sec:c4_validacion}, a la disponibilidad de dicha colaboración dentro del calendario del trabajo. Al no resultar posible, y conforme a la alternativa allí prevista, la usabilidad se valora mediante una revisión heurística documentada por el autor de la interfaz web (Gradio) y del flujo de interacción que esta expone, tomando como referencia un subconjunto de los principios heurísticos de usabilidad y anclando cada principio en funcionalidades del sistema efectivamente implementadas y evaluadas en los apartados anteriores. La Tabla~\ref{tab:c6_heuristica} resume esta valoración.
+\textbf{Usabilidad: evaluación heurística del autor.} La validación cualitativa de usabilidad con un profesional sanitario quedó condicionada, ya en la Sección~\ref{sec:c4_validacion}, a la disponibilidad de dicha colaboración dentro del calendario del trabajo. Al no resultar posible, y conforme a la alternativa allí prevista, la usabilidad se valora mediante una revisión heurística documentada por el autor. Esta revisión examina la interfaz web (Gradio) y el flujo de interacción que ofrece, tomando como referencia un subconjunto de los principios heurísticos de usabilidad y anclando cada principio en funcionalidades del sistema efectivamente implementadas y evaluadas en los apartados anteriores. La Tabla~\ref{tab:c6_heuristica} resume esta valoración.
 
 \begin{table}[h]
 \centering
@@ -864,12 +864,42 @@ Coincidencia con el dominio real & El ajuste fino adapta la terminología y la e
 \label{tab:c6_heuristica}
 \end{table}
 
-Esta evaluación heurística es una valoración del autor y no sustituye a un estudio empírico de usabilidad con usuarios reales. Sus limitaciones ---ausencia de profesionales sanitarios y de métricas de interacción (tiempo de tarea, tasa de éxito, satisfacción percibida)--- se asumen explícitamente, y la realización de una sesión de evaluación con al menos un experto del dominio clínico, sobre la interfaz ya integrada, se identifica como línea prioritaria de trabajo futuro (Capítulo~7).
+Esta evaluación heurística es una valoración del autor y no sustituye a un estudio empírico de usabilidad con usuarios reales. Sus limitaciones (ausencia de profesionales sanitarios y de métricas de interacción: tiempo de tarea, tasa de éxito, satisfacción percibida) se asumen explícitamente, y la realización de una sesión de evaluación con al menos un experto del dominio clínico, sobre la interfaz ya integrada, se identifica como línea prioritaria de trabajo futuro (Capítulo~7).
+
+\section{Análisis cualitativo de respuestas representativas}
+\label{sec:c6_cualitativo}
+
+Las métricas anteriores resumen el comportamiento agregado de las cuatro configuraciones, pero no permiten \emph{ver} las diferencias que cuantifican. Esta sección las hace explícitas mediante un caso representativo del conjunto de evaluación, en el que las cuatro configuraciones responden a la misma consulta clínica. Por tratarse de comparaciones pareadas sobre idéntica entrada (Sección~\ref{sec:c6_metodologia}), el contraste cualitativo aísla el efecto de cada componente con la misma limpieza que las métricas.
+
+El caso seleccionado (especialidad \textit{Orthopedic}) corresponde a una nota operatoria de reparación de un desgarro del manguito rotador con descompresión subacromial artroscópica. La Tabla~\ref{tab:c6_cualitativo} recoge un extracto de la respuesta de cada configuración, centrado en su comportamiento de citación. El extracto reproduce literalmente la salida del modelo; las elisiones se indican con \textnormal{[\ldots]}.
+
+\begin{table}[h]
+\centering
+\small
+\renewcommand{\arraystretch}{1.3}
+\begin{tabular}{|p{0.16\textwidth}|p{0.74\textwidth}|}
+\hline
+\textbf{Configuración} & \textbf{Extracto de la respuesta} \\
+\hline
+\textbf{A (base)} & \emph{«The retrieved context is off-topic or insufficient for this clinical case. [\ldots] no evidence-based recommendation can be made from the provided documents.»} \par\smallskip {\footnotesize\itshape Conclusión: rehúsa por considerar el contexto insuficiente y no emite ninguna recomendación.} \\
+\hline
+\textbf{B (FT)} & \emph{«Arthroscopic subacromial decompression combined with rotator cuff repair via mini-arthrotomy is an evidence-based treatment [\ldots]} \texttt{(PMID: XXXXXXXX)}\emph{. [\ldots] As no peer-reviewed PubMed evidence was provided, no PMID citations can be supplied.»} \par\smallskip {\footnotesize\itshape Conclusión: recomendación bien estructurada, pero cita el marcador de posición vacío y admite no poder aportar ningún PMID.} \\
+\hline
+\textbf{C (RAG)} & \emph{«Transosseous suture technique is a possible improvement in the surgical repair of the rotator cuff [\ldots]. The rate of infection after mini-open rotator cuff repair is low, approximately 1.7\%. [\ldots] Evidence basis:} \texttt{[1]} \emph{Prospective study [\ldots];} \texttt{[4]} \emph{Randomized controlled trial comparing [\ldots] transosseous hardware-free suture repair;} \texttt{[5]} \emph{Retrospective study evaluating the rate of infection after mini-open rotator cuff repair.»} \par\smallskip {\footnotesize\itshape Conclusión: sintetiza evidencia real (sutura transósea, tasa de infección del 1{,}7\,\%) pero la referencia con corchetes no trazables.} \\
+\hline
+\textbf{D (FT+RAG)} & \emph{«Arthroscopic rotator cuff repair utilizing a transosseous suture technique is a viable surgical option [\ldots], with the added benefit of reduced postoperative pain} \texttt{(PMID: 28339286)}\emph{. The mini-open rotator cuff repair technique is a safe and effective alternative [\ldots], with a low overall infection rate (1.7\%) [\ldots]} \texttt{(PMID: 39384012)}\emph{.»} \par\smallskip {\footnotesize\itshape Conclusión: la misma evidencia que C, pero anclada a PMID reales y verificables.} \\
+\hline
+\end{tabular}
+\caption{Extractos de las respuestas de las cuatro configuraciones a una misma consulta clínica (manguito rotador, especialidad \textit{Orthopedic}). Se conserva el texto original en inglés y se resaltan en \texttt{monoespaciado} los marcadores de citación.}
+\label{tab:c6_cualitativo}
+\end{table}
+
+El extracto materializa los hallazgos cuantitativos de las secciones anteriores. La configuración~A rehúsa ante la ausencia de evidencia recuperada (\texttt{no\_citation\_rate}~$=1{,}00$). La configuración~B produce una respuesta estructuralmente correcta pero emite el marcador de posición literal \texttt{(PMID: XXXXXXXX)} (reconociendo incluso, en el mismo texto, que «no PMID citations can be supplied»), ilustrando la fabricación de forma sin contenido descrita en la Sección~\ref{sec:c6_citacion}. El contraste más revelador se da entre C~y~D: ambas disponen de la misma evidencia recuperada y mencionan los mismos hechos clínicos (la técnica de sutura transósea, la tasa de infección del 1{,}7\,\% en la reparación mini-open), pero C los referencia con marcadores de corchete estilo \texttt{[1]}, \texttt{[4]}, \texttt{[5]} que no son trazables, mientras que D los ancla a PMID reales y verificables (\texttt{28339286}, \texttt{39384012}). Es la evidencia visual directa de que la recuperación aporta el contenido y el ajuste fino disciplina su formato de citación. En el Anexo~\ref{anexo:cualitativo} se recogen dos ejemplos adicionales, de otras especialidades, con las respuestas completas.
 
 \section{Discusión de los hallazgos}
 \label{sec:c6_discusion}
 
-\textbf{Cumplimiento de los criterios de éxito.} El objetivo general (Capítulo~3) y el requisito RNF-07 fijaron dos criterios cuantitativos relativos al \textit{baseline}. El primero ---que la configuración FT+RAG (D) supere a la base (A) en al menos $0{,}10$ puntos de \textit{answer relevancy}--- \textbf{se cumple con amplio margen}: la diferencia es de $0{,}569 - 0{,}000 = +0{,}569$. El segundo, relativo a \textit{faithfulness}, requiere una matización honesta: esta métrica solo es computable cuando existe contexto recuperado, por lo que \emph{no está definida para la configuración base} (A, sin RAG) y el único eje sobre el que es comparable es C$\to$D. En ese eje, el ajuste fino mejora la fidelidad en $+0{,}083$~puntos (0{,}573~$\to$~0{,}656): una mejora positiva y consistente con la hipótesis, que aísla la contribución del ajuste fino a la fidelidad, aunque queda ligeramente por debajo del umbral de $0{,}10$ que se barajó en una formulación inicial del criterio. Se reporta, por tanto, sin redondeos favorables: la dirección y el signo del efecto respaldan la hipótesis, y su magnitud exacta ($+0{,}083$) se documenta tal cual.
+\textbf{Cumplimiento de los criterios de éxito.} El objetivo general (Capítulo~3) y el requisito RNF-07 fijaron dos criterios cuantitativos relativos al \textit{baseline}. El primero (que la configuración FT+RAG (D) supere a la base (A) en al menos $0{,}10$ puntos de \textit{answer relevancy}) \textbf{se cumple con amplio margen}: la diferencia es de $0{,}569 - 0{,}000 = +0{,}569$. El segundo, relativo a \textit{faithfulness}, requiere una matización honesta: esta métrica solo es computable cuando existe contexto recuperado, por lo que \emph{no está definida para la configuración base} (A, sin RAG) y el único eje sobre el que es comparable es C$\to$D. En ese eje, el ajuste fino mejora la fidelidad en $+0{,}083$~puntos (0{,}573~$\to$~0{,}656): una mejora positiva y consistente con la hipótesis, que aísla la contribución del ajuste fino a la fidelidad, aunque queda ligeramente por debajo del umbral de $0{,}10$ que se barajó en una formulación inicial del criterio. Se reporta, por tanto, sin redondeos favorables: la dirección y el signo del efecto respaldan la hipótesis, y su magnitud exacta ($+0{,}083$) se documenta tal cual.
 
 Los resultados permiten separar de forma limpia las contribuciones de cada componente, en línea con la literatura comparativa de RAG frente a ajuste fino en dominios especializados \cite{balaguer2024ragvsfinetuningpipelines, ovadia2024finetuningretrievalcomparingknowledge, pingua_medical_FT_vs_RAG_2025}:
 
@@ -890,7 +920,7 @@ El estudio presenta varias limitaciones que se documentan en aras del rigor:
   \item \textbf{Ausencia de benchmark IR con anotación de oro.} La selección del modelo de embeddings se sustenta en el proxy de categoría MeSH (Sección~\ref{sec:c5_embedding}) y no en un conjunto anotado de relevancia, cuyo coste de anotación excede el alcance del trabajo. Las métricas RAGAS de contexto miden la calidad de recuperación de forma comparativa, no absoluta.
   \item \textbf{Techo del \textit{context recall}.} La referencia de oro derivada del \textit{teacher} introduce un sesgo de techo en \textit{context recall}, mitigado al interpretarse como diferencia entre C~y~D (sesgo común que se cancela).
   \item \textbf{Usabilidad sin usuarios reales.} La evaluación de usabilidad es una revisión heurística del autor; carece de validación con profesionales sanitarios y de métricas de interacción, lo que se aborda como trabajo futuro (Sección~\ref{sec:c6_usabilidad}).
-  \item \textbf{Determinismo procedimental.} La reproducibilidad es procedimental ---configuración fijada, \texttt{seed=42}, \textit{hash} de dataset e hiperparámetros registrados en MLflow--- y no bit a bit entre distinto hardware, por el entrenamiento en GPU en la nube y la inferencia local cuantizada (Sección~\ref{sec:c5_qlora}).
+  \item \textbf{Determinismo procedimental.} La reproducibilidad es procedimental (configuración fijada, \texttt{seed=42}, \textit{hash} de dataset e hiperparámetros registrados en MLflow) y no bit a bit entre distinto hardware, por el entrenamiento en GPU en la nube y la inferencia local cuantizada (Sección~\ref{sec:c5_qlora}).
 \end{itemize}
 
 \chapter{Conclusiones y Trabajo Futuro}
@@ -981,6 +1011,65 @@ Este anexo recoge la tabla completa de métricas del estudio ablativo (Capítulo
 \caption{Figuras comparativas complementarias por configuración (con IC \textit{bootstrap} del 95\,\% donde aplica): \textit{answer relevancy} y \textit{context recall} (RAGAS), precisión de anclaje de citaciones y tasa de alucinación de PMID.}
 \label{fig:anexo_eval_grid}
 \end{figure}
+
+\chapter{Ejemplos cualitativos de respuestas por configuración}
+\label{anexo:cualitativo}
+
+Este anexo complementa el ejemplo representativo de la Sección~\ref{sec:c6_cualitativo} con dos casos adicionales del conjunto de evaluación, de especialidades distintas, en los que se reproducen las respuestas completas de las cuatro configuraciones a una misma consulta. Se conserva el texto original en inglés generado por el sistema; los marcadores de citación (\texttt{(PMID:~XXXXXXXX)}, corchetes \texttt{[n]} y PMID reales) se resaltan en monoespaciado. El objetivo es evidenciar que los patrones cuantificados en el Capítulo~\ref{cap:evaluacion} (rechazo de la configuración~A, marcador de posición de la~B, referencias no trazables de la~C y citación anclada de la~D) se reproducen de forma consistente entre especialidades.
+
+\section{Ejemplo 1: cirugía abdominal (hernia incisional y cuerpo extraño retenido)}
+\label{anexo:cualitativo_ej1}
+
+\textbf{Consulta (resumen).} Nota operatoria de un paciente con quiste sebáceo de abdomen recurrentemente infectado, absceso secundario a cuerpo extraño retenido y hernia incisional; procedimientos de excisión del absceso, retirada del cuerpo extraño y reparación de la hernia.
+
+\begin{quote}\small
+\textbf{A (base).} \emph{«The retrieved context is off-topic or insufficient for this clinical case. [\ldots] No evidence-based recommendation can be made from the provided documents.»}
+\end{quote}
+\noindent{\footnotesize\itshape Conclusión: rehúsa por considerar el contexto insuficiente y no emite ninguna recomendación.}
+
+\begin{quote}\small
+\textbf{B (FT).} \emph{«Excision of the infected cyst and hernia repair are appropriate surgical interventions for recurrently infected sebaceous cysts and associated hernias.} \texttt{(PMID: XXXXXXXX)}\emph{. [\ldots] This recommendation is derived from a single patient note/case report [\ldots]. The retrieved evidence consists solely of a clinical operative note and lacks peer-reviewed literature [\ldots]; consequently, no evidence-based recommendation can be made.»}
+\end{quote}
+\noindent{\footnotesize\itshape Conclusión: recomendación estructurada con marcador de posición vacío; reconoce la ausencia de literatura revisada por pares.}
+
+\begin{quote}\small
+\textbf{C (RAG).} \emph{«Use of monofilament sutures may reduce the risk of incisional hernia} \texttt{(PMID: 29099149)}\emph{. Absorbable sutures may reduce the risk of sinus or fistula tract formation} \texttt{(PMID: 29099149)}\emph{. Transfascial suture fixation technique (TRANSFIX) appears to be a safe and economical mesh fixation method for laparoscopic inguinal hernia repair} \texttt{(PMID: 31099180)}\emph{. Incisional negative pressure wound therapy (iNPWT) may be beneficial in preventing wound healing disorders [\ldots]} \texttt{(PMID: 34110077)}\emph{. Evidence basis: Systematic review and meta-analysis} \texttt{(PMID: 29099149)}\emph{; Case series} \texttt{(PMID: 31099180)}\emph{; Retrospective analysis} \texttt{(PMID: 34110077)}\emph{.»}
+\end{quote}
+\noindent{\footnotesize\itshape Conclusión: cita PMID reales sobre suturas, fijación de malla y terapia de presión negativa, con el tipo de estudio de cada fuente.}
+
+\begin{quote}\small
+\textbf{D (FT+RAG).} \emph{«For abdominal wall closure following laparotomy, monofilament sutures are recommended to reduce the risk of incisional hernia formation} \texttt{(PMID: 29099149)}\emph{. The use of incisional negative pressure wound therapy (iNPWT) may be considered as a preventive measure to mitigate wound healing impairments and surgical site infections [\ldots]} \texttt{(PMID: 34110077)}\emph{. Retained surgical foreign bodies, including gossypibomas, should be recognized as a preventable complication and managed with prompt surgical removal [\ldots]} \texttt{(PMID: 39438894)}\emph{. [\ldots] The recommendation for monofilament sutures is based on a systematic review and meta-analysis of 55 randomized controlled trials involving 19,174 participants} \texttt{(PMID: 29099149)}\emph{.»}
+\end{quote}
+\noindent{\footnotesize\itshape Conclusión: refina la evidencia e incorpora el PMID sobre cuerpos extraños retenidos, directamente pertinente al diagnóstico postoperatorio.}
+
+En este caso la configuración~C sí cita PMID reales (su tasa de citación es 0{,}84; Tabla~\ref{tab:c6_citacion}), pero la configuración~D refina la selección de evidencia (incorpora el PMID sobre cuerpos extraños retenidos: \texttt{39438894}, directamente pertinente al diagnóstico postoperatorio) y enriquece la base de evidencia con el detalle del diseño del estudio.
+
+\section{Ejemplo 2: dietética y nutrición (mantenimiento de pérdida de peso)}
+\label{anexo:cualitativo_ej2}
+
+\textbf{Consulta (resumen).} Nota de seguimiento de un paciente en programa de pérdida de peso (186{,}5~libras, $-34{,}5$~libras acumuladas); se revisa el diario de alimentación y se valora si debe continuar perdiendo peso.
+
+\begin{quote}\small
+\textbf{A (base).} \emph{«The retrieved context is off-topic or insufficient for this clinical case. [\ldots] No specific clinical question or evidence-based recommendation can be made from the provided documents.»}
+\end{quote}
+\noindent{\footnotesize\itshape Conclusión: rehúsa por no identificar una pregunta clínica concreta en el contexto.}
+
+\begin{quote}\small
+\textbf{B (FT).} \emph{«Continue regular physical activity and maintain a food diary to support sustained weight loss.} \texttt{(PMID: XXXXXXXX)}\emph{. This recommendation is based on clinical assessment and management protocols, as no specific evidence-based studies are provided [\ldots]. The provided documents consist solely of a patient note and lack scientific literature to support these recommendations.»}
+\end{quote}
+\noindent{\footnotesize\itshape Conclusión: recomendación con marcador de posición vacío; admite no disponer de literatura de apoyo.}
+
+\begin{quote}\small
+\textbf{C (RAG).} \emph{«Continue the patient's regular physical activity and food diary to maintain weight loss. [\ldots] The evidence from} \texttt{[1]} \emph{and} \texttt{[2]} \emph{suggests that multimodal health behaviour-changing interventions may result in a small improvement in physical well-being and BMI z-score [\ldots]. The study in} \texttt{[4]} \emph{found that frequent visits play a pivotal role in enhancing weight loss during obesity treatment [\ldots].»}
+\end{quote}
+\noindent{\footnotesize\itshape Conclusión: apoya las afirmaciones con marcadores de corchete no trazables (intervenciones multimodales, papel de las visitas frecuentes).}
+
+\begin{quote}\small
+\textbf{D (FT+RAG).} \emph{«Regular follow-up and frequent outpatient visits are crucial for managing obesity and maintaining weight loss. Multimodal health behavior-changing interventions [\ldots] are recommended, though they may have limited long-term efficacy. [\ldots] The recommendation for frequent visits is supported by a 5-year retrospective observational study evaluating the impact of visit frequency on weight loss success in an obesity outpatient clinic} \texttt{(PMID: 41517662)}\emph{. The recommendation for multimodal lifestyle interventions is derived from two Cochrane systematic reviews of randomized controlled trials [\ldots].»}
+\end{quote}
+\noindent{\footnotesize\itshape Conclusión: las mismas afirmaciones que C pero ancladas a PMID reales (estudio observacional a 5 años y revisiones Cochrane).}
+
+Este segundo ejemplo reproduce el patrón del caso del manguito rotador de la Sección~\ref{sec:c6_cualitativo}: la configuración~C apoya las mismas afirmaciones que la~D (intervenciones multimodales, papel de las visitas frecuentes) pero con marcadores de corchete no trazables (\texttt{[1]}, \texttt{[2]}, \texttt{[4]}), mientras que la~D las ancla a PMID reales y verificables (\texttt{41517662}), confirmando la generalización del efecto del ajuste fino sobre el formato de citación entre especialidades muy distintas.
 
 \end{document}
 

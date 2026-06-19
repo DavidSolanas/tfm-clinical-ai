@@ -323,6 +323,7 @@ INPUT /usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmti10.pfb
 INPUT /usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmti9.pfb
 INPUT /usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt10.pfb
 INPUT /usr/share/texlive/texmf-dist/fonts/type1/public/mathabx-type1/matha10.pfb
+INPUT /usr/share/texlive/texmf-dist/fonts/type1/public/mathabx-type1/matha5.pfb
 INPUT /usr/share/texlive/texmf-dist/fonts/type1/public/mathabx-type1/matha6.pfb
 INPUT /usr/share/texlive/texmf-dist/fonts/type1/public/mathabx-type1/matha8.pfb
 INPUT /usr/share/texlive/texmf-dist/fonts/type1/public/mathabx-type1/mathx10.pfb

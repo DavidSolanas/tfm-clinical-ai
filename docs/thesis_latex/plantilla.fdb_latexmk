@@ -1,15 +1,15 @@
 # Fdb version 4
-["bibtex plantilla"] 1781894835.1159 "plantilla.aux" "plantilla.bbl" "plantilla" 1781894836.49049 0
+["bibtex plantilla"] 1781897059.00512 "plantilla.aux" "plantilla.bbl" "plantilla" 1781897155.39931 0
   "./bibliografia.bib" 1780596090.50737 62281 de92e837070b5d4e4ca006a6dae667ca ""
   "/usr/share/texlive/texmf-dist/bibtex/bst/apacite/apacite.bst" 1374530685 141073 9d7b79dbf9d91133318126032cff8c27 ""
-  "plantilla.aux" 1781894836.22638 32514 831a8348bd208e82235e1c7ec9eb59af "pdflatex"
+  "plantilla.aux" 1781897155.12917 34432 fa309a33b96282cde44d67078d5c13bf "pdflatex"
   (generated)
   "plantilla.bbl"
   "plantilla.blg"
   (rewritten before read)
-["pdflatex"] 1781894835.20821 "/home/davidsolanas/Documents/MasterIA/TFM/tfm-clinical-ai/docs/thesis_latex/plantilla.tex" "plantilla.pdf" "plantilla" 1781894836.49071 0
+["pdflatex"] 1781897154.0728 "/home/davidsolanas/Documents/MasterIA/TFM/tfm-clinical-ai/docs/thesis_latex/plantilla.tex" "plantilla.pdf" "plantilla" 1781897155.39952 0
   "/etc/texmf/web2c/texmf.cnf" 1774284228.73157 475 c0e671620eb5563b2130f56340a5fde8 ""
-  "/home/davidsolanas/Documents/MasterIA/TFM/tfm-clinical-ai/docs/thesis_latex/plantilla.tex" 1781894833.62306 118842 0a439e8a89932f8739e677b5d44fa621 ""
+  "/home/davidsolanas/Documents/MasterIA/TFM/tfm-clinical-ai/docs/thesis_latex/plantilla.tex" 1781897153.89314 131662 767fad3061ec111df18c925682cb9254 ""
   "/usr/share/texlive/texmf-dist/fonts/map/fontname/texfonts.map" 1577235249 3524 cb3e574dea2d1052e39280babc910dc8 ""
   "/usr/share/texlive/texmf-dist/fonts/tfm/public/amsfonts/cmextra/cmex7.tfm" 1246382020 1004 54797486969f23fa377b128694d548df ""
   "/usr/share/texlive/texmf-dist/fonts/tfm/public/amsfonts/cmextra/cmex8.tfm" 1246382020 988 bdf658c3bfc2d96d3c8b02cfc1c94c20 ""
@@ -75,6 +75,7 @@
   "/usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt10.pfb" 1248133631 31099 c85edf1dd5b9e826d67c9c7293b6786c ""
   "/usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/symbols/msbm10.pfb" 1248133631 34694 ad62b13721ee8eda1dcc8993c8bd7041 ""
   "/usr/share/texlive/texmf-dist/fonts/type1/public/mathabx-type1/matha10.pfb" 1295482684 90043 a01ee69dbd537ea8a0835a2b4841a64e ""
+  "/usr/share/texlive/texmf-dist/fonts/type1/public/mathabx-type1/matha5.pfb" 1295482684 96302 e91b1c31d3582d16775d0bf165963e92 ""
   "/usr/share/texlive/texmf-dist/fonts/type1/public/mathabx-type1/matha6.pfb" 1295482684 93176 0e192b93dceeff9d5c17507fff8379cc ""
   "/usr/share/texlive/texmf-dist/fonts/type1/public/mathabx-type1/matha8.pfb" 1295482684 92536 122d225cdc6105aa1e30a312e405a45c ""
   "/usr/share/texlive/texmf-dist/fonts/type1/public/mathabx-type1/mathx10.pfb" 1295482684 70423 0070bb296823c13808887eb0da9c02b4 ""
@@ -163,13 +164,13 @@
   "figures/eval_placeholder_cite.png" 1781894233.71857 29231 f2fd383a509bdfeaaf0aa22d6ce7d59b ""
   "figures/eval_pmid_citation_rate.png" 1781894233.58231 30265 18e873dc45acd9aa0b431b4b2e77dd37 ""
   "logo_unir.pdf" 1777995013.02722 5261 e89deec51d32a79481fdbc2d4b98931c ""
-  "plantilla.aux" 1781894836.22638 32514 831a8348bd208e82235e1c7ec9eb59af "pdflatex"
-  "plantilla.bbl" 1781894835.20329 32854 1f562ddf0b388e42eb6348badce253eb "bibtex plantilla"
-  "plantilla.lof" 1781894836.23062 1393 7ae837b4219b2a58873d3f3b376bd687 "pdflatex"
-  "plantilla.lot" 1781894836.23062 2600 8c46d20e0f46c0267102b0ea5b86a50f "pdflatex"
-  "plantilla.out" 1781894836.22938 13386 21a719b04c7a5f5bc348cb83b6890098 "pdflatex"
-  "plantilla.tex" 1781894833.62306 118842 0a439e8a89932f8739e677b5d44fa621 ""
-  "plantilla.toc" 1781894836.23062 5794 0889403476b3896723a03d317b58706f "pdflatex"
+  "plantilla.aux" 1781897155.12917 34432 fa309a33b96282cde44d67078d5c13bf "pdflatex"
+  "plantilla.bbl" 1781897059.09981 32854 1f562ddf0b388e42eb6348badce253eb "bibtex plantilla"
+  "plantilla.lof" 1781897155.13305 1413 7b0af47177fd02520bc206ac936bef98 "pdflatex"
+  "plantilla.lot" 1781897155.13305 2946 4cfa6019e9d5c53401efd356e9ea287d "pdflatex"
+  "plantilla.out" 1781897155.13217 14952 5a38addb9733dbed37a473f64e67bdf6 "pdflatex"
+  "plantilla.tex" 1781897153.89314 131662 767fad3061ec111df18c925682cb9254 ""
+  "plantilla.toc" 1781897155.13305 6298 a8f84e9519a38a97d5664ca212854322 "pdflatex"
   (generated)
   "plantilla.aux"
   "plantilla.lof"

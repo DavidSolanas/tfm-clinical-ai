@@ -17,8 +17,10 @@
 \addvspace {10\p@ }
 \contentsline {table}{\numberline {6.1}{\ignorespaces Métricas RAGAS por configuración (medias sobre los registros respondidos, $n=50$). Las métricas dependientes de contexto solo aplican a las configuraciones con RAG. En negrita, el mejor valor por fila.}}{40}{table.6.1}%
 \contentsline {table}{\numberline {6.2}{\ignorespaces Métricas deterministas de comportamiento de citación por configuración (tasas sobre registros respondidos, $n=50$). La precisión de anclaje solo se define cuando hay recuperación (C~y~D).}}{42}{table.6.2}%
-\contentsline {table}{\numberline {6.3}{\ignorespaces Métricas de alucinación y robustez operativa por configuración ($n=50$).}}{45}{table.6.3}%
+\contentsline {table}{\numberline {6.3}{\ignorespaces Métricas de alucinación y robustez operativa por configuración ($n=50$).}}{44}{table.6.3}%
 \contentsline {table}{\numberline {6.4}{\ignorespaces Evaluación heurística de usabilidad realizada por el autor, anclada en funcionalidades implementadas y evaluadas.}}{46}{table.6.4}%
+\contentsline {table}{\numberline {6.5}{\ignorespaces Extractos de las respuestas de las cuatro configuraciones a una misma consulta clínica (manguito rotador, especialidad \textit {Orthopedic}). Se conserva el texto original en inglés y se resaltan en \texttt {monoespaciado} los marcadores de citación.}}{50}{table.6.5}%
 \addvspace {10\p@ }
 \addvspace {10\p@ }
-\contentsline {table}{\numberline {A.1}{\ignorespaces Tabla completa de métricas del estudio ablativo por configuración ($n=50$). Las celdas «---» indican métricas no definidas para esa configuración (las métricas RAGAS dependientes de contexto y la precisión de anclaje solo aplican a las configuraciones con RAG).}}{54}{table.Alph1.1}%
+\contentsline {table}{\numberline {A.1}{\ignorespaces Tabla completa de métricas del estudio ablativo por configuración ($n=50$). Las celdas «---» indican métricas no definidas para esa configuración (las métricas RAGAS dependientes de contexto y la precisión de anclaje solo aplican a las configuraciones con RAG).}}{56}{table.Alph1.1}%
+\addvspace {10\p@ }
