@@ -15,6 +15,7 @@ import matplotlib.pyplot as plt
 import mlflow
 from mlflow.tracking import MlflowClient
 
+from src.evaluation.plot_style import apply_style, grouped_bar, metric_title
 from src.evaluation.runner import ConfigSpec
 from src.logging_config import get_logger
 from src.tracking import setup_tracking_uri
@@ -103,19 +104,16 @@ def _bar_with_ci(
     title: str,
     ylabel: str,
 ) -> None:
-    """Grayscale-printable bar chart with optional 95% CI error bars."""
-    xs = range(len(config_names))
-    yerr = None
-    if ci_lows is not None and ci_highs is not None:
-        lower = [m - lo if not math.isnan(lo) else 0.0 for m, lo in zip(means, ci_lows)]
-        upper = [hi - m if not math.isnan(hi) else 0.0 for m, hi in zip(means, ci_highs)]
-        yerr = [lower, upper]
-    ax.bar(xs, means, color="0.4", edgecolor="black", yerr=yerr, capsize=4)
-    ax.set_xticks(list(xs))
-    ax.set_xticklabels(config_names, rotation=15)
-    ax.set_title(title)
-    ax.set_ylabel(ylabel)
-    ax.grid(axis="y", linestyle=":", alpha=0.5)
+    """Thesis-styled per-config bar chart with optional 95% CI error bars.
+
+    Thin wrapper over :func:`src.evaluation.plot_style.grouped_bar` so the rollup
+    figures match the inspection notebook exactly.
+    """
+    grouped_bar(
+        ax, config_names, means,
+        ylabel=ylabel, title=title,
+        ci_low=ci_lows, ci_high=ci_highs,
+    )
 
 
 def _fetch_children(client: MlflowClient, ablation_id: str) -> dict[str, dict]:
@@ -168,6 +166,7 @@ def log_rollup_run(ablation_id: str) -> str:
     """
     setup_tracking_uri()
     mlflow.set_experiment(_EXPERIMENT)
+    apply_style()
     client = MlflowClient()
 
     children = _fetch_children(client, ablation_id)
@@ -208,18 +207,18 @@ def log_rollup_run(ablation_id: str) -> str:
 
         # Custom metrics bar charts (no CIs — these are rates/proportions).
         for metric_key, ylabel, plot_name in [
-            ("hallucinated_pmids_rate", "Answers w/ hallucinated PMID", "hallucinated_pmids"),
-            ("format_adherence_among_answered", "Format adherence (answered)", "format_adherence"),
-            ("abstention_rate", "Abstention rate", "abstention_rate"),
-            ("error_rate", "Error rate", "error_rate"),
-            ("pmid_citation_rate", "Answers w/ (PMID: n) cite", "pmid_citation_rate"),
-            ("placeholder_citation_rate", "Answers w/ placeholder cite", "placeholder_cite"),
-            ("citation_grounding_precision", "Cited PMIDs in retrieved", "grounding_precision"),
+            ("hallucinated_pmids_rate", "Fraction of answers", "hallucinated_pmids"),
+            ("format_adherence_among_answered", "Fraction of answered", "format_adherence"),
+            ("abstention_rate", "Fraction of samples", "abstention_rate"),
+            ("error_rate", "Fraction of samples", "error_rate"),
+            ("pmid_citation_rate", "Fraction of answers", "pmid_citation_rate"),
+            ("placeholder_citation_rate", "Fraction of answers", "placeholder_cite"),
+            ("citation_grounding_precision", "Cited PMIDs in retrieved set", "grounding_precision"),
         ]:
             means = [m[c].get(metric_key, math.nan) for c in _CONFIG_ORDER]
-            fig, ax = plt.subplots(figsize=(6, 4))
+            fig, ax = plt.subplots(figsize=(6.4, 4.2))
             _bar_with_ci(ax, list(_CONFIG_ORDER), means, None, None,
-                         title=metric_key.replace("_", " "), ylabel=ylabel)
+                         title=metric_title(metric_key), ylabel=ylabel)
             _save_and_log(fig, plot_name)
 
         # RAGAS metrics with 95% CI error bars.
@@ -227,10 +226,10 @@ def log_rollup_run(ablation_id: str) -> str:
             means = [m[c].get(f"{metric_key}_mean", math.nan) for c in _CONFIG_ORDER]
             lows = [m[c].get(f"{metric_key}_ci_low", math.nan) for c in _CONFIG_ORDER]
             highs = [m[c].get(f"{metric_key}_ci_high", math.nan) for c in _CONFIG_ORDER]
-            fig, ax = plt.subplots(figsize=(6, 4))
+            fig, ax = plt.subplots(figsize=(6.4, 4.2))
             _bar_with_ci(ax, list(_CONFIG_ORDER), means, lows, highs,
-                         title=f"RAGAS {metric_key.replace('_', ' ')}",
-                         ylabel=metric_key.replace("_", " "))
+                         title=f"RAGAS · {metric_title(metric_key)}",
+                         ylabel="Score")
             _save_and_log(fig, metric_key)
 
         logger.info("Rollup run logged — id=%s", rollup.info.run_id)

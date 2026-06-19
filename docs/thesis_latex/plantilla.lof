@@ -7,5 +7,9 @@
 \addvspace {10\p@ }
 \addvspace {10\p@ }
 \addvspace {10\p@ }
+\contentsline {figure}{\numberline {6.1}{\ignorespaces \textit {Faithfulness} RAGAS por configuración con IC \textit {bootstrap} del 95\,\%. Solo las configuraciones con RAG (C~y~D) reciben puntuación, al requerir esta métrica un contexto recuperado.}}{41}{figure.6.1}%
+\contentsline {figure}{\numberline {6.2}{\ignorespaces Tasa de citación con PMID por configuración. La recuperación (A$\to $C, B$\to $D) es la que activa la citación; el ajuste fino la lleva a la práctica totalidad de las respuestas (D, 0{,}98).}}{43}{figure.6.2}%
+\contentsline {figure}{\numberline {6.3}{\ignorespaces Tasa de marcadores de posición literales \texttt {(PMID: XXXXXXXX)} por configuración. Solo la configuración~B (ajuste fino sin RAG) los produce, al operar fuera de su distribución de entrenamiento sin evidencia que citar.}}{44}{figure.6.3}%
 \addvspace {10\p@ }
 \addvspace {10\p@ }
+\contentsline {figure}{\numberline {A.1}{\ignorespaces Figuras comparativas complementarias por configuración (con IC \textit {bootstrap} del 95\,\% donde aplica): \textit {answer relevancy} y \textit {context recall} (RAGAS), precisión de anclaje de citaciones y tasa de alucinación de PMID.}}{55}{figure.Alph1.1}%

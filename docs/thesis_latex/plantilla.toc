@@ -1,6 +1,6 @@
 \babel@toc {spanish}{}\relax 
-\contentsline {chapter}{Resumen}{\es@scroman {v}}{chapter*.4}%
-\contentsline {chapter}{Abstract}{\es@scroman {vi}}{chapter*.5}%
+\contentsline {chapter}{Resumen}{\es@scroman {vi}}{chapter*.4}%
+\contentsline {chapter}{Abstract}{\es@scroman {vii}}{chapter*.5}%
 \contentsline {chapter}{\numberline {1}Introducción}{1}{chapter.1}%
 \contentsline {section}{\numberline {1.1}Motivación y justificación}{1}{section.1.1}%
 \contentsline {section}{\numberline {1.2}Planteamiento del trabajo}{2}{section.1.2}%
@@ -25,9 +25,9 @@
 \contentsline {chapter}{\numberline {3}Objetivos y Metodología de Trabajo}{14}{chapter.3}%
 \contentsline {section}{\numberline {3.1}Objetivo general}{14}{section.3.1}%
 \contentsline {section}{\numberline {3.2}Objetivos específicos}{14}{section.3.2}%
-\contentsline {section}{\numberline {3.3}Metodología de trabajo}{15}{section.3.3}%
-\contentsline {section}{\numberline {3.4}Herramientas y tecnologías}{16}{section.3.4}%
-\contentsline {section}{\numberline {3.5}Planificación temporal}{17}{section.3.5}%
+\contentsline {section}{\numberline {3.3}Metodología de trabajo}{16}{section.3.3}%
+\contentsline {section}{\numberline {3.4}Herramientas y tecnologías}{17}{section.3.4}%
+\contentsline {section}{\numberline {3.5}Planificación temporal}{18}{section.3.5}%
 \contentsline {chapter}{\numberline {4}Identificación de Requisitos}{19}{chapter.4}%
 \contentsline {section}{\numberline {4.1}Trabajo previo e identificación del problema}{19}{section.4.1}%
 \contentsline {section}{\numberline {4.2}Perfil de usuario objetivo y escenario de uso}{20}{section.4.2}%
@@ -48,9 +48,16 @@
 \contentsline {subsection}{\numberline {5.3.6}Verificación de citaciones}{32}{subsection.5.3.6}%
 \contentsline {section}{\numberline {5.4}Generación del conjunto de entrenamiento SFT}{33}{section.5.4}%
 \contentsline {section}{\numberline {5.5}Ajuste fino con QLoRA}{35}{section.5.5}%
-\contentsline {section}{\numberline {5.6}Configuraciones ablativas}{35}{section.5.6}%
+\contentsline {section}{\numberline {5.6}Configuraciones ablativas}{36}{section.5.6}%
 \contentsline {section}{\numberline {5.7}Interfaz de usuario}{37}{section.5.7}%
 \contentsline {chapter}{\numberline {6}Evaluación}{39}{chapter.6}%
-\contentsline {chapter}{\numberline {7}Conclusiones y Trabajo Futuro}{40}{chapter.7}%
-\contentsline {section}{Referencias}{40}{section*.6}%
-\contentsline {chapter}{\numberline {A}Apendices}{45}{appendix.Alph1}%
+\contentsline {section}{\numberline {6.1}Metodología de evaluación}{39}{section.6.1}%
+\contentsline {section}{\numberline {6.2}Resultados de calidad de respuesta (RAGAS)}{40}{section.6.2}%
+\contentsline {section}{\numberline {6.3}Comportamiento de citación}{42}{section.6.3}%
+\contentsline {section}{\numberline {6.4}Alucinación de PMID y robustez operativa}{44}{section.6.4}%
+\contentsline {section}{\numberline {6.5}Evaluación de aplicabilidad y usabilidad}{45}{section.6.5}%
+\contentsline {section}{\numberline {6.6}Discusión de los hallazgos}{46}{section.6.6}%
+\contentsline {section}{\numberline {6.7}Amenazas a la validez y limitaciones}{48}{section.6.7}%
+\contentsline {chapter}{\numberline {7}Conclusiones y Trabajo Futuro}{49}{chapter.7}%
+\contentsline {section}{Referencias}{49}{section*.6}%
+\contentsline {chapter}{\numberline {A}Resultados de evaluación detallados}{54}{appendix.Alph1}%

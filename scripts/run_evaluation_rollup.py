@@ -59,7 +59,7 @@ def main() -> None:
 
     _assert_runs_present(args.ablation_id)
     run_id = log_rollup_run(args.ablation_id)
-    logger.info("Rollup complete — ablation_id=%s run_id=%s", args.ablation_id, run_id)
+    logger.info("Rollup complete: ablation_id=%s run_id=%s", args.ablation_id, run_id)
 
 
 if __name__ == "__main__":

@@ -4,7 +4,7 @@
 \addvspace {10\p@ }
 \addvspace {10\p@ }
 \addvspace {10\p@ }
-\contentsline {table}{\numberline {3.1}{\ignorespaces Herramientas y tecnologías empleadas en el sistema}}{18}{table.3.1}%
+\contentsline {table}{\numberline {3.1}{\ignorespaces Herramientas y tecnologías empleadas en el sistema}}{17}{table.3.1}%
 \contentsline {table}{\numberline {3.2}{\ignorespaces Planificación temporal del trabajo}}{18}{table.3.2}%
 \addvspace {10\p@ }
 \contentsline {table}{\numberline {4.1}{Requisitos funcionales del sistema}}{21}{table.4.1}%
@@ -15,5 +15,10 @@
 \contentsline {table}{\numberline {5.3}{\ignorespaces Hiperparámetros de ajuste fino con QLoRA (\texttt {configs/training.yaml}).}}{36}{table.5.3}%
 \contentsline {table}{\numberline {5.4}{\ignorespaces Cuatro configuraciones ablativas del sistema. La configuración~D es el sistema híbrido completo.}}{37}{table.5.4}%
 \addvspace {10\p@ }
+\contentsline {table}{\numberline {6.1}{\ignorespaces Métricas RAGAS por configuración (medias sobre los registros respondidos, $n=50$). Las métricas dependientes de contexto solo aplican a las configuraciones con RAG. En negrita, el mejor valor por fila.}}{40}{table.6.1}%
+\contentsline {table}{\numberline {6.2}{\ignorespaces Métricas deterministas de comportamiento de citación por configuración (tasas sobre registros respondidos, $n=50$). La precisión de anclaje solo se define cuando hay recuperación (C~y~D).}}{42}{table.6.2}%
+\contentsline {table}{\numberline {6.3}{\ignorespaces Métricas de alucinación y robustez operativa por configuración ($n=50$).}}{45}{table.6.3}%
+\contentsline {table}{\numberline {6.4}{\ignorespaces Evaluación heurística de usabilidad realizada por el autor, anclada en funcionalidades implementadas y evaluadas.}}{46}{table.6.4}%
 \addvspace {10\p@ }
 \addvspace {10\p@ }
+\contentsline {table}{\numberline {A.1}{\ignorespaces Tabla completa de métricas del estudio ablativo por configuración ($n=50$). Las celdas «---» indican métricas no definidas para esa configuración (las métricas RAGAS dependientes de contexto y la precisión de anclaje solo aplican a las configuraciones con RAG).}}{54}{table.Alph1.1}%

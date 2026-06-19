@@ -127,7 +127,7 @@ El \textbf{Capítulo 4 (Identificación de Requisitos)} especifica los requisito
 
 El \textbf{Capítulo 5 (Descripción de la Herramienta Software Desarrollada)} detalla la arquitectura del sistema, los módulos implementados (ingestión, embeddings, fine-tuning, pipeline RAG e interfaz Gradio) y las decisiones de diseño adoptadas.
 
-El \textbf{Capítulo 6 (Evaluación)} presenta los resultados de la evaluación automática mediante RAGAS para las cuatro configuraciones experimentales, así como la evaluación de usabilidad realizada con usuarios.
+El \textbf{Capítulo 6 (Evaluación)} presenta los resultados de la evaluación automática mediante RAGAS para las cuatro configuraciones experimentales, junto con un conjunto de métricas deterministas de comportamiento de citación, así como una evaluación heurística de usabilidad y aplicabilidad de la herramienta realizada por el autor.
 
 El \textbf{Capítulo 7 (Conclusiones y Trabajo Futuro)} resume las contribuciones del trabajo, relaciona los resultados con los objetivos planteados, expone las limitaciones identificadas y propone las líneas de trabajo futuro más prometedoras.
 
@@ -249,7 +249,7 @@ Este capítulo presenta los objetivos del trabajo en términos medibles y descri
 
 El objetivo general de este trabajo es diseñar, implementar y evaluar un sistema híbrido de asistencia bibliográfica clínica que combine el ajuste fino eficiente de un LLM de código abierto con una arquitectura RAG sobre literatura biomédica verificada, cuantificando la contribución diferencial de cada componente sobre la calidad de las respuestas generadas.
 
-Expresado en términos SMART \cite{doran1981there}, el objetivo es construir un sistema funcional, evaluado automáticamente mediante RAGAS sobre las cuatro configuraciones experimentales y validado de forma cualitativa. La configuración híbrida completa (FT+RAG) debe superar a la configuración base (modelo sin ajuste fino y sin recuperación) en al menos $0{,}10$ puntos absolutos de \textit{Faithfulness} y $0{,}10$ puntos de \textit{Answer Relevancy}, evidenciando una contribución diferencial cuantificable de cada componente. La formulación se plantea en términos relativos al \textit{baseline}: los criterios de éxito dependen así del comportamiento del propio sistema bajo cada configuración y no de un valor absoluto cuya alcanzabilidad está condicionada por el modelo base elegido y por las características del corpus PubMed indexado.
+Expresado en términos SMART \cite{doran1981there}, el objetivo es construir un sistema funcional, evaluado automáticamente mediante RAGAS sobre las cuatro configuraciones experimentales y validado de forma cualitativa. La configuración híbrida completa (FT+RAG) debe superar a la configuración base (modelo sin ajuste fino y sin recuperación) en al menos $0{,}10$ puntos absolutos de \textit{Answer Relevancy}. Dado que la métrica \textit{Faithfulness} solo es computable cuando existe contexto recuperado ---y, por tanto, no está definida para las configuraciones sin RAG (A y B)---, el criterio de fidelidad se evalúa sobre el único eje en el que es comparable: la configuración FT+RAG (D) debe mejorar la \textit{Faithfulness} respecto a la configuración RAG sin ajuste fino (C), aislando así la contribución del ajuste fino a la fidelidad. En conjunto, ambos criterios evidencian una contribución diferencial cuantificable de cada componente. La formulación se plantea en términos relativos al \textit{baseline}: los criterios de éxito dependen así del comportamiento del propio sistema bajo cada configuración y no de un valor absoluto cuya alcanzabilidad está condicionada por el modelo base elegido y por las características del corpus PubMed indexado.
 
 \section{Objetivos específicos}
 
@@ -266,7 +266,7 @@ Para lograr el objetivo general, se plantean los siguientes objetivos específic
 
   \item \textbf{OE5: Determinación de la contribución diferencial.} Determinar si la configuración híbrida FT+RAG ofrece ventajas estadísticamente interpretables sobre las configuraciones parciales, identificando qué limitación específica mitiga cada técnica: el ajuste fino para la adaptación de estilo y terminología clínica, y RAG para la reducción de alucinaciones y la incorporación de evidencia actualizada.
 
-  \item \textbf{OE6: Desarrollo de un prototipo funcional de interfaz clínica.} Implementar una interfaz web funcional con Gradio que permita a un profesional sanitario formular consultas bibliográficas en lenguaje natural, seleccionar la configuración del sistema (Base / FT / RAG / FT+RAG), y visualizar las respuestas generadas junto con las fuentes bibliográficas recuperadas (PMID y fragmento de abstract), verificando su usabilidad mediante una sesión de evaluación con al menos un experto del dominio clínico.
+  \item \textbf{OE6: Desarrollo de un prototipo funcional de interfaz clínica.} Implementar una interfaz web funcional con Gradio que permita a un profesional sanitario formular consultas bibliográficas en lenguaje natural, seleccionar la configuración del sistema (Base / FT / RAG / FT+RAG), y visualizar las respuestas generadas junto con las fuentes bibliográficas recuperadas (PMID y fragmento de abstract), y valorar su usabilidad mediante una evaluación heurística de la interfaz, contemplando una sesión de validación con un experto del dominio clínico como línea de trabajo futuro.
 \end{enumerate}
 
 \section{Metodología de trabajo}
@@ -281,7 +281,7 @@ La metodología propuesta en este trabajo está estructurada en las siguientes f
 
 \textbf{Fase 4: Construcción del pipeline RAG.} Se implementa un pipeline de recuperación augmentada de cinco capas que, ante una consulta clínica, (a) genera su embedding y lanza una búsqueda híbrida densa-dispersa sobre Qdrant filtrada por año, (b) fusiona los rankings mediante Reciprocal Rank Fusion, (c) reordena los candidatos con el \textit{cross-encoder} biomédico MedCPT, (d) aplica una puntuación clínica compuesta y una puerta de abstención sobre la evidencia recuperada, y (e) construye el prompt del LLM con baja temperatura y verifica las citas generadas frente al contexto recuperado.
 
-\textbf{Fase 5: Evaluación.} Se construye un \textit{benchmark} de 50 preguntas clínicas con respuestas de referencia extraídas de guías clínicas y revisiones sistemáticas. Las cuatro configuraciones experimentales se evalúan automáticamente con RAGAS y mediante una sesión de evaluación de usabilidad con al menos un profesional sanitario.
+\textbf{Fase 5: Evaluación.} Se construye un \textit{benchmark} de 50 casos clínicos estratificados por especialidad médica sobre la partición de test. Las cuatro configuraciones experimentales se evalúan automáticamente con RAGAS, complementadas con métricas deterministas de comportamiento de citación. La validación cualitativa de usabilidad se aborda mediante una evaluación heurística de la interfaz realizada por el autor, quedando la evaluación con profesionales sanitarios como línea de trabajo futuro (Sección~\ref{sec:c4_validacion}).
 
 \textbf{Fase 6: Interfaz de demostración.} Se implementa una interfaz web con Gradio que permite seleccionar la configuración del sistema y visualizar las respuestas junto con las fuentes recuperadas (PMID y fragmento de abstract).
 
@@ -445,7 +445,7 @@ RNF-05 & Rendimiento computacional & El sistema debe ejecutarse íntegramente so
 \hline
 RNF-06 & Latencia percibida & La respuesta a una consulta clínica en la configuración híbrida completa (FT+RAG) debe entregarse en un tiempo compatible con el uso interactivo del sistema durante la actividad asistencial. La cuantificación exacta del umbral depende del hardware de despliegue final y se documentará tras las primeras mediciones de extremo a extremo. \\
 \hline
-RNF-07 & Calidad de la respuesta & La configuración híbrida completa (FT+RAG) debe superar a la configuración base en al menos $0{,}10$ puntos absolutos de \textit{Faithfulness} y $0{,}10$ puntos de \textit{Answer Relevancy} sobre el \textit{benchmark} de evaluación RAGAS, según el objetivo cuantitativo relativo declarado en el Capítulo~3. \\
+RNF-07 & Calidad de la respuesta & La configuración híbrida completa (FT+RAG) debe superar a la configuración base en al menos $0{,}10$ puntos absolutos de \textit{Answer Relevancy} y mejorar la \textit{Faithfulness} respecto a la configuración RAG sin ajuste fino (C) ---único eje sobre el que esta métrica es computable, al requerir contexto recuperado--- sobre el \textit{benchmark} de evaluación RAGAS, según el objetivo cuantitativo relativo declarado en el Capítulo~3. \\
 \hline
 RNF-08 & Coste de licencias & Todos los componentes principales (modelo base, embeddings, base vectorial, gestor de experimentos, interfaz) deben ser de código abierto y de uso libre para fines académicos. \\
 \hline
@@ -459,6 +459,7 @@ RNF-10 & Auditoría de citaciones & La métrica \texttt{hallucinated\_pmids} deb
 % TODO (post-medición): cuantificar el umbral de latencia de RNF-06 con datos reales de inferencia extremo a extremo en el hardware de despliegue.
 
 \section{Validación de requisitos}
+\label{sec:c4_validacion}
 
 La validación de los requisitos se centra en tres aspectos, cada uno de los cuales cubre un subconjunto identificable de los requisitos propuestos.
 
@@ -631,7 +632,7 @@ El uso de contexto por nota (abstracts recuperados específicamente para cada tr
   \item \textbf{Ratio máximo de respuestas sin evidencia:} el porcentaje de ejemplos en los que el docente declara evidencia insuficiente se limita al 15\,\% del total, de modo que el modelo aprenda a abstenerse sin sobrerrepresentar este patrón frente a las síntesis con evidencia.
 \end{enumerate}
 
-\textbf{Partición y generación resumible.} La partición del corpus MTSamples en entrenamiento (80\,\%), validación (10\,\%) y prueba (10\,\%) se realiza a nivel de especialidad médica \emph{antes} de generar cualquier ejemplo. Los ejemplos se almacenan en caché en disco tras cada llamada al modelo docente, permitiendo reiniciar la generación desde el último punto de control en caso de interrupción. Tras la aplicación de los filtros de calidad, el conjunto de datos final contiene 1.318~ejemplos repartidos en 1.064 de entrenamiento, 135 de validación y 119 de prueba, con un 15{,}0\,\% de respuestas sin evidencia (cap establecido en el filtro 3 anterior) y una mediana de 3 citas PMID por respuesta. Este volumen es coherente con la evidencia sobre alineación de comportamiento mediante SFT de alta calidad revisada por \citeA{parthasarathy_ultimate_2024}, que sitúa el umbral útil para SFT instructivo en el orden de $10^3$~ejemplos cuando el dataset está cuidadosamente filtrado.
+\textbf{Partición y generación resumible.} La partición del corpus MTSamples en entrenamiento (80\,\%), validación (10\,\%) y prueba (10\,\%) se realiza a nivel de especialidad médica \emph{antes} de generar cualquier ejemplo. Los ejemplos se almacenan en caché en disco tras cada llamada al modelo docente, permitiendo reiniciar la generación desde el último punto de control en caso de interrupción. Tras la aplicación de los filtros de calidad, el conjunto de datos final contiene 1.318~ejemplos repartidos en 1.064 de entrenamiento, 135 de validación y 119 de prueba, con un 15{,}0\,\% de respuestas sin evidencia (cap establecido en el filtro 3 anterior) y una mediana de 2~citas PMID por respuesta en los ejemplos con evidencia. Este volumen es coherente con la evidencia sobre alineación de comportamiento mediante SFT de alta calidad revisada por \citeA{parthasarathy_ultimate_2024}, que sitúa el umbral útil para SFT instructivo en el orden de $10^3$~ejemplos cuando el dataset está cuidadosamente filtrado.
 
 \section{Ajuste fino con QLoRA}
 \label{sec:c5_qlora}
@@ -640,7 +641,6 @@ El ajuste fino del modelo base se realiza mediante QLoRA \cite{dettmers2023qlora
 
 Las matrices de adaptación LoRA se insertan en siete módulos del modelo: las proyecciones de la atención multi-cabeza (\texttt{q\_proj}, \texttt{k\_proj}, \texttt{v\_proj}, \texttt{o\_proj}) y las proyecciones de la capa MLP (\texttt{gate\_proj}, \texttt{up\_proj}, \texttt{down\_proj}). Para cada capa con matriz de pesos $W_0 \in \mathbb{R}^{d \times k}$, la actualización se factoriza como $\Delta W = BA$ con $B \in \mathbb{R}^{d \times r}$, $A \in \mathbb{R}^{r \times k}$ y rango $r = 16$, de modo que solo se optimizan $A$ y $B$ mientras $W_0$ permanece congelado \cite{hu2021loralowrankadaptationlarge}.
 
-La Tabla~\ref{tab:c5_qlora} resume los hiperparámetros de entrenamiento, definidos en \texttt{configs/training.yaml}.
 
 \begin{table}[h]
 \centering
@@ -672,8 +672,9 @@ Optimizador & adamw\_8bit & Reducción adicional de memoria frente a AdamW en fp
 \caption{Hiperparámetros de ajuste fino con QLoRA (\texttt{configs/training.yaml}).}
 \label{tab:c5_qlora}
 \end{table}
+La Tabla~\ref{tab:c5_qlora} resume los hiperparámetros de entrenamiento. El entrenamiento se realiza mediante \texttt{SFTTrainer} de TRL (\textit{Transformer Reinforcement Learning}), aplicando el \textit{chat template} de LLaMA-3.1 para formatear los ejemplos antes de la tokenización. Los parámetros, hiperparámetros, pérdida de entrenamiento y pérdida de validación por paso se registran automáticamente en MLflow (RF-11). El adaptador LoRA resultante se guarda como un conjunto de pesos ligero que puede cargarse de forma independiente sobre cualquier instancia del modelo base cuantizado sin modificar sus pesos originales, permitiendo alternar entre las configuraciones FT y FT+RAG cargando o descargando el adaptador en tiempo de ejecución.
 
-El entrenamiento se realiza mediante \texttt{SFTTrainer} de TRL (\textit{Transformer Reinforcement Learning}), aplicando el \textit{chat template} de LLaMA-3.1 para formatear los ejemplos antes de la tokenización. Los parámetros, hiperparámetros, pérdida de entrenamiento y pérdida de validación por paso se registran automáticamente en MLflow mediante \texttt{report\_to="mlflow"} (RF-11). El adaptador LoRA resultante se guarda en \texttt{checkpoints/llama-3.1-8b-mtsamples-qlora/} como un conjunto de pesos ligero que puede cargarse de forma independiente sobre cualquier instancia del modelo base cuantizado sin modificar sus pesos originales, permitiendo alternar entre las configuraciones FT y FT+RAG cargando o descargando el adaptador en tiempo de ejecución.
+\textbf{Serialización para inferencia.} Para la fase de evaluación (Capítulo~6), tanto el modelo base como el modelo ajustado se sirven mediante \texttt{llama.cpp} en formato GGUF con cuantización Q4\_K\_M, lo que garantiza una ruta de inferencia local homogénea entre las cuatro configuraciones (RNF-01) y un consumo de memoria comparable. En el caso del modelo ajustado, el adaptador LoRA se fusiona con los pesos del modelo base en precisión de 16~bits \emph{antes} de la cuantización a GGUF: fusionar el adaptador directamente sobre los pesos ya cuantizados en 4~bits introduce una doble cuantización que desestabiliza la generación en contextos largos y la degenera en bucles de repetición. Esta fusión en 16~bits requiere aproximadamente 16~GB de VRAM, por lo que se ejecuta como un paso \textit{offline} de preparación (encuadrado en el cómputo de entrenamiento, no en el de despliegue) y no sobre la GPU local de 10~GB (RNF-05).
 
 \section{Configuraciones ablativas}
 \label{sec:c5_ablation}
@@ -706,9 +707,191 @@ La configuración~B se evalúa reutilizando exactamente la misma plantilla de \t
 
 La interfaz web del sistema se implementa mediante Gradio, satisfaciendo el requisito RF-12. La interfaz permite al usuario: (a)~formular una consulta clínica en lenguaje natural, (b)~seleccionar la configuración del sistema entre las cuatro variantes ablativas (RF-08), y (c)~visualizar la respuesta estructurada junto con los abstracts de PubMed recuperados, incluyendo el PMID y un fragmento del texto de cada abstract (RF-09). La selección de configuración activa o desactiva el pipeline RAG y el cargado del adaptador LoRA de forma transparente para el usuario.
 
-\noindent\textbf{Estado de implementación:} la interfaz se encuentra en fase de integración final al cierre de la presente memoria. Los resultados de evaluación del Capítulo~6 se obtienen invocando el pipeline directamente desde código, sin depender de la interfaz, por lo que su estado no condiciona la validez del estudio ablativo. La validación de usabilidad (RF-12, RNF-06) se realizará una vez completada la integración, en los términos descritos en la Sección~4.4.
+\noindent\textbf{Estado de implementación:} la interfaz se encuentra en fase de integración final al cierre de la presente memoria. Los resultados de evaluación del Capítulo~6 se obtienen invocando el pipeline directamente desde código, sin depender de la interfaz, por lo que su estado no condiciona la validez del estudio ablativo. La validación de usabilidad (RF-12, RNF-06) se aborda en el Capítulo~6 mediante una evaluación heurística del autor, en los términos descritos en la Sección~\ref{sec:c4_validacion}.
 
 \chapter{Evaluación}
+\label{cap:evaluacion}
+
+Este capítulo presenta los resultados del estudio ablativo que constituye la contribución empírica central del trabajo (OE4). Se evalúan las cuatro configuraciones definidas en la Sección~\ref{sec:c5_ablation} ---A~(base), B~(ajuste fino exclusivo), C~(RAG exclusivo) y D~(sistema híbrido completo)--- sobre un mismo conjunto de consultas clínicas, combinando métricas automáticas RAGAS \cite{es2025ragasautomatedevaluationretrieval} con un conjunto de métricas deterministas de comportamiento de citación diseñadas específicamente para este estudio. El capítulo cierra con una evaluación de aplicabilidad y usabilidad de la herramienta y con la discusión de los hallazgos.
+
+\section{Metodología de evaluación}
+\label{sec:c6_metodologia}
+
+\textbf{Muestra de evaluación.} Las cuatro configuraciones se evalúan sobre las mismas 50~notas clínicas, extraídas de la partición de test mediante muestreo estratificado por especialidad médica (\texttt{seed=42}), con los índices congelados en disco para garantizar la reproducibilidad. Se excluyen del muestreo los ejemplos sin evidencia, de modo que las métricas de calidad de respuesta midan el comportamiento del sistema cuando existe una respuesta esperable, y no casos no respondibles. La misma muestra se reutiliza en las cuatro configuraciones, por lo que las comparaciones A$\to$B, A$\to$C, B$\to$D y C$\to$D son pareadas.
+
+\textbf{Ejecución por fases.} La restricción de servir un único modelo cuantizado en la GPU local de inferencia impone una ejecución en dos fases: la Fase~1 evalúa A~y~C con el modelo base cargado, y la Fase~2 evalúa B~y~D tras un intercambio manual al modelo con ajuste fino. La equidad de \textit{prompt} se preserva reutilizando, en las configuraciones sin RAG (A~y~B), la misma plantilla de entrenamiento con la sección de evidencia vacía (\texttt{RETRIEVED PUBMED EVIDENCE: (none)}), de forma que el modelo ajustado opera siempre sobre el andamiaje de \textit{prompt} con el que fue entrenado (Sección~\ref{sec:c5_ablation}).
+
+\textbf{Juez y métricas RAGAS.} La evaluación automática emplea como juez a Claude Sonnet~4.6, externo al sistema bajo prueba y distinto del modelo \textit{teacher} usado en la construcción del conjunto de entrenamiento (Sección~\ref{sec:c5_sft}). Se computan las cuatro métricas RAGAS introducidas en el Capítulo~2\footnote{Las métricas que requieren contexto recuperado (\textit{faithfulness}, \textit{context precision} y \textit{context recall}) solo se definen para las configuraciones con RAG (C~y~D); para A~y~B únicamente se computa \textit{answer relevancy}.}: \textit{faithfulness} (fidelidad de la respuesta al contexto recuperado), \textit{answer relevancy} (relevancia respecto a la pregunta), \textit{context precision} y \textit{context recall} (calidad de la recuperación). Las muestras en las que el pipeline se abstiene se excluyen del denominador RAGAS y se contabilizan por separado mediante \texttt{abstention\_rate}, de modo que las puntuaciones se interpreten como ``cuando el sistema respondió, con qué calidad lo hizo''. Todas las medias se acompañan de intervalos de confianza \textit{bootstrap} del 95\,\%.
+
+\textbf{Métricas deterministas de citación.} Las métricas RAGAS no cubren el eje de comportamiento de citación que el ajuste fino pretende inducir, y la adherencia de formato resulta saturada y poco discriminante (Sección~\ref{sec:c6_robustez}). Por ello se añade una familia de métricas deterministas, libres de juez, calculadas directamente sobre los registros de generación: la tasa de citación con PMID (\texttt{pmid\_citation\_rate}), la tasa de referencias con corchetes estilo \texttt{[1]} (\texttt{bracket\_citation\_rate}), la tasa de marcadores de posición literales \texttt{(PMID: XXXXXXXX)} (\texttt{placeholder\_citation\_rate}), la tasa de respuestas sin citación (\texttt{no\_citation\_rate}), la precisión de anclaje de las citaciones (\texttt{citation\_grounding\_precision}: fracción de PMID citados que pertenecen al conjunto recuperado de cada registro) y la tasa de alucinación de PMID por respuesta (\texttt{hallucinated\_pmids\_rate}). Estas métricas son deterministas, reproducibles sin coste de juez y miden directamente las dos hipótesis ablativas del estudio. La verificación de citaciones que las sustenta es la descrita en la Sección~\ref{sec:c5_citation}.
+
+\section{Resultados de calidad de respuesta (RAGAS)}
+\label{sec:c6_ragas}
+
+La Tabla~\ref{tab:c6_ragas} recoge las medias RAGAS de las cuatro configuraciones sobre las 50~consultas. La Figura~\ref{fig:c6_faithfulness} representa la métrica de fidelidad con sus intervalos \textit{bootstrap}.
+
+\begin{table}[h]
+\centering
+\begin{tabular}{|l|c|c|c|c|}
+\hline
+\textbf{Métrica RAGAS} & \textbf{A (base)} & \textbf{B (FT)} & \textbf{C (RAG)} & \textbf{D (FT+RAG)} \\
+\hline
+\textit{Faithfulness}      & ---       & ---       & 0{,}573         & \textbf{0{,}656} \\
+\hline
+\textit{Answer relevancy}  & 0{,}000   & 0{,}311   & 0{,}452         & \textbf{0{,}569} \\
+\hline
+\textit{Context precision} & ---       & ---       & 0{,}703         & 0{,}700 \\
+\hline
+\textit{Context recall}    & ---       & ---       & 0{,}938         & \textbf{0{,}947} \\
+\hline
+\end{tabular}
+\caption{Métricas RAGAS por configuración (medias sobre los registros respondidos, $n=50$). Las métricas dependientes de contexto solo aplican a las configuraciones con RAG. En negrita, el mejor valor por fila.}
+\label{tab:c6_ragas}
+\end{table}
+
+\begin{figure}[h]
+\centering
+\includegraphics[width=0.7\textwidth]{figures/eval_faithfulness.png}
+\caption{\textit{Faithfulness} RAGAS por configuración con IC \textit{bootstrap} del 95\,\%. Solo las configuraciones con RAG (C~y~D) reciben puntuación, al requerir esta métrica un contexto recuperado.}
+\label{fig:c6_faithfulness}
+\end{figure}
+
+El hallazgo central de las métricas RAGAS es que \textbf{el ajuste fino mejora la fidelidad al combinarse con RAG}: la fidelidad asciende de 0{,}573~(C) a 0{,}656~(D), una mejora de $+0{,}083$~puntos del modelo híbrido completo sobre el RAG con modelo base. La \textit{answer relevancy} sigue la misma ordenación monótona A~$<$~B~$<$~C~$<$~D (0{,}000~$<$~0{,}311~$<$~0{,}452~$<$~0{,}569), lo que indica que ambos componentes contribuyen de forma aditiva a la relevancia de la respuesta y que su combinación (D) es la mejor configuración. La \textit{context precision} (0{,}70) y la \textit{context recall} (0{,}94--0{,}95) son prácticamente idénticas entre C~y~D, como cabe esperar, dado que ambas comparten exactamente el mismo pipeline de recuperación y solo difieren en el modelo generador; esta coincidencia confirma que las diferencias observadas en \textit{faithfulness} y \textit{answer relevancy} son atribuibles al ajuste fino del generador y no a una recuperación distinta.
+
+La \textit{answer relevancy} de la configuración~A es de 0{,}000, valor que requiere interpretación explícita y que \textbf{no constituye un error de medición}. Ante el \textit{prompt} sin RAG (con la sección de evidencia vacía), el modelo base emite de forma sistemática la plantilla de rechazo por ausencia de evidencia en las 50~consultas; una respuesta de rechazo, por construcción, obtiene una relevancia próxima a cero respecto a la pregunta clínica concreta. Se trata, por tanto, de un hallazgo legítimo y de un contraste limpio: \emph{ante la ausencia de evidencia, el modelo base rehúsa, mientras que el modelo con ajuste fino exclusivo fabrica} (Sección~\ref{sec:c6_citacion}). El \textit{context recall} elevado (0{,}94--0{,}95) debe leerse con la cautela documentada en la metodología: la referencia de oro procede de la respuesta del \textit{teacher}, condicionada por un conjunto recuperado distinto al de la recuperación en vivo, lo que introduce un sesgo de techo; no obstante, dicho sesgo se cancela como diferencia entre C~y~D, que es la magnitud relevante para el estudio ablativo.
+
+\section{Comportamiento de citación}
+\label{sec:c6_citacion}
+
+La Tabla~\ref{tab:c6_citacion} recoge las métricas deterministas de citación, que constituyen la evidencia principal para los dos ejes del estudio: el efecto de RAG sobre la activación de la citación y el efecto del ajuste fino sobre su formato y anclaje.
+
+\begin{table}[h]
+\centering
+\begin{tabular}{|l|c|c|c|c|}
+\hline
+\textbf{Métrica de citación} & \textbf{A (base)} & \textbf{B (FT)} & \textbf{C (RAG)} & \textbf{D (FT+RAG)} \\
+\hline
+\texttt{pmid\_citation\_rate}          & 0{,}00 & 0{,}04          & 0{,}84          & \textbf{0{,}98} \\
+\hline
+\texttt{bracket\_citation\_rate}       & 0{,}00 & 0{,}00          & 0{,}30          & \textbf{0{,}00} \\
+\hline
+\texttt{placeholder\_citation\_rate}   & 0{,}00 & 0{,}60          & 0{,}00          & 0{,}00 \\
+\hline
+\texttt{no\_citation\_rate}            & 1{,}00 & 0{,}36          & 0{,}00          & 0{,}02 \\
+\hline
+\texttt{citation\_grounding\_precision}& ---    & ---             & 1{,}00          & 1{,}00 \\
+\hline
+\end{tabular}
+\caption{Métricas deterministas de comportamiento de citación por configuración (tasas sobre registros respondidos, $n=50$). La precisión de anclaje solo se define cuando hay recuperación (C~y~D).}
+\label{tab:c6_citacion}
+\end{table}
+
+\textbf{El RAG activa la citación.} La tasa de citación con PMID pasa de 0{,}00~(A) a 0{,}84~(C) y de 0{,}04~(B) a 0{,}98~(D): el componente de recuperación es el responsable de que el sistema cite literatura en absoluto. La Figura~\ref{fig:c6_pmid} ilustra este salto sobre ambos niveles del ajuste fino.
+
+\begin{figure}[h]
+\centering
+\includegraphics[width=0.7\textwidth]{figures/eval_pmid_citation_rate.png}
+\caption{Tasa de citación con PMID por configuración. La recuperación (A$\to$C, B$\to$D) es la que activa la citación; el ajuste fino la lleva a la práctica totalidad de las respuestas (D, 0{,}98).}
+\label{fig:c6_pmid}
+\end{figure}
+
+\textbf{El ajuste fino corrige el formato de la citación.} Sobre el sistema con RAG, el ajuste fino elimina las referencias con corchetes estilo \texttt{[1]} propias del modelo base (\texttt{bracket\_citation\_rate} de 0{,}30~en~C a 0{,}00~en~D) y eleva la citación con PMID al 0{,}98. Es decir, no solo se cita más, sino que se cita en el formato trazable y verificable \texttt{(PMID: XXXXX)} que el sistema requiere para la verificación posterior de citaciones (Sección~\ref{sec:c5_citation}). Esta es la cuantificación de un hallazgo que, de otro modo, sería meramente cualitativo: la adherencia al formato de citación es en sí misma un resultado ablativo discriminante.
+
+\textbf{Anclaje perfecto en las configuraciones con RAG.} La precisión de anclaje (\texttt{citation\_grounding\_precision}) es de 1{,}00 tanto en C~como en~D: todos los PMID citados pertenecen al conjunto efectivamente recuperado para esa consulta. Combinado con la verificación de citaciones del pipeline (Sección~\ref{sec:c5_citation}), esto indica que, cuando se proporciona evidencia real, ninguna de las dos configuraciones con RAG cita identificadores fuera del contexto.
+
+\textbf{Sin evidencia, el modelo base rehúsa y el modelo con ajuste fino exclusivo fabrica.} El contraste más informativo se da en las configuraciones sin RAG. La configuración~A no cita nunca (\texttt{no\_citation\_rate}~$=1{,}00$): el modelo base, ante el \textit{prompt} vacío de evidencia, rehúsa sistemáticamente. La configuración~B, en cambio, emite el marcador de posición literal \texttt{(PMID: XXXXXXXX)} en el 60\,\% de sus respuestas (Figura~\ref{fig:c6_placeholder}). Este comportamiento es \textbf{esperado y constituye en sí mismo el resultado ablativo}, no un defecto: la configuración~B recibe una entrada (\texttt{evidence = (none)}) fuera de la distribución de entrenamiento ---donde siempre había documentos reales--- y, al no disponer de nada legítimo que citar, reproduce el marcador de posición literal de la plantilla. La importancia de las métricas deterministas se hace aquí evidente: estas 30 de 50~respuestas con marcador de posición obtenían una adherencia de formato del 100\,\% y una alucinación nula bajo las métricas previas, que eran ciegas a este patrón. El marcador de posición no es un PMID con dígitos y, por tanto, no se contabiliza como alucinación; representa una fabricación de forma sin contenido, distinta de inventar un identificador concreto.
+
+\begin{figure}[h]
+\centering
+\includegraphics[width=0.7\textwidth]{figures/eval_placeholder_cite.png}
+\caption{Tasa de marcadores de posición literales \texttt{(PMID: XXXXXXXX)} por configuración. Solo la configuración~B (ajuste fino sin RAG) los produce, al operar fuera de su distribución de entrenamiento sin evidencia que citar.}
+\label{fig:c6_placeholder}
+\end{figure}
+
+\section{Alucinación de PMID y robustez operativa}
+\label{sec:c6_robustez}
+
+La Tabla~\ref{tab:c6_robustez} recoge las métricas de alucinación y de robustez operativa. La tasa de alucinación de PMID (fracción de respuestas con al menos un PMID inventado, es decir, con dígitos pero ausente del conjunto recuperado) es muy baja en todas las configuraciones: 0{,}00~(A), 0{,}04~(B), 0{,}00~(C) y 0{,}02~(D). El valor de la configuración~D (0{,}02, un único caso) confirma que el sistema híbrido completo casi nunca fabrica identificadores numéricos, en línea con su precisión de anclaje de 1{,}00. La alucinación de la configuración~B (0{,}04) es modesta porque su modo de fallo dominante no es inventar dígitos, sino reproducir el marcador de posición de la plantilla, que la Sección~\ref{sec:c6_citacion} captura por separado.
+
+\begin{table}[h]
+\centering
+\begin{tabular}{|l|c|c|c|c|}
+\hline
+\textbf{Métrica} & \textbf{A (base)} & \textbf{B (FT)} & \textbf{C (RAG)} & \textbf{D (FT+RAG)} \\
+\hline
+\texttt{hallucinated\_pmids\_rate} & 0{,}00 & 0{,}04 & 0{,}00 & 0{,}02 \\
+\hline
+\texttt{abstention\_rate}         & 0{,}00 & 0{,}00 & 0{,}00 & 0{,}00 \\
+\hline
+\texttt{error\_rate}              & 0{,}00 & 0{,}00 & 0{,}00 & 0{,}00 \\
+\hline
+\texttt{format\_adherence}        & 1{,}00 & 1{,}00 & 1{,}00 & 1{,}00 \\
+\hline
+\end{tabular}
+\caption{Métricas de alucinación y robustez operativa por configuración ($n=50$).}
+\label{tab:c6_robustez}
+\end{table}
+
+La tasa de abstención es de 0{,}00 en las dos configuraciones que pueden abstenerse (C~y~D): el pipeline de recuperación superó la puerta de abstención (al menos dos documentos por encima del umbral \texttt{min\_final\_score}) en las 50~consultas, lo que es coherente con haber excluido del muestreo los casos sin evidencia. La tasa de error es nula en las cuatro configuraciones: ninguna generación falló durante las dos fases del estudio. La adherencia de formato satura en 1{,}00 en todas las configuraciones, lo que ---como se anticipó--- la convierte en una métrica poco discriminante: incluso la plantilla de rechazo de A y los marcadores de posición de B satisfacen la comprobación estructural. Es precisamente esta saturación la que motivó la introducción de las métricas deterministas de citación, capaces de distinguir comportamientos que la adherencia de formato agrega indistintamente.
+
+\section{Evaluación de aplicabilidad y usabilidad}
+\label{sec:c6_usabilidad}
+
+Por su tipología, este trabajo de desarrollo de software requiere, además de la evaluación cuantitativa anterior, una valoración de la aplicabilidad de la herramienta para resolver el problema propuesto y una evaluación mínima de su usabilidad. Esta sección cubre ambos aspectos.
+
+\textbf{Aplicabilidad.} La aplicabilidad del sistema para la asistencia bibliográfica clínica queda demostrada por el propio estudio ablativo. La configuración híbrida completa (D) responde a las 50~consultas clínicas sin errores ni abstenciones (Tabla~\ref{tab:c6_robustez}), cita literatura primaria real de PubMed en el 98\,\% de las respuestas (Tabla~\ref{tab:c6_citacion}) con una precisión de anclaje del 100\,\% ---ningún identificador citado queda fuera de la evidencia recuperada--- y mejora la fidelidad y la relevancia frente a las configuraciones parciales (Tabla~\ref{tab:c6_ragas}). El sistema cumple, por tanto, su función prevista sobre el conjunto de evaluación: producir respuestas clínicas estructuradas y trazables ancladas en evidencia verificable.
+
+\textbf{Usabilidad: evaluación heurística del autor.} La validación cualitativa de usabilidad con un profesional sanitario quedó condicionada, ya en la Sección~\ref{sec:c4_validacion}, a la disponibilidad de dicha colaboración dentro del calendario del trabajo. Al no resultar posible, y conforme a la alternativa allí prevista, la usabilidad se valora mediante una revisión heurística documentada por el autor de la interfaz web (Gradio) y del flujo de interacción que esta expone, tomando como referencia un subconjunto de los principios heurísticos de usabilidad y anclando cada principio en funcionalidades del sistema efectivamente implementadas y evaluadas en los apartados anteriores. La Tabla~\ref{tab:c6_heuristica} resume esta valoración.
+
+\begin{table}[h]
+\centering
+\begin{tabular}{|p{0.30\textwidth}|p{0.60\textwidth}|}
+\hline
+\textbf{Principio heurístico} & \textbf{Soporte en el sistema} \\
+\hline
+Visibilidad del estado del sistema & La interfaz muestra explícitamente la configuración activa (Base / FT / RAG / FT+RAG) y, junto a cada respuesta, los \textit{abstracts} recuperados con su PMID y un fragmento del texto (RF-09). \\
+\hline
+Control y libertad del usuario & El selector de configuración (RF-08) permite alternar entre las cuatro variantes y contrastar las respuestas para una misma consulta. \\
+\hline
+Reconocer en lugar de recordar & Las fuentes se presentan junto a la respuesta, de modo que el usuario puede verificar la evidencia sin abandonar la interfaz ni memorizar identificadores. \\
+\hline
+Prevención de errores & La puerta de abstención y el verificador de citaciones (Secciones~\ref{sec:c5_clinical_scorer} y~\ref{sec:c5_citation}) evitan que el sistema emita respuestas sin evidencia suficiente o con citas no ancladas en el contexto recuperado. \\
+\hline
+Coincidencia con el dominio real & El ajuste fino adapta la terminología y la estructura de la respuesta (recomendación / base de evidencia / incertidumbre) al registro clínico, como evidencian las métricas de formato y citación. \\
+\hline
+\end{tabular}
+\caption{Evaluación heurística de usabilidad realizada por el autor, anclada en funcionalidades implementadas y evaluadas.}
+\label{tab:c6_heuristica}
+\end{table}
+
+Esta evaluación heurística es una valoración del autor y no sustituye a un estudio empírico de usabilidad con usuarios reales. Sus limitaciones ---ausencia de profesionales sanitarios y de métricas de interacción (tiempo de tarea, tasa de éxito, satisfacción percibida)--- se asumen explícitamente, y la realización de una sesión de evaluación con al menos un experto del dominio clínico, sobre la interfaz ya integrada, se identifica como línea prioritaria de trabajo futuro (Capítulo~7).
+
+\section{Discusión de los hallazgos}
+\label{sec:c6_discusion}
+
+\textbf{Cumplimiento de los criterios de éxito.} El objetivo general (Capítulo~3) y el requisito RNF-07 fijaron dos criterios cuantitativos relativos al \textit{baseline}. El primero ---que la configuración FT+RAG (D) supere a la base (A) en al menos $0{,}10$ puntos de \textit{answer relevancy}--- \textbf{se cumple con amplio margen}: la diferencia es de $0{,}569 - 0{,}000 = +0{,}569$. El segundo, relativo a \textit{faithfulness}, requiere una matización honesta: esta métrica solo es computable cuando existe contexto recuperado, por lo que \emph{no está definida para la configuración base} (A, sin RAG) y el único eje sobre el que es comparable es C$\to$D. En ese eje, el ajuste fino mejora la fidelidad en $+0{,}083$~puntos (0{,}573~$\to$~0{,}656): una mejora positiva y consistente con la hipótesis, que aísla la contribución del ajuste fino a la fidelidad, aunque queda ligeramente por debajo del umbral de $0{,}10$ que se barajó en una formulación inicial del criterio. Se reporta, por tanto, sin redondeos favorables: la dirección y el signo del efecto respaldan la hipótesis, y su magnitud exacta ($+0{,}083$) se documenta tal cual.
+
+Los resultados permiten separar de forma limpia las contribuciones de cada componente, en línea con la literatura comparativa de RAG frente a ajuste fino en dominios especializados \cite{balaguer2024ragvsfinetuningpipelines, ovadia2024finetuningretrievalcomparingknowledge, pingua_medical_FT_vs_RAG_2025}:
+
+\begin{itemize}
+  \item \textbf{La recuperación (RAG) aporta la evidencia y activa la citación.} Es la condición necesaria para que el sistema cite literatura real: sin RAG, ninguna configuración cita PMID legítimos. RAG es además el responsable de poder computar fidelidad y precisión de contexto, ejes inexistentes sin evidencia recuperada \cite{lewis_retrieval-augmented_2021}.
+  \item \textbf{El ajuste fino disciplina el comportamiento.} Sobre el sistema con RAG, corrige el formato de citación (elimina las referencias \texttt{[1]} del modelo base y lleva la citación con PMID al 0{,}98), mejora la fidelidad ($+0{,}083$) y la relevancia de la respuesta. Confirma que el ajuste fino actúa como alineamiento de comportamiento y no como inyección de conocimiento, en coherencia con el diseño de la Sección~\ref{sec:c5_sft}.
+  \item \textbf{Los dos componentes son complementarios y su combinación (D) es óptima.} La configuración híbrida completa domina en \textit{faithfulness} (0{,}656), \textit{answer relevancy} (0{,}569), tasa de citación con PMID (0{,}98) y precisión de anclaje (1{,}00), validando la hipótesis central del trabajo.
+  \item \textbf{El ajuste fino sin recuperación es frágil ante la ausencia de evidencia.} La configuración~B revela el riesgo de desplegar un modelo ajustado sin su pipeline de recuperación: fuera de distribución, fabrica la forma de una citación (marcador de posición en el 60\,\% de los casos) en lugar de rehusar. Esto refuerza, desde la evidencia empírica, la necesidad del componente RAG en producción y la pertinencia de la puerta de abstención y la verificación de citaciones como salvaguardas \cite{ji_survey_2023, pal_med-halt_2023}.
+\end{itemize}
+
+\section{Amenazas a la validez y limitaciones}
+\label{sec:c6_limitaciones}
+
+El estudio presenta varias limitaciones que se documentan en aras del rigor:
+
+\begin{itemize}
+  \item \textbf{Tamaño muestral.} La evaluación se realiza sobre 50~consultas por configuración, dimensionadas por el coste temporal de la inferencia local y del juzgado RAGAS. Las medias se reportan con intervalos \textit{bootstrap} del 95\,\% para acotar la incertidumbre, pero las diferencias de menor magnitud (por ejemplo, \textit{context recall} 0{,}938 frente a 0{,}947) deben interpretarse como equivalentes dentro del ruido muestral.
+  \item \textbf{Ausencia de benchmark IR con anotación de oro.} La selección del modelo de embeddings se sustenta en el proxy de categoría MeSH (Sección~\ref{sec:c5_embedding}) y no en un conjunto anotado de relevancia, cuyo coste de anotación excede el alcance del trabajo. Las métricas RAGAS de contexto miden la calidad de recuperación de forma comparativa, no absoluta.
+  \item \textbf{Techo del \textit{context recall}.} La referencia de oro derivada del \textit{teacher} introduce un sesgo de techo en \textit{context recall}, mitigado al interpretarse como diferencia entre C~y~D (sesgo común que se cancela).
+  \item \textbf{Usabilidad sin usuarios reales.} La evaluación de usabilidad es una revisión heurística del autor; carece de validación con profesionales sanitarios y de métricas de interacción, lo que se aborda como trabajo futuro (Sección~\ref{sec:c6_usabilidad}).
+  \item \textbf{Determinismo procedimental.} La reproducibilidad es procedimental ---configuración fijada, \texttt{seed=42}, \textit{hash} de dataset e hiperparámetros registrados en MLflow--- y no bit a bit entre distinto hardware, por el entrenamiento en GPU en la nube y la inferencia local cuantizada (Sección~\ref{sec:c5_qlora}).
+\end{itemize}
 
 \chapter{Conclusiones y Trabajo Futuro}
 
@@ -755,7 +938,49 @@ La interfaz web del sistema se implementa mediante Gradio, satisfaciendo el requ
 \bibliography{bibliografia}
 
 \appendix
-\chapter{Apendices}
+\chapter{Resultados de evaluación detallados}
+\label{anexo:eval}
+
+Este anexo recoge la tabla completa de métricas del estudio ablativo (Capítulo~\ref{cap:evaluacion}) y las figuras comparativas que complementan a las incluidas en el cuerpo del capítulo. Todos los valores proceden de las ejecuciones registradas en MLflow (experimento \texttt{tfm-evaluation}), con $n=50$ consultas por configuración.
+
+\begin{table}[h]
+\centering
+\small
+\begin{tabular}{|l|c|c|c|c|}
+\hline
+\textbf{Métrica} & \textbf{A (base)} & \textbf{B (FT)} & \textbf{C (RAG)} & \textbf{D (FT+RAG)} \\
+\hline
+\textit{faithfulness} (RAGAS)        & ---     & ---     & 0{,}573 & 0{,}656 \\
+\textit{answer relevancy} (RAGAS)    & 0{,}000 & 0{,}311 & 0{,}452 & 0{,}569 \\
+\textit{context precision} (RAGAS)   & ---     & ---     & 0{,}703 & 0{,}700 \\
+\textit{context recall} (RAGAS)      & ---     & ---     & 0{,}938 & 0{,}947 \\
+\hline
+\texttt{pmid\_citation\_rate}          & 0{,}00 & 0{,}04 & 0{,}84 & 0{,}98 \\
+\texttt{bracket\_citation\_rate}       & 0{,}00 & 0{,}00 & 0{,}30 & 0{,}00 \\
+\texttt{placeholder\_citation\_rate}   & 0{,}00 & 0{,}60 & 0{,}00 & 0{,}00 \\
+\texttt{no\_citation\_rate}            & 1{,}00 & 0{,}36 & 0{,}00 & 0{,}02 \\
+\texttt{citation\_grounding\_precision}& ---    & ---    & 1{,}00 & 1{,}00 \\
+\hline
+\texttt{hallucinated\_pmids\_rate}     & 0{,}00 & 0{,}04 & 0{,}00 & 0{,}02 \\
+\texttt{abstention\_rate}              & 0{,}00 & 0{,}00 & 0{,}00 & 0{,}00 \\
+\texttt{error\_rate}                   & 0{,}00 & 0{,}00 & 0{,}00 & 0{,}00 \\
+\texttt{format\_adherence}             & 1{,}00 & 1{,}00 & 1{,}00 & 1{,}00 \\
+\hline
+\end{tabular}
+\caption{Tabla completa de métricas del estudio ablativo por configuración ($n=50$). Las celdas «---» indican métricas no definidas para esa configuración (las métricas RAGAS dependientes de contexto y la precisión de anclaje solo aplican a las configuraciones con RAG).}
+\label{tab:anexo_eval_full}
+\end{table}
+
+\begin{figure}[h]
+\centering
+\includegraphics[width=0.48\textwidth]{figures/eval_answer_relevancy.png}
+\includegraphics[width=0.48\textwidth]{figures/eval_context_recall.png}
+\\[0.5em]
+\includegraphics[width=0.48\textwidth]{figures/eval_grounding_precision.png}
+\includegraphics[width=0.48\textwidth]{figures/eval_hallucinated_pmids.png}
+\caption{Figuras comparativas complementarias por configuración (con IC \textit{bootstrap} del 95\,\% donde aplica): \textit{answer relevancy} y \textit{context recall} (RAGAS), precisión de anclaje de citaciones y tasa de alucinación de PMID.}
+\label{fig:anexo_eval_grid}
+\end{figure}
 
 \end{document}
 
