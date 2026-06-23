@@ -876,30 +876,32 @@ Por su tipología, este trabajo de desarrollo de software requiere, además de l
 
 \textbf{Aplicabilidad.} La aplicabilidad del sistema para la asistencia bibliográfica clínica queda demostrada por el propio estudio ablativo. La configuración híbrida completa (D) responde a las 50~consultas clínicas sin errores ni abstenciones (Tabla~\ref{tab:c6_robustez}), cita literatura primaria real de PubMed en el 98\,\% de las respuestas (Tabla~\ref{tab:c6_citacion}) con una precisión de anclaje del 100\,\% (ningún identificador citado queda fuera de la evidencia recuperada) y mejora la fidelidad y la relevancia frente a las configuraciones parciales (Tabla~\ref{tab:c6_ragas}). El sistema cumple, por tanto, su función prevista sobre el conjunto de evaluación: producir respuestas clínicas estructuradas y trazables ancladas en evidencia verificable.
 
-\textbf{Usabilidad: evaluación heurística del autor.} La validación cualitativa de usabilidad con un profesional sanitario quedó condicionada, ya en la Sección~\ref{sec:c4_validacion}, a la disponibilidad de dicha colaboración dentro del calendario del trabajo. Al no resultar posible, y conforme a la alternativa allí prevista, la usabilidad se valora mediante una revisión heurística documentada por el autor. Esta revisión examina la interfaz web (Gradio) y el flujo de interacción que ofrece, tomando como referencia un subconjunto de los principios heurísticos de usabilidad y anclando cada principio en funcionalidades del sistema efectivamente implementadas y evaluadas en los apartados anteriores. La Tabla~\ref{tab:c6_heuristica} resume esta valoración.
+\textbf{Usabilidad: evaluación heurística del autor.} La validación cualitativa de usabilidad con un profesional sanitario quedó condicionada, ya en la Sección~\ref{sec:c4_validacion}, a la disponibilidad de dicha colaboración dentro del calendario del trabajo. Al no resultar posible, y conforme a la alternativa allí prevista, la usabilidad se valora mediante una revisión heurística documentada por el autor sobre la interfaz web (Gradio) ya integrada, ilustrada en las Figuras~\ref{fig:c5_ui_landing}--\ref{fig:c5_ui_abstention}. La revisión toma como referencia un subconjunto de los principios heurísticos de usabilidad ampliamente aceptados y, para cada principio, emite una valoración (\textit{cumplido} o \textit{cumplido con reservas}) anclada en funcionalidades del sistema efectivamente implementadas y evaluadas en los apartados anteriores. La Tabla~\ref{tab:c6_heuristica} resume esta valoración.
 
 \begin{table}[h]
 \centering
-\begin{tabular}{|p{0.30\textwidth}|p{0.60\textwidth}|}
+\begin{tabular}{|p{0.22\textwidth}|p{0.50\textwidth}|p{0.16\textwidth}|}
 \hline
-\textbf{Principio heurístico} & \textbf{Soporte en el sistema} \\
+\textbf{Principio heurístico} & \textbf{Soporte y observaciones} & \textbf{Valoración} \\
 \hline
-Visibilidad del estado del sistema & La interfaz muestra explícitamente un indicador de estado del servicio (modelo de generación activo y disponibilidad de la recuperación) y, junto a cada respuesta, los \textit{abstracts} recuperados con su PMID y un fragmento del texto (RF-09). \\
+Visibilidad del estado del sistema & La interfaz muestra un indicador de estado del servicio (modelo de generación activo y disponibilidad de la recuperación) y, junto a cada respuesta, los \textit{abstracts} recuperados con su PMID y un fragmento del texto (RF-09; Figura~\ref{fig:c5_ui_answer}). Durante la generación, al lanzar la consulta la aplicación expone de forma inmediata un indicador de progreso animado acompañado de una estimación de la latencia esperada (del orden de 30--60~s), de modo que el usuario nunca permanece ante una espera silenciosa. & Cumplido \\
 \hline
-Control y libertad del usuario & El usuario reformula libremente la consulta en lenguaje natural y dispone de notas de ejemplo para iniciar el análisis; ante evidencia insuficiente, el sistema responde con un estado explícito de abstención en lugar de fabricar una recomendación, manteniendo al usuario en control del proceso. \\
+Control y libertad del usuario & El usuario reformula libremente la consulta en lenguaje natural y dispone de notas de ejemplo para iniciar el análisis (Figura~\ref{fig:c5_ui_landing}). Como reserva, la interfaz no conserva un historial de la interacción ni ofrece una acción explícita para deshacer o recuperar una consulta anterior. & Cumplido con reservas \\
 \hline
-Reconocer en lugar de recordar & Las fuentes se presentan junto a la respuesta, de modo que el usuario puede verificar la evidencia sin abandonar la interfaz ni memorizar identificadores. \\
+Reconocer en lugar de recordar & Las fuentes se presentan junto a la respuesta y cada PMID es un enlace activo al registro de PubMed (Figuras~\ref{fig:c5_ui_answer} y~\ref{fig:c5_ui_pubmed}), de modo que el usuario verifica la evidencia sin abandonar la interfaz ni memorizar identificadores. & Cumplido \\
 \hline
-Prevención de errores & La puerta de abstención y el verificador de citaciones (Secciones~\ref{sec:c5_clinical_scorer} y~\ref{sec:c5_citation}) evitan que el sistema emita respuestas sin evidencia suficiente o con citas no ancladas en el contexto recuperado. \\
+Prevención de errores & La puerta de abstención y el verificador de citaciones (Secciones~\ref{sec:c5_clinical_scorer} y~\ref{sec:c5_citation}) evitan que el sistema emita respuestas sin evidencia suficiente o con citas no ancladas en el contexto recuperado; el estado de abstención se comunica explícitamente al usuario (Figura~\ref{fig:c5_ui_abstention}). & Cumplido \\
 \hline
-Coincidencia con el dominio real & El ajuste fino adapta la terminología y la estructura de la respuesta (recomendación / base de evidencia / incertidumbre) al registro clínico, como evidencian las métricas de formato y citación. \\
+Coincidencia con el dominio real & El ajuste fino adapta la terminología y la estructura de la respuesta (recomendación / base de evidencia / incertidumbre) al registro clínico, como evidencian las métricas de formato y citación de las Secciones anteriores. & Cumplido \\
 \hline
 \end{tabular}
 \caption{Evaluación heurística de usabilidad realizada por el autor, anclada en funcionalidades implementadas y evaluadas.}
 \label{tab:c6_heuristica}
 \end{table}
 
-Esta evaluación heurística es una valoración del autor y no sustituye a un estudio empírico de usabilidad con usuarios reales. Sus limitaciones (ausencia de profesionales sanitarios y de métricas de interacción: tiempo de tarea, tasa de éxito, satisfacción percibida) se asumen explícitamente, y la realización de una sesión de evaluación con al menos un experto del dominio clínico, sobre la interfaz ya integrada, se identifica como línea prioritaria de trabajo futuro (Capítulo~7).
+\textbf{Resultado.} De los cinco principios revisados, cuatro se consideran plenamente satisfechos y uno satisfecho con reservas; no se identificaron defectos de usabilidad críticos que impidan el uso previsto de la herramienta. La única reserva se concentra en una dimensión bien delimitada y no esencial para la función central de consulta bibliográfica: la ausencia de una gestión del historial de interacción que permita recuperar consultas anteriores. Esta mejora se recoge como línea concreta de la interfaz en el Capítulo~\ref{cap:conclusiones}.
+
+Esta evaluación heurística es una valoración del autor y no sustituye a un estudio empírico de usabilidad con usuarios reales. Sus limitaciones (ausencia de profesionales sanitarios y de métricas de interacción: tiempo de tarea, tasa de éxito, satisfacción percibida) se asumen explícitamente, y la realización de una sesión de evaluación con al menos un experto del dominio clínico, sobre la interfaz ya integrada, se identifica como línea prioritaria de trabajo futuro (Capítulo~\ref{cap:conclusiones}).
 
 \section{Análisis cualitativo de respuestas representativas}
 \label{sec:c6_cualitativo}
@@ -1018,6 +1020,7 @@ Las limitaciones anteriores delimitan las líneas de continuación más prometed
 
 \begin{itemize}
   \item \textbf{Evaluación de usabilidad con usuarios reales.} Línea prioritaria: realizar una sesión de evaluación con al menos un profesional del dominio clínico sobre la interfaz integrada, con métricas de interacción (tiempo de tarea, tasa de éxito, satisfacción percibida) que complementen la revisión heurística.
+  \item \textbf{Refinamiento de la interfaz.} Subsanar la reserva detectada en la revisión heurística (Sección~\ref{sec:c6_usabilidad}): incorporar una gestión del historial de interacción que permita recuperar consultas anteriores.
   \item \textbf{Ampliación y robustez del estudio empírico.} Incrementar el tamaño de la muestra de evaluación y construir un conjunto de relevancia con anotación de oro que permita medir la calidad de recuperación en términos absolutos, no solo comparativos.
   \item \textbf{Evaluación del comportamiento de abstención.} Reintroducir en la muestra los casos sin evidencia, excluidos del estudio actual, para evaluar explícitamente la puerta de abstención cuando no existe respuesta esperable.
   \item \textbf{Recuperación sobre texto completo.} Extender el corpus más allá de los \textit{abstracts} hacia texto completo (por ejemplo, PubMed Central), evaluando el efecto sobre fidelidad y precisión de anclaje.
