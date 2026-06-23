@@ -16,5 +16,5 @@
 \contentsline {figure}{\numberline {6.3}{\ignorespaces Tasa de marcadores de posición literales \texttt {(PMID: XXXXXXXX)} por configuración. Solo la configuración~B (ajuste fino sin RAG) los produce, al operar fuera de su distribución de entrenamiento sin evidencia que citar.}}{47}{figure.6.3}%
 \addvspace {10\p@ }
 \addvspace {10\p@ }
-\contentsline {figure}{\numberline {A.1}{\ignorespaces Figuras comparativas complementarias por configuración (con IC \textit {bootstrap} del 95\,\% donde aplica): \textit {answer relevancy} y \textit {context recall} (RAGAS), precisión de anclaje de citaciones y tasa de alucinación de PMID.}}{60}{figure.Alph1.1}%
+\contentsline {figure}{\numberline {A.1}{\ignorespaces Figuras comparativas complementarias por configuración (con IC \textit {bootstrap} del 95\,\% donde aplica): \textit {answer relevancy} y \textit {context recall} (RAGAS), precisión de anclaje de citaciones y tasa de alucinación de PMID.}}{65}{figure.Alph1.1}%
 \addvspace {10\p@ }

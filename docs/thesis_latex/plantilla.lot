@@ -22,5 +22,5 @@
 \contentsline {table}{\numberline {6.5}{\ignorespaces Extractos de las respuestas de las cuatro configuraciones a una misma consulta clínica (manguito rotador, especialidad \textit {Orthopedic}). Se conserva el texto original en inglés y se resaltan en \texttt {monoespaciado} los marcadores de citación.}}{53}{table.6.5}%
 \addvspace {10\p@ }
 \addvspace {10\p@ }
-\contentsline {table}{\numberline {A.1}{\ignorespaces Tabla completa de métricas del estudio ablativo por configuración ($n=50$). Las celdas «---» indican métricas no definidas para esa configuración (las métricas RAGAS dependientes de contexto y la precisión de anclaje solo aplican a las configuraciones con RAG).}}{59}{table.Alph1.1}%
+\contentsline {table}{\numberline {A.1}{\ignorespaces Tabla completa de métricas del estudio ablativo por configuración ($n=50$). Las celdas «---» indican métricas no definidas para esa configuración (las métricas RAGAS dependientes de contexto y la precisión de anclaje solo aplican a las configuraciones con RAG).}}{64}{table.Alph1.1}%
 \addvspace {10\p@ }

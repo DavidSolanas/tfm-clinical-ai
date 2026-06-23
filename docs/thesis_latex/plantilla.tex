@@ -226,6 +226,7 @@ En cuanto a aplicaciones concretas, \citeA{rau_context-based_2023} demostraron q
 En el subdominio específico de la consulta bibliográfica clínica asistida, tres sistemas constituyen la referencia comparativa más cercana al presente trabajo. \citeA{zakka_almanac_2024} desarrollaron Almanac, un sistema RAG con corpus curado de guías clínicas evaluado mediante un panel de ocho clínicos certificados sobre 314 preguntas en nueve especialidades, que demostró mejoras significativas en factualidad, completitud y seguridad adversarial frente a ChatGPT-4, Bing y Bard. \citeA{lozano_clinfoai_2023} presentaron Clinfo.ai, un sistema modular formado por cuatro LLMs encadenados (formulación de la consulta, filtrado de relevancia, resumen y agregación) acoplado a PubMed o Semantic Scholar, y publicaron junto con él el dataset PubMedRS-200 para evaluar pipelines RAG sobre literatura científica de forma reproducible. \citeA{xiong_benchmarking_2024} formalizaron este espacio con el \textit{benchmark} MIRAGE (7.663 preguntas sobre cinco datasets de QA médico) y el \textit{toolkit} MedRAG, evaluando 41 combinaciones de corpus, recuperadores y modelos, y mostrando que la combinación adecuada de corpus y recuperador puede elevar el rendimiento de modelos abiertos al nivel de GPT-4. Estos tres sistemas comparten dos rasgos relevantes para situar la contribución del presente trabajo: emplean predominantemente modelos propietarios (GPT-3.5/4) o arquitecturas multi-LLM, y centran su aportación en la dimensión de evaluación o de orquestación más que en el análisis ablativo de los componentes individuales del sistema. Frente a ese patrón, el presente trabajo se concentra en cuantificar la contribución diferencial del ajuste fino y de RAG sobre un único modelo de código abierto cuantizado en hardware modesto, integrando además un mecanismo de verificación automática de citaciones que permite medir directamente la reducción de alucinaciones atribuible a la recuperación.
 
 \section{Síntesis y brecha de la literatura}
+\label{sec:c2_sintesis}
 
 La revisión anterior permite identificar las siguientes conclusiones que orientan el diseño del sistema propuesto:
 
@@ -242,6 +243,7 @@ La revisión anterior permite identificar las siguientes conclusiones que orient
 La brecha identificada es, por tanto, la ausencia de un sistema híbrido de código abierto (LLM + QLoRA + RAG sobre PubMed) evaluado sistemáticamente mediante un diseño ablativo de cuatro configuraciones con métricas RAGAS estandarizadas, y reforzado con verificación automática de citaciones, en el ámbito específico de la asistencia bibliográfica clínica. Este trabajo pretende cubrir ese espacio.
 
 \chapter{Objetivos y Metodología de Trabajo}
+\label{cap:objetivos}
 
 Este capítulo presenta los objetivos del trabajo en términos medibles y describe la metodología seguida para alcanzarlos. Se parte del objetivo general enunciado en la introducción y se descompone en objetivos específicos que guían cada fase del desarrollo.
 
@@ -952,46 +954,76 @@ El estudio presenta varias limitaciones que se documentan en aras del rigor:
 \end{itemize}
 
 \chapter{Conclusiones y Trabajo Futuro}
+\label{cap:conclusiones}
 
-%En la Ecuación \eqref{eq:eq1secCTF}
+Este capítulo cierra el trabajo recapitulando sus contribuciones, contrastando los resultados obtenidos con los objetivos planteados en el Capítulo~\ref{cap:objetivos}, asumiendo las limitaciones identificadas y proponiendo las líneas de continuación más prometedoras.
 
+\section{Conclusiones generales}
+\label{sec:c7_conclusiones}
 
-%\begin{equation}\label{eq:eq1secCTF}
-%M=\begin{pmatrix}
-%	m_{11}&m_{12}\\
-%	m_{21}&m_{22}
-%\end{pmatrix}
-%\end{equation}
+El trabajo ha diseñado, implementado y evaluado un sistema híbrido de asistencia a la consulta bibliográfica clínica que combina el ajuste fino eficiente de un LLM de código abierto (LLaMA-3.1-8B-Instruct mediante QLoRA) con una arquitectura RAG conectada a literatura primaria de PubMed, todo ello sobre hardware modesto y bajo prácticas MLOps que garantizan la trazabilidad del ciclo experimental. El estudio ablativo de cuatro configuraciones (base, ajuste fino exclusivo, RAG exclusivo e híbrido completo) constituye la contribución empírica central y permite separar de forma limpia la aportación de cada componente.
 
-%En la siguiente Tabla \ref{tab:tab1secCTF}
+La conclusión principal es que \textbf{el ajuste fino y la recuperación resuelven problemas distintos y complementarios}, y que su combinación (configuración~D) es la mejor en todos los ejes medidos: fidelidad (\textit{faithfulness} 0{,}656), relevancia de la respuesta (\textit{answer relevancy} 0{,}569), tasa de citación con PMID (0{,}98) y precisión de anclaje (1{,}00). La recuperación es la condición necesaria para que el sistema cite literatura real y para que la fidelidad sea siquiera computable; el ajuste fino disciplina el comportamiento del generador, corrigiendo el formato de citación hacia el patrón trazable \texttt{(PMID:~XXXXX)} y elevando la relevancia. Estos hallazgos son coherentes con la literatura comparativa de RAG frente a ajuste fino en dominios especializados \cite{ovadia2024finetuningretrievalcomparingknowledge, balaguer2024ragvsfinetuningpipelines, pingua_medical_FT_vs_RAG_2025} y la confirman en el escenario concreto de la asistencia bibliográfica clínica.
 
-%\begin{table}[h]
-%\centering
-%\begin{tabular}{|c|c|}
-%	\hline
-%	1 & 2 \\
-%	\hline
-%	22 & 11 \\
-%	\hline
-%\end{tabular}
-%\caption{Tabla 1}
-%\label{tab:tab1secCTF}
-%\end{table}
+Un segundo hallazgo, de naturaleza más cautelar, es que \textbf{el ajuste fino sin recuperación es frágil ante la ausencia de evidencia}. La configuración~B, al operar fuera de su distribución de entrenamiento, reproduce el marcador de posición literal de la plantilla en el 60\,\% de sus respuestas en lugar de rehusar, un comportamiento que solo las métricas deterministas de citación diseñadas para este estudio logran capturar. Este resultado tiene una lectura directa de despliegue: un modelo ajustado no debe servirse en producción sin su pipeline de recuperación y sin las salvaguardas de puerta de abstención y verificación de citaciones \cite{ji_survey_2023, pal_med-halt_2023}.
 
-%En la siguiente Figura \ref{fig:fig1secCTF}
+\section{Grado de consecución de los objetivos}
+\label{sec:c7_objetivos}
 
-%\begin{figure}[h]
-%\includegraphics[width= 0.8\textwidth]{logo_unir}
-%\caption{Logo Unir}
-%\label{fig:fig1secCTF}
-%\end{figure}
+El objetivo general (Capítulo~\ref{cap:objetivos}) se ha alcanzado: se ha construido y evaluado el sistema híbrido y se ha cuantificado la contribución diferencial de cada componente. El grado de consecución de los objetivos específicos es el siguiente:
 
+\begin{itemize}
+  \item \textbf{OE1 (pipeline de ingestión e indexación semántica).} Cumplido. Se ha construido un corpus de \textit{abstracts} de PubMed dirigido por el árbol de descriptores MeSH e indexado en Qdrant mediante búsqueda híbrida (denso~+~BM25 con fusión RRF), con embeddings biomédicos seleccionados empíricamente (Bioformer-16L) sobre un proxy de categoría MeSH (Secciones~\ref{sec:c5_embedding} y~\ref{sec:c5_rag}).
+  \item \textbf{OE2 (ajuste fino con QLoRA sobre MTSamples).} Cumplido. Se ha ajustado LLaMA-3.1-8B con QLoRA sobre un conjunto de instrucción-respuesta derivado de MTSamples mediante un \textit{teacher} local, adaptando estilo, terminología y estructura de la respuesta al registro clínico (Secciones~\ref{sec:c5_sft} y~\ref{sec:c5_qlora}).
+  \item \textbf{OE3 (integración híbrida bajo MLOps).} Cumplido. Ambos módulos se integran en una arquitectura única, con seguimiento de las cuatro configuraciones ablativas en MLflow y reproducibilidad procedimental (configuración fijada, \texttt{seed=42}, \textit{hash} de dataset e hiperparámetros registrados).
+  \item \textbf{OE4 (evaluación de las cuatro configuraciones).} Cumplido. El Capítulo~\ref{cap:evaluacion} reporta las métricas RAGAS y un conjunto de métricas deterministas de comportamiento de citación sobre una muestra pareada de 50~consultas, con intervalos de confianza \textit{bootstrap}.
+  \item \textbf{OE5 (determinar la ventaja del sistema híbrido).} Cumplido. La configuración~D domina a las configuraciones parciales en todos los ejes medidos, y el análisis identifica qué limitación específica resuelve cada técnica: RAG aporta evidencia y trazabilidad, el ajuste fino aporta alineamiento de formato y relevancia.
+\end{itemize}
 
-%\begin{thebibliography}{a}
-%\bibitem{etiqueta} \textsc{Autores},
-%\textit{nombre referencia.}
-%Información addicional
-%\end{thebibliography}
+En cuanto a los criterios cuantitativos de éxito asociados al requisito RNF-07, conviene reportarlos sin redondeos favorables. El criterio sobre \textit{answer relevancy} (que la configuración~D supere a la base en al menos $0{,}10$~puntos) \textbf{se cumple con amplio margen} ($+0{,}569$). El criterio sobre \textit{faithfulness} requiere la matización ya documentada en la Sección~\ref{sec:c6_discusion}: esta métrica no está definida para la configuración base (sin contexto recuperado), por lo que su único eje comparable es C$\to$D, sobre el que el ajuste fino mejora la fidelidad en $+0{,}083$~puntos. La dirección y el signo del efecto respaldan la hipótesis, si bien su magnitud queda ligeramente por debajo del umbral de $0{,}10$ que se barajó en una formulación inicial del criterio.
+
+\section{Contribuciones del trabajo}
+\label{sec:c7_contribuciones}
+
+Las contribuciones concretas de este trabajo, en línea con la brecha identificada en la literatura (Sección~\ref{sec:c2_sintesis}), son:
+
+\begin{itemize}
+  \item \textbf{Un estudio ablativo aplicado a la asistencia bibliográfica clínica sobre literatura primaria de PubMed}, realizado íntegramente sobre un único modelo de código abierto cuantizado en hardware modesto, frente al patrón dominante de modelos propietarios y arquitecturas multi-LLM \cite{amugongo_retrieval_2025, zakka_almanac_2024, lozano_clinfoai_2023}.
+  \item \textbf{Una familia de métricas deterministas de comportamiento de citación}, libres de juez y reproducibles, que cuantifican la activación, el formato y el anclaje de las citaciones, y que revelan modos de fallo (como la fabricación de la forma de una citación) invisibles a las métricas de adherencia de formato y a las métricas RAGAS estándar.
+  \item \textbf{Un mecanismo explícito de verificación automática de citaciones y de abstención}, que permite medir directamente la contribución de RAG a la trazabilidad y a la contención de la alucinación de identificadores.
+  \item \textbf{Una herramienta funcional integrada} (consola de evidencia clínica con interfaz web Gradio) que materializa la configuración híbrida completa para su uso interactivo.
+\end{itemize}
+
+\section{Limitaciones}
+\label{sec:c7_limitaciones}
+
+Más allá de las amenazas a la validez del estudio empírico ya detalladas en la Sección~\ref{sec:c6_limitaciones} (tamaño muestral de 50~consultas, ausencia de un \textit{benchmark} de recuperación con anotación de oro, techo del \textit{context recall} inducido por la referencia del \textit{teacher} y reproducibilidad procedimental y no bit a bit), procede señalar las limitaciones de alcance del sistema en su conjunto:
+
+\begin{itemize}
+  \item \textbf{Cobertura del conocimiento.} La base de evidencia se limita a \textit{abstracts} de PubMed, no a texto completo, lo que acota la profundidad de la evidencia recuperable.
+  \item \textbf{Validación de usabilidad.} La evaluación de usabilidad es una revisión heurística del autor (Sección~\ref{sec:c6_usabilidad}); carece de validación con profesionales sanitarios y de métricas de interacción.
+  \item \textbf{Idioma.} El sistema opera en inglés, lo que limita su aplicabilidad directa en entornos clínicos hispanohablantes.
+  \item \textbf{Alcance asistencial.} El sistema es una ayuda a la consulta bibliográfica y no un sistema de soporte a la decisión clínica; no debe interpretarse como sustituto del juicio profesional.
+\end{itemize}
+
+\section{Líneas de trabajo futuro}
+\label{sec:c7_futuro}
+
+Las limitaciones anteriores delimitan las líneas de continuación más prometedoras:
+
+\begin{itemize}
+  \item \textbf{Evaluación de usabilidad con usuarios reales.} Línea prioritaria: realizar una sesión de evaluación con al menos un profesional del dominio clínico sobre la interfaz integrada, con métricas de interacción (tiempo de tarea, tasa de éxito, satisfacción percibida) que complementen la revisión heurística.
+  \item \textbf{Ampliación y robustez del estudio empírico.} Incrementar el tamaño de la muestra de evaluación y construir un conjunto de relevancia con anotación de oro que permita medir la calidad de recuperación en términos absolutos, no solo comparativos.
+  \item \textbf{Evaluación del comportamiento de abstención.} Reintroducir en la muestra los casos sin evidencia, excluidos del estudio actual, para evaluar explícitamente la puerta de abstención cuando no existe respuesta esperable.
+  \item \textbf{Recuperación sobre texto completo.} Extender el corpus más allá de los \textit{abstracts} hacia texto completo (por ejemplo, PubMed Central), evaluando el efecto sobre fidelidad y precisión de anclaje.
+  \item \textbf{Soporte multilingüe.} Habilitar consulta y respuesta en español, manteniendo la trazabilidad de la evidencia de origen en inglés.
+\end{itemize}
+
+\section{Reflexión final}
+\label{sec:c7_reflexion}
+
+El trabajo confirma, sobre un escenario clínico concreto y con recursos accesibles, una idea con implicaciones prácticas claras: en la asistencia bibliográfica clínica, la recuperación es la que aporta la evidencia verificable y el ajuste fino es el que disciplina la forma en que esa evidencia se comunica. Ninguno de los dos componentes es prescindible, y su valor solo se manifiesta plenamente cuando operan de forma conjunta y rodeados de salvaguardas explícitas de verificación y abstención. Es precisamente esa combinación, y no cada técnica por separado, la que acerca a un LLM de código abierto al estándar de trazabilidad que exige el dominio sanitario.
+
 \bibliographystyle{apacite}
 \bibliography{bibliografia}
 
