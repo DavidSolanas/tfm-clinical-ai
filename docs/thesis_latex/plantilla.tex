@@ -47,6 +47,10 @@
 \setlength{\headheight}{26pt}
 \addtolength{\topmargin}{-12pt}
 
+% Permite a TeX estirar ligeramente el interlineado como último recurso
+% para evitar pequeñas cajas desbordadas (overfull \hbox) en el texto corrido.
+\setlength{\emergencystretch}{2em}
+
 \begin{document}
 \renewcommand{\listfigurename}{Índice de Ilustraciones}
 \renewcommand{\listtablename}{Índice de Tablas}
@@ -293,7 +297,7 @@ La Tabla \ref{tab:tools} resume las principales herramientas empleadas en cada m
 
 \begin{table}[h]
 \centering
-\begin{tabular}{|p{0.25\textwidth}|p{0.27\textwidth}|p{0.47\textwidth}|}
+\begin{tabular}{|p{0.23\textwidth}|p{0.24\textwidth}|p{0.43\textwidth}|}
 \hline
 \textbf{Componente} & \textbf{Herramienta} & \textbf{Justificación} \\
 \hline
@@ -471,7 +475,7 @@ La validación de los requisitos se centra en tres aspectos, cada uno de los cua
 
 \textbf{Validación cualitativa de usabilidad.} Los requisitos centrados en la interacción y la utilidad clínica percibida (RF-09, RF-12 y RNF-06) se validan, idealmente, mediante una sesión de evaluación con un profesional sanitario, en la que se le solicita formular consultas representativas de su práctica sobre la herramienta entregada (configuración FT+RAG) y valorar la legibilidad de la respuesta, la utilidad de las fuentes mostradas y el tiempo de respuesta percibido. La comparación entre las distintas configuraciones del sistema corresponde al estudio ablativo del Capítulo~6 (RF-08), que ejecuta el arnés experimental sobre las cuatro variantes, y no a la sesión de usabilidad de la herramienta de usuario final. Esta colaboración queda condicionada a la disponibilidad efectiva de un profesional sanitario dentro del calendario del trabajo: si dicha disponibilidad no resulta posible, la validación cualitativa se realizará mediante una revisión crítica documentada por parte del autor sobre los mismos criterios, dejando expresamente constancia de esta limitación como elemento a revisitar en trabajo futuro. En cualquiera de los dos escenarios, los hallazgos cualitativos se documentan en el Capítulo~6.
 
-\chapter{Descripción de la Herramienta Software Desarrollada}
+\chapter[Descripción de la Herramienta Software Desarrollada]{Descripción de la Herramienta\\ Software Desarrollada}
 
 Este capítulo detalla la implementación del sistema híbrido de asistencia bibliográfica clínica. La exposición sigue el flujo de datos del sistema: primero los corpus de entrada (Sección~\ref{sec:c5_corpus}), después el pipeline de recuperación (Sección~\ref{sec:c5_rag}), a continuación la generación del conjunto de entrenamiento y el ajuste fino (Secciones~\ref{sec:c5_sft} y~\ref{sec:c5_qlora}), y finalmente las configuraciones ablativas y la interfaz de usuario (Secciones~\ref{sec:c5_ablation} y~\ref{sec:c5_ui}). Los parámetros de configuración referenciados en este capítulo residen en los ficheros \texttt{configs/rag.yaml} y \texttt{configs/training.yaml} del repositorio, de forma que cualquier modificación sea trazable y reproducible (RNF-03, RNF-04).
 
@@ -753,7 +757,7 @@ Este capítulo presenta los resultados del estudio ablativo que constituye la co
 
 \textbf{Juez y métricas RAGAS.} La evaluación automática emplea como juez a Claude Sonnet~4.6, externo al sistema bajo prueba y distinto del modelo \textit{teacher} usado en la construcción del conjunto de entrenamiento (Sección~\ref{sec:c5_sft}). Se computan las cuatro métricas RAGAS introducidas en el Capítulo~2\footnote{Las métricas que requieren contexto recuperado (\textit{faithfulness}, \textit{context precision} y \textit{context recall}) solo se definen para las configuraciones con RAG (C~y~D); para A~y~B únicamente se computa \textit{answer relevancy}.}: \textit{faithfulness} (fidelidad de la respuesta al contexto recuperado), \textit{answer relevancy} (relevancia respecto a la pregunta), \textit{context precision} y \textit{context recall} (calidad de la recuperación). Las muestras en las que el pipeline se abstiene se excluyen del denominador RAGAS y se contabilizan por separado mediante \texttt{abstention\_rate}, de modo que las puntuaciones se interpreten como ``cuando el sistema respondió, con qué calidad lo hizo''. Todas las medias se acompañan de intervalos de confianza \textit{bootstrap} del 95\,\%.
 
-\textbf{Métricas deterministas de citación.} Las métricas RAGAS no cubren el eje de comportamiento de citación que el ajuste fino pretende inducir, y la adherencia de formato resulta saturada y poco discriminante (Sección~\ref{sec:c6_robustez}). Por ello se añade una familia de métricas deterministas, libres de juez, calculadas directamente sobre los registros de generación: la tasa de citación con PMID (\texttt{pmid\_citation\_rate}), la tasa de referencias con corchetes estilo \texttt{[1]} (\texttt{bracket\_citation\_rate}), la tasa de marcadores de posición literales \texttt{(PMID: XXXXXXXX)} (\texttt{placeholder\_citation\_rate}), la tasa de respuestas sin citación (\texttt{no\_citation\_rate}), la precisión de anclaje de las citaciones (\texttt{citation\_grounding\_precision}: fracción de PMID citados que pertenecen al conjunto recuperado de cada registro) y la tasa de alucinación de PMID por respuesta (\texttt{hallucinated\_pmids\_rate}). Estas métricas son deterministas, reproducibles sin coste de juez y miden directamente las dos hipótesis ablativas del estudio. La verificación de citaciones que las sustenta es la descrita en la Sección~\ref{sec:c5_citation}.
+\textbf{Métricas deterministas de citación.} Las métricas RAGAS no cubren el eje de comportamiento de citación que el ajuste fino pretende inducir, y la adherencia de formato resulta saturada y poco discriminante (Sección~\ref{sec:c6_robustez}). Por ello se añade una familia de métricas deterministas, libres de juez, calculadas directamente sobre los registros de generación: la tasa de citación con PMID (\texttt{pmid\_citation\_rate}), la tasa de referencias con corchetes estilo \texttt{[1]} (\texttt{bracket\_citation\_rate}), la tasa de marcadores de posición literales \texttt{(PMID: XXXXXXXX)} (\texttt{placeholder\_citation\_rate}), la tasa de respuestas sin citación (\texttt{no\_citation\_rate}), la precisión de anclaje de las citaciones (\texttt{citation\_\allowbreak grounding\_\allowbreak precision}: fracción de PMID citados que pertenecen al conjunto recuperado de cada registro) y la tasa de alucinación de PMID por respuesta (\texttt{hallucinated\_pmids\_rate}). Estas métricas son deterministas, reproducibles sin coste de juez y miden directamente las dos hipótesis ablativas del estudio. La verificación de citaciones que las sustenta es la descrita en la Sección~\ref{sec:c5_citation}.
 
 \section{Resultados de calidad de respuesta (RAGAS)}
 \label{sec:c6_ragas}
@@ -797,6 +801,7 @@ La Tabla~\ref{tab:c6_citacion} recoge las métricas deterministas de citación, 
 
 \begin{table}[h]
 \centering
+\setlength{\tabcolsep}{4pt}
 \begin{tabular}{|l|c|c|c|c|}
 \hline
 \textbf{Métrica de citación} & \textbf{A (base)} & \textbf{B (FT)} & \textbf{C (RAG)} & \textbf{D (FT+RAG)} \\
@@ -907,7 +912,7 @@ El caso seleccionado (especialidad \textit{Orthopedic}) corresponde a una nota o
 \centering
 \small
 \renewcommand{\arraystretch}{1.3}
-\begin{tabular}{|p{0.16\textwidth}|p{0.74\textwidth}|}
+\begin{tabular}{|p{0.18\textwidth}|p{0.72\textwidth}|}
 \hline
 \textbf{Configuración} & \textbf{Extracto de la respuesta} \\
 \hline
@@ -1072,7 +1077,7 @@ Este anexo recoge la tabla completa de métricas del estudio ablativo (Capítulo
 \label{fig:anexo_eval_grid}
 \end{figure}
 
-\chapter{Ejemplos cualitativos de respuestas por configuración}
+\chapter[Ejemplos cualitativos de respuestas por configuración]{Ejemplos cualitativos de\\ respuestas por configuración}
 \label{anexo:cualitativo}
 
 Este anexo complementa el ejemplo representativo de la Sección~\ref{sec:c6_cualitativo} con dos casos adicionales del conjunto de evaluación, de especialidades distintas, en los que se reproducen las respuestas completas de las cuatro configuraciones a una misma consulta. Se conserva el texto original en inglés generado por el sistema; los marcadores de citación (\texttt{(PMID:~XXXXXXXX)}, corchetes \texttt{[n]} y PMID reales) se resaltan en monoespaciado. El objetivo es evidenciar que los patrones cuantificados en el Capítulo~\ref{cap:evaluacion} (rechazo de la configuración~A, marcador de posición de la~B, referencias no trazables de la~C y citación anclada de la~D) se reproducen de forma consistente entre especialidades.
