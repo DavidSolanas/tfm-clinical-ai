@@ -66,16 +66,16 @@
 \listoftables
 
 \chapter{Resumen}
-{\bf Nota:} En este apartado se introducirá un breve resumen en español del trabajo realizado (extensión máxima: 150 palabras). Este resumen debe incluir el objetivo o propósito de la investigación, la metodología, los resultados y las conclusiones.
+El crecimiento sostenido del conocimiento biomédico supera la capacidad de asimilación del profesional clínico, y los Grandes Modelos de Lenguaje (LLM), pese a su potencial como interfaz con la literatura científica, presentan una tendencia a la alucinación inaceptable en el ámbito sanitario. Este trabajo diseña, implementa y evalúa un sistema híbrido de asistencia a la consulta bibliográfica clínica que combina el ajuste fino eficiente de un modelo de código abierto (LLaMA-3.1-8B mediante QLoRA, sobre transcripciones clínicas de MTSamples) con una arquitectura de Generación Aumentada por Recuperación (RAG) conectada a un corpus de unos 320.000 \textit{abstracts} de PubMed, indexado mediante búsqueda híbrida y \textit{embeddings} biomédicos. A través de un estudio ablativo de cuatro configuraciones (base, ajuste fino exclusivo, RAG exclusivo e híbrido completo), evaluado sobre métricas RAGAS y un conjunto de métricas deterministas de comportamiento de citación, se demuestra que el ajuste fino y la recuperación resuelven problemas distintos y complementarios: la configuración híbrida domina en todos los ejes medidos (fidelidad 0,656; relevancia de la respuesta 0,569; tasa de citación con PMID 0,98; precisión de anclaje 1,00). Se concluye que la recuperación aporta la evidencia verificable mientras que el ajuste fino disciplina su formato de citación, siendo ambos componentes necesarios y eficaces únicamente cuando operan de forma conjunta.
 
-
-{\bf Palabras Clave:} Se deben incluir de 3 a 5 palabras claves en español
+\vspace{1em}
+\noindent{\bf Palabras Clave:} Grandes Modelos de Lenguaje; Generación Aumentada por Recuperación; Ajuste fino; Medicina basada en la evidencia; Alucinación.
 
 \chapter{Abstract}
-{\bf Nota:} En este apartado se introducirá un breve resumen en español del trabajo realizado (extensión máxima: 150 palabras). Este resumen debe incluir el objetivo o propósito de la investigación, la metodología, los resultados y las conclusiones.
+The sustained growth of biomedical knowledge exceeds the assimilation capacity of clinical practitioners, and Large Language Models (LLMs), despite their potential as an interface to the scientific literature, exhibit a tendency to hallucinate that is unacceptable in healthcare settings. This work designs, implements and evaluates a hybrid clinical literature-consultation assistance system that combines the efficient fine-tuning of an open-source model (LLaMA-3.1-8B via QLoRA, on MTSamples clinical transcriptions) with a Retrieval-Augmented Generation (RAG) architecture connected to a corpus of roughly 320,000 PubMed abstracts, indexed through hybrid search and biomedical embeddings. By means of an ablation study of four configurations (base, fine-tuning only, RAG only, and full hybrid), assessed with RAGAS metrics and a set of deterministic citation-behaviour metrics, it is shown that fine-tuning and retrieval solve distinct and complementary problems: the hybrid configuration dominates across every measured axis (faithfulness 0.656; answer relevancy 0.569; PMID citation rate 0.98; grounding precision 1.00). It is concluded that retrieval supplies the verifiable evidence while fine-tuning disciplines its citation format, with both components being necessary and effective only when operating jointly.
 
-
-{\bf Palabras Clave:} Se deben incluir de 3 a 5 palabras claves en inglés
+\vspace{1em}
+\noindent{\bf Keywords:} Large Language Models; Retrieval-Augmented Generation; Fine-tuning; Evidence-based medicine; Hallucination.
 
 
 
@@ -878,12 +878,23 @@ Por su tipología, este trabajo de desarrollo de software requiere, además de l
 
 \textbf{Usabilidad: evaluación heurística del autor.} La validación cualitativa de usabilidad con un profesional sanitario quedó condicionada, ya en la Sección~\ref{sec:c4_validacion}, a la disponibilidad de dicha colaboración dentro del calendario del trabajo. Al no resultar posible, y conforme a la alternativa allí prevista, la usabilidad se valora mediante una revisión heurística documentada por el autor sobre la interfaz web (Gradio) ya integrada, ilustrada en las Figuras~\ref{fig:c5_ui_landing}--\ref{fig:c5_ui_abstention}. La revisión toma como referencia un subconjunto de los principios heurísticos de usabilidad ampliamente aceptados y, para cada principio, emite una valoración (\textit{cumplido} o \textit{cumplido con reservas}) anclada en funcionalidades del sistema efectivamente implementadas y evaluadas en los apartados anteriores. La Tabla~\ref{tab:c6_heuristica} resume esta valoración.
 
-\begin{table}[h]
-\centering
-\begin{tabular}{|p{0.22\textwidth}|p{0.50\textwidth}|p{0.16\textwidth}|}
+\begin{longtable}{|p{0.22\textwidth}|p{0.50\textwidth}|p{0.16\textwidth}|}
+\caption{Evaluación heurística de usabilidad realizada por el autor, anclada en funcionalidades implementadas y evaluadas.}
+\label{tab:c6_heuristica} \\
 \hline
 \textbf{Principio heurístico} & \textbf{Soporte y observaciones} & \textbf{Valoración} \\
 \hline
+\endfirsthead
+\multicolumn{3}{c}{{\tablename\ \thetable{} -- continuación}} \\
+\hline
+\textbf{Principio heurístico} & \textbf{Soporte y observaciones} & \textbf{Valoración} \\
+\hline
+\endhead
+\hline
+\multicolumn{3}{r}{\textit{Continúa en la página siguiente}} \\
+\endfoot
+\hline
+\endlastfoot
 Visibilidad del estado del sistema & La interfaz muestra un indicador de estado del servicio (modelo de generación activo y disponibilidad de la recuperación) y, junto a cada respuesta, los \textit{abstracts} recuperados con su PMID y un fragmento del texto (RF-09; Figura~\ref{fig:c5_ui_answer}). Durante la generación, al lanzar la consulta la aplicación expone de forma inmediata un indicador de progreso animado acompañado de una estimación de la latencia esperada (del orden de 30--60~s), de modo que el usuario nunca permanece ante una espera silenciosa. & Cumplido \\
 \hline
 Control y libertad del usuario & El usuario reformula libremente la consulta en lenguaje natural y dispone de notas de ejemplo para iniciar el análisis (Figura~\ref{fig:c5_ui_landing}). Como reserva, la interfaz no conserva un historial de la interacción ni ofrece una acción explícita para deshacer o recuperar una consulta anterior. & Cumplido con reservas \\
@@ -894,10 +905,7 @@ Prevención de errores & La puerta de abstención y el verificador de citaciones
 \hline
 Coincidencia con el dominio real & El ajuste fino adapta la terminología y la estructura de la respuesta (recomendación / base de evidencia / incertidumbre) al registro clínico, como evidencian las métricas de formato y citación de las Secciones anteriores. & Cumplido \\
 \hline
-\end{tabular}
-\caption{Evaluación heurística de usabilidad realizada por el autor, anclada en funcionalidades implementadas y evaluadas.}
-\label{tab:c6_heuristica}
-\end{table}
+\end{longtable}
 
 \textbf{Resultado.} De los cinco principios revisados, cuatro se consideran plenamente satisfechos y uno satisfecho con reservas; no se identificaron defectos de usabilidad críticos que impidan el uso previsto de la herramienta. La única reserva se concentra en una dimensión bien delimitada y no esencial para la función central de consulta bibliográfica: la ausencia de una gestión del historial de interacción que permita recuperar consultas anteriores. Esta mejora se recoge como línea concreta de la interfaz en el Capítulo~\ref{cap:conclusiones}.
 
@@ -1138,6 +1146,17 @@ En este caso la configuración~C sí cita PMID reales (su tasa de citación es 0
 \noindent{\footnotesize\itshape Conclusión: las mismas afirmaciones que C pero ancladas a PMID reales (estudio observacional a 5 años y revisiones Cochrane).}
 
 Este segundo ejemplo reproduce el patrón del caso del manguito rotador de la Sección~\ref{sec:c6_cualitativo}: la configuración~C apoya las mismas afirmaciones que la~D (intervenciones multimodales, papel de las visitas frecuentes) pero con marcadores de corchete no trazables (\texttt{[1]}, \texttt{[2]}, \texttt{[4]}), mientras que la~D las ancla a PMID reales y verificables (\texttt{41517662}), confirmando la generalización del efecto del ajuste fino sobre el formato de citación entre especialidades muy distintas.
+
+\chapter{Repositorio de código fuente}
+\label{anexo:repo}
+
+El código fuente completo del sistema descrito en esta memoria (pipeline de ingestión e indexación, módulo RAG, \textit{scripts} de ajuste fino y conversión, evaluación, interfaz web y ficheros de configuración) se encuentra disponible en el siguiente repositorio público:
+
+\begin{center}
+\url{https://github.com/DavidSolanas/tfm-clinical-ai}
+\end{center}
+
+El alumno en este Trabajo de Fin de Estudios es el único autor y responsable de la totalidad de las contribuciones (\textit{commits}) registradas en el repositorio.
 
 \end{document}
 
