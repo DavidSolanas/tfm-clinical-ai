@@ -145,8 +145,10 @@ class RAGPipeline:
                 - docs: (Only if abstained=False) List of final_k documents with rank,
                     final_score, and all metadata; empty list if abstained.
                 - response: Generated response string, or None if abstained.
-                - citation_check: Dict with keys 'citation_ok' (bool) and
-                    'hallucinated_pmids' (list of PMID strings); or None if abstained.
+                - citation_check: Dict with keys 'cited_pmids' (list of all PMID
+                    strings found in the response), 'hallucinated_pmids' (list of
+                    cited-but-not-retrieved PMID strings), and 'citation_ok' (bool);
+                    or None if abstained.
                 - avg_final_score: Average final_score of selected documents; or None
                     if abstained.
 

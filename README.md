@@ -79,6 +79,43 @@ uv run jupyter lab notebooks/
 
 Start with `00_vertical_slice.ipynb` for an end-to-end "hello world" of the full system.
 
+## Run the app locally
+
+The final deliverable is a local Gradio UI — a clinician "evidence synthesis console"
+that turns a patient note into a traceable, evidence-based recommendation with linkified
+PubMed citations, a per-source **Evidence Ledger**, citation/hallucination verification,
+and a deliberate abstention state. The app always runs the flagship configuration
+(fine-tuned + RAG, config D); the full ablation across configurations lives in the
+evaluation harness (see [Evaluation Configurations](#evaluation-configurations)).
+
+### One-command launch
+
+```bash
+scripts/run_app.sh
+```
+
+This starts Qdrant (via `docker compose`), then launches the Gradio app. The app runs
+torch (Bioformer embedder + MedCPT reranker) on **CPU** and spawns a single llama.cpp
+`llama-server` on the **GPU** for generation, pre-warming the fine-tuned GGUF (config D).
+Open <http://localhost:7860> once pre-warming completes.
+
+The app serves a single configuration: fine-tuned (QLoRA) + RAG (config D), the
+flagship/full system. Only one ~4.9 GB model is resident at a time, which keeps the
+demo inside the 10 GB VRAM budget. The comparison across the other configurations
+(base, FT-only, RAG-only) is run offline in the evaluation harness, not the UI.
+
+### Context size
+
+The llama.cpp context window is grounded by a probe over the locked eval set
+(`scripts/probe_context_size.py`): the measured max prompt is ~9 k tokens, so the default
+is `-c 9216` (not the eval-time 14336). Override via `LLAMA_CTX_SIZE`.
+
+### Prerequisites
+
+Qdrant `pubmed_abstracts` populated; the fine-tuned GGUF present under `gguf/`; the
+`llama-server` binary at `~/.unsloth/llama.cpp/llama-server` (override with
+`LLAMA_SERVER_BIN`); ~7 GB free VRAM.
+
 ## Project Structure
 
 ```

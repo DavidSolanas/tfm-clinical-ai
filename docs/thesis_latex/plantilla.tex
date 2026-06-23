@@ -266,7 +266,7 @@ Para lograr el objetivo general, se plantean los siguientes objetivos específic
 
   \item \textbf{OE5: Determinación de la contribución diferencial.} Determinar si la configuración híbrida FT+RAG ofrece ventajas estadísticamente interpretables sobre las configuraciones parciales, identificando qué limitación específica mitiga cada técnica: el ajuste fino para la adaptación de estilo y terminología clínica, y RAG para la reducción de alucinaciones y la incorporación de evidencia actualizada.
 
-  \item \textbf{OE6: Desarrollo de un prototipo funcional de interfaz clínica.} Implementar una interfaz web funcional con Gradio que permita a un profesional sanitario formular consultas bibliográficas en lenguaje natural, seleccionar la configuración del sistema (Base / FT / RAG / FT+RAG), y visualizar las respuestas generadas junto con las fuentes bibliográficas recuperadas (PMID y fragmento de abstract), y valorar su usabilidad mediante una evaluación heurística de la interfaz, contemplando una sesión de validación con un experto del dominio clínico como línea de trabajo futuro.
+  \item \textbf{OE6: Desarrollo de un prototipo funcional de interfaz clínica.} Implementar una interfaz web funcional con Gradio que permita a un profesional sanitario formular consultas bibliográficas en lenguaje natural sobre la configuración final del sistema (FT+RAG), y visualizar las respuestas generadas junto con las fuentes bibliográficas recuperadas (PMID y fragmento de abstract), y valorar su usabilidad mediante una evaluación heurística de la interfaz, contemplando una sesión de validación con un experto del dominio clínico como línea de trabajo futuro.
 \end{enumerate}
 
 \section{Metodología de trabajo}
@@ -283,7 +283,7 @@ La metodología propuesta en este trabajo está estructurada en las siguientes f
 
 \textbf{Fase 5: Evaluación.} Se construye un \textit{benchmark} de 50 casos clínicos estratificados por especialidad médica sobre la partición de test. Las cuatro configuraciones experimentales se evalúan automáticamente con RAGAS, complementadas con métricas deterministas de comportamiento de citación. La validación cualitativa de usabilidad se aborda mediante una evaluación heurística de la interfaz realizada por el autor, quedando la evaluación con profesionales sanitarios como línea de trabajo futuro (Sección~\ref{sec:c4_validacion}).
 
-\textbf{Fase 6: Interfaz de demostración.} Se implementa una interfaz web con Gradio que permite seleccionar la configuración del sistema y visualizar las respuestas junto con las fuentes recuperadas (PMID y fragmento de abstract).
+\textbf{Fase 6: Interfaz de demostración.} Se implementa una interfaz web con Gradio que sirve la configuración final del sistema (FT+RAG) y presenta las respuestas junto con las fuentes recuperadas (PMID y fragmento de abstract).
 
 \section{Herramientas y tecnologías}
 
@@ -398,7 +398,7 @@ RF-06 & Verificar automáticamente que todos los PMID citados en la respuesta fo
 \hline
 RF-07 & Ajustar el modelo base mediante QLoRA sobre el corpus MTSamples, generando un adaptador LoRA reutilizable para la configuración con ajuste fino. & OE2 \\
 \hline
-RF-08 & Permitir al usuario seleccionar la configuración del sistema entre las cuatro variantes ablativas (Base, FT, RAG, FT+RAG) en el momento de la consulta. & OE4, OE6 \\
+RF-08 & El sistema debe poder ejecutarse en cada una de las cuatro configuraciones ablativas (Base, FT, RAG, FT+RAG) para su evaluación experimental comparativa. & OE4 \\
 \hline
 RF-09 & Mostrar al usuario, junto con la respuesta, las fuentes bibliográficas utilizadas indicando como mínimo el PMID y un fragmento del abstract recuperado. & OE6 \\
 \hline
@@ -467,7 +467,7 @@ La validación de los requisitos se centra en tres aspectos, cada uno de los cua
 
 \textbf{Validación cuantitativa de la calidad de respuesta.} Los requisitos relativos a calidad y trazabilidad (RF-04, RF-05, RF-06, RF-10, RNF-02, RNF-07 y RNF-10) se validan mediante la evaluación automática descrita en el Capítulo~6: cuatro configuraciones ablativas (Base, FT, RAG y FT+RAG) sobre un \textit{benchmark} de preguntas clínicas, calificadas con las métricas RAGAS de \textit{Faithfulness}, \textit{Answer Relevancy}, \textit{Context Precision} y \textit{Context Recall} \cite{es2025ragasautomatedevaluationretrieval}, complementadas por la tasa de PMID alucinados producida por el verificador de citaciones del propio sistema. El cumplimiento de RNF-07 se considera demostrado si la configuración FT+RAG supera a la configuración base en los umbrales relativos declarados de \textit{Faithfulness} y \textit{Answer Relevancy}.
 
-\textbf{Validación cualitativa de usabilidad.} Los requisitos centrados en la interacción y la utilidad clínica percibida (RF-08, RF-09, RF-12 y RNF-06) se validan, idealmente, mediante una sesión de evaluación con un profesional sanitario, en la que se le solicita formular consultas representativas de su práctica, comparar las respuestas obtenidas en distintas configuraciones del sistema y valorar la legibilidad de la respuesta, la utilidad de las fuentes mostradas y el tiempo de respuesta percibido. Esta colaboración queda condicionada a la disponibilidad efectiva de un profesional sanitario dentro del calendario del trabajo: si dicha disponibilidad no resulta posible, la validación cualitativa se realizará mediante una revisión crítica documentada por parte del autor sobre los mismos criterios, dejando expresamente constancia de esta limitación como elemento a revisitar en trabajo futuro. En cualquiera de los dos escenarios, los hallazgos cualitativos se documentan en el Capítulo~6.
+\textbf{Validación cualitativa de usabilidad.} Los requisitos centrados en la interacción y la utilidad clínica percibida (RF-09, RF-12 y RNF-06) se validan, idealmente, mediante una sesión de evaluación con un profesional sanitario, en la que se le solicita formular consultas representativas de su práctica sobre la herramienta entregada (configuración FT+RAG) y valorar la legibilidad de la respuesta, la utilidad de las fuentes mostradas y el tiempo de respuesta percibido. La comparación entre las distintas configuraciones del sistema corresponde al estudio ablativo del Capítulo~6 (RF-08), que ejecuta el arnés experimental sobre las cuatro variantes, y no a la sesión de usabilidad de la herramienta de usuario final. Esta colaboración queda condicionada a la disponibilidad efectiva de un profesional sanitario dentro del calendario del trabajo: si dicha disponibilidad no resulta posible, la validación cualitativa se realizará mediante una revisión crítica documentada por parte del autor sobre los mismos criterios, dejando expresamente constancia de esta limitación como elemento a revisitar en trabajo futuro. En cualquiera de los dos escenarios, los hallazgos cualitativos se documentan en el Capítulo~6.
 
 \chapter{Descripción de la Herramienta Software Desarrollada}
 
@@ -705,9 +705,37 @@ La configuración~B se evalúa reutilizando exactamente la misma plantilla de \t
 \section{Interfaz de usuario}
 \label{sec:c5_ui}
 
-La interfaz web del sistema se implementa mediante Gradio, satisfaciendo el requisito RF-12. La interfaz permite al usuario: (a)~formular una consulta clínica en lenguaje natural, (b)~seleccionar la configuración del sistema entre las cuatro variantes ablativas (RF-08), y (c)~visualizar la respuesta estructurada junto con los abstracts de PubMed recuperados, incluyendo el PMID y un fragmento del texto de cada abstract (RF-09). La selección de configuración activa o desactiva el pipeline RAG y el cargado del adaptador LoRA de forma transparente para el usuario.
+La interfaz web del sistema se implementa mediante Gradio, satisfaciendo el requisito RF-12. La aplicación entregada sirve la configuración~D (FT+RAG), el sistema híbrido completo que el estudio ablativo del Capítulo~6 justifica como configuración de referencia, de modo que el clínico interactúa siempre con la variante validada y no con una versión deliberadamente inferior del sistema. La interfaz permite al usuario: (a)~formular una consulta clínica en lenguaje natural, y (b)~visualizar la respuesta estructurada junto con los abstracts de PubMed recuperados, incluyendo el PMID y un fragmento del texto de cada abstract (RF-09). La capacidad de ejecutar el sistema en cada una de las cuatro configuraciones ablativas (RF-08) reside en el experimento de evaluación, no en la aplicación de usuario final.
 
-\noindent\textbf{Estado de implementación:} la interfaz se encuentra en fase de integración final al cierre de la presente memoria. Los resultados de evaluación del Capítulo~6 se obtienen invocando el pipeline directamente desde código, sin depender de la interfaz, por lo que su estado no condiciona la validez del estudio ablativo. La validación de usabilidad (RF-12, RNF-06) se aborda en el Capítulo~6 mediante una evaluación heurística del autor, en los términos descritos en la Sección~\ref{sec:c4_validacion}.
+La Figura~\ref{fig:c5_ui_landing} muestra la pantalla inicial de la aplicación. La Figura~\ref{fig:c5_ui_answer} ilustra una respuesta con evidencia recuperada y citaciones ancladas, y la Figura~\ref{fig:c5_ui_abstention}, el comportamiento de abstención cuando la recuperación no aporta evidencia suficiente. Cada PMID mostrado es un enlace activo: al pulsarlo, la aplicación abre el registro correspondiente en PubMed (Figura~\ref{fig:c5_ui_pubmed}), lo que materializa la trazabilidad de las citaciones (RF-09) y permite al clínico verificar la fuente original sin abandonar el flujo de trabajo.
+
+\begin{figure}[h]
+\centering
+\includegraphics[width=0.85\textwidth]{figures/ui_landing.png}
+\caption{Pantalla inicial de la interfaz web (Gradio), donde el clínico introduce la consulta en lenguaje natural.}
+\label{fig:c5_ui_landing}
+\end{figure}
+
+\begin{figure}[h]
+\centering
+\includegraphics[width=0.85\textwidth]{figures/ui_config_d_answer.png}
+\caption{Respuesta de la configuración~D (FT+RAG): la respuesta estructurada se acompaña de los abstracts de PubMed recuperados, con su PMID y un fragmento del texto (RF-09).}
+\label{fig:c5_ui_answer}
+\end{figure}
+
+\begin{figure}[h]
+\centering
+\includegraphics[width=0.85\textwidth]{figures/ui_pubmed_article.png}
+\caption{Registro de PubMed (PMID~41987548) abierto al pulsar la citación correspondiente en la interfaz. La trazabilidad extremo a extremo permite contrastar cada afirmación con su fuente primaria.}
+\label{fig:c5_ui_pubmed}
+\end{figure}
+
+\begin{figure}[h]
+\centering
+\includegraphics[width=0.85\textwidth]{figures/ui_abstention.png}
+\caption{Comportamiento de abstención: ante la ausencia de evidencia recuperada suficiente, el sistema rehúsa responder en lugar de fabricar contenido.}
+\label{fig:c5_ui_abstention}
+\end{figure}
 
 \chapter{Evaluación}
 \label{cap:evaluacion}
@@ -849,9 +877,9 @@ Por su tipología, este trabajo de desarrollo de software requiere, además de l
 \hline
 \textbf{Principio heurístico} & \textbf{Soporte en el sistema} \\
 \hline
-Visibilidad del estado del sistema & La interfaz muestra explícitamente la configuración activa (Base / FT / RAG / FT+RAG) y, junto a cada respuesta, los \textit{abstracts} recuperados con su PMID y un fragmento del texto (RF-09). \\
+Visibilidad del estado del sistema & La interfaz muestra explícitamente un indicador de estado del servicio (modelo de generación activo y disponibilidad de la recuperación) y, junto a cada respuesta, los \textit{abstracts} recuperados con su PMID y un fragmento del texto (RF-09). \\
 \hline
-Control y libertad del usuario & El selector de configuración (RF-08) permite alternar entre las cuatro variantes y contrastar las respuestas para una misma consulta. \\
+Control y libertad del usuario & El usuario reformula libremente la consulta en lenguaje natural y dispone de notas de ejemplo para iniciar el análisis; ante evidencia insuficiente, el sistema responde con un estado explícito de abstención en lugar de fabricar una recomendación, manteniendo al usuario en control del proceso. \\
 \hline
 Reconocer en lugar de recordar & Las fuentes se presentan junto a la respuesta, de modo que el usuario puede verificar la evidencia sin abandonar la interfaz ni memorizar identificadores. \\
 \hline

@@ -50,18 +50,18 @@
 \contentsline {section}{\numberline {5.5}Ajuste fino con QLoRA}{35}{section.5.5}%
 \contentsline {section}{\numberline {5.6}Configuraciones ablativas}{36}{section.5.6}%
 \contentsline {section}{\numberline {5.7}Interfaz de usuario}{37}{section.5.7}%
-\contentsline {chapter}{\numberline {6}Evaluación}{39}{chapter.6}%
-\contentsline {section}{\numberline {6.1}Metodología de evaluación}{39}{section.6.1}%
-\contentsline {section}{\numberline {6.2}Resultados de calidad de respuesta (RAGAS)}{40}{section.6.2}%
-\contentsline {section}{\numberline {6.3}Comportamiento de citación}{42}{section.6.3}%
-\contentsline {section}{\numberline {6.4}Alucinación de PMID y robustez operativa}{44}{section.6.4}%
-\contentsline {section}{\numberline {6.5}Evaluación de aplicabilidad y usabilidad}{45}{section.6.5}%
-\contentsline {section}{\numberline {6.6}Análisis cualitativo de respuestas representativas}{46}{section.6.6}%
-\contentsline {section}{\numberline {6.7}Discusión de los hallazgos}{47}{section.6.7}%
-\contentsline {section}{\numberline {6.8}Amenazas a la validez y limitaciones}{48}{section.6.8}%
-\contentsline {chapter}{\numberline {7}Conclusiones y Trabajo Futuro}{51}{chapter.7}%
-\contentsline {section}{Referencias}{51}{section*.6}%
-\contentsline {chapter}{\numberline {A}Resultados de evaluación detallados}{56}{appendix.Alph1}%
-\contentsline {chapter}{\numberline {B}Ejemplos cualitativos de respuestas por configuración}{58}{appendix.Alph2}%
-\contentsline {section}{\numberline {B.1}Ejemplo 1: cirugía abdominal (hernia incisional y cuerpo extraño retenido)}{58}{section.Alph2.1}%
-\contentsline {section}{\numberline {B.2}Ejemplo 2: dietética y nutrición (mantenimiento de pérdida de peso)}{59}{section.Alph2.2}%
+\contentsline {chapter}{\numberline {6}Evaluación}{42}{chapter.6}%
+\contentsline {section}{\numberline {6.1}Metodología de evaluación}{42}{section.6.1}%
+\contentsline {section}{\numberline {6.2}Resultados de calidad de respuesta (RAGAS)}{43}{section.6.2}%
+\contentsline {section}{\numberline {6.3}Comportamiento de citación}{45}{section.6.3}%
+\contentsline {section}{\numberline {6.4}Alucinación de PMID y robustez operativa}{47}{section.6.4}%
+\contentsline {section}{\numberline {6.5}Evaluación de aplicabilidad y usabilidad}{48}{section.6.5}%
+\contentsline {section}{\numberline {6.6}Análisis cualitativo de respuestas representativas}{49}{section.6.6}%
+\contentsline {section}{\numberline {6.7}Discusión de los hallazgos}{50}{section.6.7}%
+\contentsline {section}{\numberline {6.8}Amenazas a la validez y limitaciones}{51}{section.6.8}%
+\contentsline {chapter}{\numberline {7}Conclusiones y Trabajo Futuro}{54}{chapter.7}%
+\contentsline {section}{Referencias}{54}{section*.6}%
+\contentsline {chapter}{\numberline {A}Resultados de evaluación detallados}{59}{appendix.Alph1}%
+\contentsline {chapter}{\numberline {B}Ejemplos cualitativos de respuestas por configuración}{61}{appendix.Alph2}%
+\contentsline {section}{\numberline {B.1}Ejemplo 1: cirugía abdominal (hernia incisional y cuerpo extraño retenido)}{61}{section.Alph2.1}%
+\contentsline {section}{\numberline {B.2}Ejemplo 2: dietética y nutrición (mantenimiento de pérdida de peso)}{62}{section.Alph2.2}%

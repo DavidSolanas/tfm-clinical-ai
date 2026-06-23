@@ -212,49 +212,57 @@
 \newlabel{tab:c5_ablations}{{5.4}{37}{Cuatro configuraciones ablativas del sistema. La configuración~D es el sistema híbrido completo}{table.5.4}{}}
 \@writefile{toc}{\contentsline {section}{\numberline {5.7}Interfaz de usuario}{37}{section.5.7}\protected@file@percent }
 \newlabel{sec:c5_ui}{{5.7}{37}{Interfaz de usuario}{section.5.7}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {5.1}{\ignorespaces Pantalla inicial de la interfaz web (Gradio), donde el clínico introduce la consulta en lenguaje natural.}}{38}{figure.5.1}\protected@file@percent }
+\newlabel{fig:c5_ui_landing}{{5.1}{38}{Pantalla inicial de la interfaz web (Gradio), donde el clínico introduce la consulta en lenguaje natural}{figure.5.1}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {5.2}{\ignorespaces Respuesta de la configuración~D (FT+RAG): la respuesta estructurada se acompaña de los abstracts de PubMed recuperados, con su PMID y un fragmento del texto (RF-09).}}{39}{figure.5.2}\protected@file@percent }
+\newlabel{fig:c5_ui_answer}{{5.2}{39}{Respuesta de la configuración~D (FT+RAG): la respuesta estructurada se acompaña de los abstracts de PubMed recuperados, con su PMID y un fragmento del texto (RF-09)}{figure.5.2}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {5.3}{\ignorespaces Registro de PubMed (PMID~41987548) abierto al pulsar la citación correspondiente en la interfaz. La trazabilidad extremo a extremo permite contrastar cada afirmación con su fuente primaria.}}{40}{figure.5.3}\protected@file@percent }
+\newlabel{fig:c5_ui_pubmed}{{5.3}{40}{Registro de PubMed (PMID~41987548) abierto al pulsar la citación correspondiente en la interfaz. La trazabilidad extremo a extremo permite contrastar cada afirmación con su fuente primaria}{figure.5.3}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {5.4}{\ignorespaces Comportamiento de abstención: ante la ausencia de evidencia recuperada suficiente, el sistema rehúsa responder en lugar de fabricar contenido.}}{41}{figure.5.4}\protected@file@percent }
+\newlabel{fig:c5_ui_abstention}{{5.4}{41}{Comportamiento de abstención: ante la ausencia de evidencia recuperada suficiente, el sistema rehúsa responder en lugar de fabricar contenido}{figure.5.4}{}}
 \citation{es2025ragasautomatedevaluationretrieval}
-\@writefile{toc}{\contentsline {chapter}{\numberline {6}Evaluación}{39}{chapter.6}\protected@file@percent }
+\@writefile{toc}{\contentsline {chapter}{\numberline {6}Evaluación}{42}{chapter.6}\protected@file@percent }
 \@writefile{lof}{\addvspace {10\p@ }}
 \@writefile{lot}{\addvspace {10\p@ }}
-\newlabel{cap:evaluacion}{{6}{39}{Evaluación}{chapter.6}{}}
-\@writefile{toc}{\contentsline {section}{\numberline {6.1}Metodología de evaluación}{39}{section.6.1}\protected@file@percent }
-\newlabel{sec:c6_metodologia}{{6.1}{39}{Metodología de evaluación}{section.6.1}{}}
-\@writefile{toc}{\contentsline {section}{\numberline {6.2}Resultados de calidad de respuesta (RAGAS)}{40}{section.6.2}\protected@file@percent }
-\newlabel{sec:c6_ragas}{{6.2}{40}{Resultados de calidad de respuesta (RAGAS)}{section.6.2}{}}
-\@writefile{lot}{\contentsline {table}{\numberline {6.1}{\ignorespaces Métricas RAGAS por configuración (medias sobre los registros respondidos, $n=50$). Las métricas dependientes de contexto solo aplican a las configuraciones con RAG. En negrita, el mejor valor por fila.}}{40}{table.6.1}\protected@file@percent }
-\newlabel{tab:c6_ragas}{{6.1}{40}{Métricas RAGAS por configuración (medias sobre los registros respondidos, $n=50$). Las métricas dependientes de contexto solo aplican a las configuraciones con RAG. En negrita, el mejor valor por fila}{table.6.1}{}}
-\@writefile{lof}{\contentsline {figure}{\numberline {6.1}{\ignorespaces \textit  {Faithfulness} RAGAS por configuración con IC \textit  {bootstrap} del 95\,\%. Solo las configuraciones con RAG (C~y~D) reciben puntuación, al requerir esta métrica un contexto recuperado.}}{41}{figure.6.1}\protected@file@percent }
-\newlabel{fig:c6_faithfulness}{{6.1}{41}{\textit {Faithfulness} RAGAS por configuración con IC \textit {bootstrap} del 95\,\%. Solo las configuraciones con RAG (C~y~D) reciben puntuación, al requerir esta métrica un contexto recuperado}{figure.6.1}{}}
-\@writefile{toc}{\contentsline {section}{\numberline {6.3}Comportamiento de citación}{42}{section.6.3}\protected@file@percent }
-\newlabel{sec:c6_citacion}{{6.3}{42}{Comportamiento de citación}{section.6.3}{}}
-\@writefile{lot}{\contentsline {table}{\numberline {6.2}{\ignorespaces Métricas deterministas de comportamiento de citación por configuración (tasas sobre registros respondidos, $n=50$). La precisión de anclaje solo se define cuando hay recuperación (C~y~D).}}{42}{table.6.2}\protected@file@percent }
-\newlabel{tab:c6_citacion}{{6.2}{42}{Métricas deterministas de comportamiento de citación por configuración (tasas sobre registros respondidos, $n=50$). La precisión de anclaje solo se define cuando hay recuperación (C~y~D)}{table.6.2}{}}
-\@writefile{lof}{\contentsline {figure}{\numberline {6.2}{\ignorespaces Tasa de citación con PMID por configuración. La recuperación (A$\to $C, B$\to $D) es la que activa la citación; el ajuste fino la lleva a la práctica totalidad de las respuestas (D, 0{,}98).}}{43}{figure.6.2}\protected@file@percent }
-\newlabel{fig:c6_pmid}{{6.2}{43}{Tasa de citación con PMID por configuración. La recuperación (A$\to $C, B$\to $D) es la que activa la citación; el ajuste fino la lleva a la práctica totalidad de las respuestas (D, 0{,}98)}{figure.6.2}{}}
-\@writefile{lof}{\contentsline {figure}{\numberline {6.3}{\ignorespaces Tasa de marcadores de posición literales \texttt  {(PMID: XXXXXXXX)} por configuración. Solo la configuración~B (ajuste fino sin RAG) los produce, al operar fuera de su distribución de entrenamiento sin evidencia que citar.}}{44}{figure.6.3}\protected@file@percent }
-\newlabel{fig:c6_placeholder}{{6.3}{44}{Tasa de marcadores de posición literales \texttt {(PMID: XXXXXXXX)} por configuración. Solo la configuración~B (ajuste fino sin RAG) los produce, al operar fuera de su distribución de entrenamiento sin evidencia que citar}{figure.6.3}{}}
-\@writefile{toc}{\contentsline {section}{\numberline {6.4}Alucinación de PMID y robustez operativa}{44}{section.6.4}\protected@file@percent }
-\newlabel{sec:c6_robustez}{{6.4}{44}{Alucinación de PMID y robustez operativa}{section.6.4}{}}
-\@writefile{lot}{\contentsline {table}{\numberline {6.3}{\ignorespaces Métricas de alucinación y robustez operativa por configuración ($n=50$).}}{44}{table.6.3}\protected@file@percent }
-\newlabel{tab:c6_robustez}{{6.3}{44}{Métricas de alucinación y robustez operativa por configuración ($n=50$)}{table.6.3}{}}
-\@writefile{toc}{\contentsline {section}{\numberline {6.5}Evaluación de aplicabilidad y usabilidad}{45}{section.6.5}\protected@file@percent }
-\newlabel{sec:c6_usabilidad}{{6.5}{45}{Evaluación de aplicabilidad y usabilidad}{section.6.5}{}}
-\@writefile{lot}{\contentsline {table}{\numberline {6.4}{\ignorespaces Evaluación heurística de usabilidad realizada por el autor, anclada en funcionalidades implementadas y evaluadas.}}{46}{table.6.4}\protected@file@percent }
-\newlabel{tab:c6_heuristica}{{6.4}{46}{Evaluación heurística de usabilidad realizada por el autor, anclada en funcionalidades implementadas y evaluadas}{table.6.4}{}}
-\@writefile{toc}{\contentsline {section}{\numberline {6.6}Análisis cualitativo de respuestas representativas}{46}{section.6.6}\protected@file@percent }
-\newlabel{sec:c6_cualitativo}{{6.6}{46}{Análisis cualitativo de respuestas representativas}{section.6.6}{}}
-\@writefile{toc}{\contentsline {section}{\numberline {6.7}Discusión de los hallazgos}{47}{section.6.7}\protected@file@percent }
-\newlabel{sec:c6_discusion}{{6.7}{47}{Discusión de los hallazgos}{section.6.7}{}}
+\newlabel{cap:evaluacion}{{6}{42}{Evaluación}{chapter.6}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {6.1}Metodología de evaluación}{42}{section.6.1}\protected@file@percent }
+\newlabel{sec:c6_metodologia}{{6.1}{42}{Metodología de evaluación}{section.6.1}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {6.2}Resultados de calidad de respuesta (RAGAS)}{43}{section.6.2}\protected@file@percent }
+\newlabel{sec:c6_ragas}{{6.2}{43}{Resultados de calidad de respuesta (RAGAS)}{section.6.2}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {6.1}{\ignorespaces Métricas RAGAS por configuración (medias sobre los registros respondidos, $n=50$). Las métricas dependientes de contexto solo aplican a las configuraciones con RAG. En negrita, el mejor valor por fila.}}{43}{table.6.1}\protected@file@percent }
+\newlabel{tab:c6_ragas}{{6.1}{43}{Métricas RAGAS por configuración (medias sobre los registros respondidos, $n=50$). Las métricas dependientes de contexto solo aplican a las configuraciones con RAG. En negrita, el mejor valor por fila}{table.6.1}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {6.1}{\ignorespaces \textit  {Faithfulness} RAGAS por configuración con IC \textit  {bootstrap} del 95\,\%. Solo las configuraciones con RAG (C~y~D) reciben puntuación, al requerir esta métrica un contexto recuperado.}}{44}{figure.6.1}\protected@file@percent }
+\newlabel{fig:c6_faithfulness}{{6.1}{44}{\textit {Faithfulness} RAGAS por configuración con IC \textit {bootstrap} del 95\,\%. Solo las configuraciones con RAG (C~y~D) reciben puntuación, al requerir esta métrica un contexto recuperado}{figure.6.1}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {6.3}Comportamiento de citación}{45}{section.6.3}\protected@file@percent }
+\newlabel{sec:c6_citacion}{{6.3}{45}{Comportamiento de citación}{section.6.3}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {6.2}{\ignorespaces Métricas deterministas de comportamiento de citación por configuración (tasas sobre registros respondidos, $n=50$). La precisión de anclaje solo se define cuando hay recuperación (C~y~D).}}{45}{table.6.2}\protected@file@percent }
+\newlabel{tab:c6_citacion}{{6.2}{45}{Métricas deterministas de comportamiento de citación por configuración (tasas sobre registros respondidos, $n=50$). La precisión de anclaje solo se define cuando hay recuperación (C~y~D)}{table.6.2}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {6.2}{\ignorespaces Tasa de citación con PMID por configuración. La recuperación (A$\to $C, B$\to $D) es la que activa la citación; el ajuste fino la lleva a la práctica totalidad de las respuestas (D, 0{,}98).}}{46}{figure.6.2}\protected@file@percent }
+\newlabel{fig:c6_pmid}{{6.2}{46}{Tasa de citación con PMID por configuración. La recuperación (A$\to $C, B$\to $D) es la que activa la citación; el ajuste fino la lleva a la práctica totalidad de las respuestas (D, 0{,}98)}{figure.6.2}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {6.3}{\ignorespaces Tasa de marcadores de posición literales \texttt  {(PMID: XXXXXXXX)} por configuración. Solo la configuración~B (ajuste fino sin RAG) los produce, al operar fuera de su distribución de entrenamiento sin evidencia que citar.}}{47}{figure.6.3}\protected@file@percent }
+\newlabel{fig:c6_placeholder}{{6.3}{47}{Tasa de marcadores de posición literales \texttt {(PMID: XXXXXXXX)} por configuración. Solo la configuración~B (ajuste fino sin RAG) los produce, al operar fuera de su distribución de entrenamiento sin evidencia que citar}{figure.6.3}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {6.4}Alucinación de PMID y robustez operativa}{47}{section.6.4}\protected@file@percent }
+\newlabel{sec:c6_robustez}{{6.4}{47}{Alucinación de PMID y robustez operativa}{section.6.4}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {6.3}{\ignorespaces Métricas de alucinación y robustez operativa por configuración ($n=50$).}}{47}{table.6.3}\protected@file@percent }
+\newlabel{tab:c6_robustez}{{6.3}{47}{Métricas de alucinación y robustez operativa por configuración ($n=50$)}{table.6.3}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {6.5}Evaluación de aplicabilidad y usabilidad}{48}{section.6.5}\protected@file@percent }
+\newlabel{sec:c6_usabilidad}{{6.5}{48}{Evaluación de aplicabilidad y usabilidad}{section.6.5}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {6.6}Análisis cualitativo de respuestas representativas}{49}{section.6.6}\protected@file@percent }
+\newlabel{sec:c6_cualitativo}{{6.6}{49}{Análisis cualitativo de respuestas representativas}{section.6.6}{}}
 \citation{balaguer2024ragvsfinetuningpipelines}
 \citation{ovadia2024finetuningretrievalcomparingknowledge}
 \citation{pingua_medical_FT_vs_RAG_2025}
 \citation{lewis_retrieval-augmented_2021}
 \citation{ji_survey_2023}
 \citation{pal_med-halt_2023}
-\@writefile{toc}{\contentsline {section}{\numberline {6.8}Amenazas a la validez y limitaciones}{48}{section.6.8}\protected@file@percent }
-\newlabel{sec:c6_limitaciones}{{6.8}{48}{Amenazas a la validez y limitaciones}{section.6.8}{}}
-\@writefile{lot}{\contentsline {table}{\numberline {6.5}{\ignorespaces Extractos de las respuestas de las cuatro configuraciones a una misma consulta clínica (manguito rotador, especialidad \textit  {Orthopedic}). Se conserva el texto original en inglés y se resaltan en \texttt  {monoespaciado} los marcadores de citación.}}{50}{table.6.5}\protected@file@percent }
-\newlabel{tab:c6_cualitativo}{{6.5}{50}{Extractos de las respuestas de las cuatro configuraciones a una misma consulta clínica (manguito rotador, especialidad \textit {Orthopedic}). Se conserva el texto original en inglés y se resaltan en \texttt {monoespaciado} los marcadores de citación}{table.6.5}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {6.7}Discusión de los hallazgos}{50}{section.6.7}\protected@file@percent }
+\newlabel{sec:c6_discusion}{{6.7}{50}{Discusión de los hallazgos}{section.6.7}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {6.8}Amenazas a la validez y limitaciones}{51}{section.6.8}\protected@file@percent }
+\newlabel{sec:c6_limitaciones}{{6.8}{51}{Amenazas a la validez y limitaciones}{section.6.8}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {6.4}{\ignorespaces Evaluación heurística de usabilidad realizada por el autor, anclada en funcionalidades implementadas y evaluadas.}}{52}{table.6.4}\protected@file@percent }
+\newlabel{tab:c6_heuristica}{{6.4}{52}{Evaluación heurística de usabilidad realizada por el autor, anclada en funcionalidades implementadas y evaluadas}{table.6.4}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {6.5}{\ignorespaces Extractos de las respuestas de las cuatro configuraciones a una misma consulta clínica (manguito rotador, especialidad \textit  {Orthopedic}). Se conserva el texto original en inglés y se resaltan en \texttt  {monoespaciado} los marcadores de citación.}}{53}{table.6.5}\protected@file@percent }
+\newlabel{tab:c6_cualitativo}{{6.5}{53}{Extractos de las respuestas de las cuatro configuraciones a una misma consulta clínica (manguito rotador, especialidad \textit {Orthopedic}). Se conserva el texto original en inglés y se resaltan en \texttt {monoespaciado} los marcadores de citación}{table.6.5}{}}
 \bibstyle{apacite}
 \bibdata{bibliografia}
 \bibcite{alsentzer_publicly_2019}{\citeauthoryear {Alsentzer\ \BOthers {.}}{Alsentzer\ \BOthers {.}}{{\APACyear {2019}}}}
@@ -273,10 +281,10 @@
 \APACbibcite{devlin-etal-2019-bert}{\citeauthoryear {Devlin, Chang, Lee,{}\ \BBA{} Toutanova}{Devlin\ \BOthers {.}}{{\APACyear {2019}}}}
 \bibcite{doran1981there}{\citeauthoryear {Doran}{Doran}{{\APACyear {1981}}}}
 \APACbibcite{doran1981there}{\citeauthoryear {Doran}{Doran}{{\APACyear {1981}}}}
-\@writefile{toc}{\contentsline {chapter}{\numberline {7}Conclusiones y Trabajo Futuro}{51}{chapter.7}\protected@file@percent }
+\@writefile{toc}{\contentsline {chapter}{\numberline {7}Conclusiones y Trabajo Futuro}{54}{chapter.7}\protected@file@percent }
 \@writefile{lof}{\addvspace {10\p@ }}
 \@writefile{lot}{\addvspace {10\p@ }}
-\@writefile{toc}{\contentsline {section}{Referencias}{51}{section*.6}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{Referencias}{54}{section*.6}\protected@file@percent }
 \bibcite{es2025ragasautomatedevaluationretrieval}{\citeauthoryear {Es, James, Espinosa-Anke,{}\ \BBA{} Schockaert}{Es\ \BOthers {.}}{{\APACyear {2025}}}}
 \APACbibcite{es2025ragasautomatedevaluationretrieval}{\citeauthoryear {Es, James, Espinosa-Anke,{}\ \BBA{} Schockaert}{Es\ \BOthers {.}}{{\APACyear {2025}}}}
 \bibcite{fang2023bioformerefficienttransformerlanguage}{\citeauthoryear {Fang, Chen, Wei, Lu,{}\ \BBA{} Wang}{Fang\ \BOthers {.}}{{\APACyear {2023}}}}
@@ -335,20 +343,20 @@
 \APACbibcite{Zaharia_Accelerating_the_Machine_2018}{\citeauthoryear {Zaharia\ \BOthers {.}}{Zaharia\ \BOthers {.}}{{\APACyear {2018}}}}
 \bibcite{zakka_almanac_2024}{\citeauthoryear {Zakka\ \BOthers {.}}{Zakka\ \BOthers {.}}{{\APACyear {2024}}}}
 \APACbibcite{zakka_almanac_2024}{\citeauthoryear {Zakka\ \BOthers {.}}{Zakka\ \BOthers {.}}{{\APACyear {2024}}}}
-\@writefile{toc}{\contentsline {chapter}{\numberline {A}Resultados de evaluación detallados}{56}{appendix.Alph1}\protected@file@percent }
+\@writefile{toc}{\contentsline {chapter}{\numberline {A}Resultados de evaluación detallados}{59}{appendix.Alph1}\protected@file@percent }
 \@writefile{lof}{\addvspace {10\p@ }}
 \@writefile{lot}{\addvspace {10\p@ }}
-\newlabel{anexo:eval}{{A}{56}{Resultados de evaluación detallados}{appendix.Alph1}{}}
-\@writefile{lot}{\contentsline {table}{\numberline {A.1}{\ignorespaces Tabla completa de métricas del estudio ablativo por configuración ($n=50$). Las celdas «---» indican métricas no definidas para esa configuración (las métricas RAGAS dependientes de contexto y la precisión de anclaje solo aplican a las configuraciones con RAG).}}{56}{table.Alph1.1}\protected@file@percent }
-\newlabel{tab:anexo_eval_full}{{A.1}{56}{Tabla completa de métricas del estudio ablativo por configuración ($n=50$). Las celdas «---» indican métricas no definidas para esa configuración (las métricas RAGAS dependientes de contexto y la precisión de anclaje solo aplican a las configuraciones con RAG)}{table.Alph1.1}{}}
-\@writefile{lof}{\contentsline {figure}{\numberline {A.1}{\ignorespaces Figuras comparativas complementarias por configuración (con IC \textit  {bootstrap} del 95\,\% donde aplica): \textit  {answer relevancy} y \textit  {context recall} (RAGAS), precisión de anclaje de citaciones y tasa de alucinación de PMID.}}{57}{figure.Alph1.1}\protected@file@percent }
-\newlabel{fig:anexo_eval_grid}{{A.1}{57}{Figuras comparativas complementarias por configuración (con IC \textit {bootstrap} del 95\,\% donde aplica): \textit {answer relevancy} y \textit {context recall} (RAGAS), precisión de anclaje de citaciones y tasa de alucinación de PMID}{figure.Alph1.1}{}}
-\@writefile{toc}{\contentsline {chapter}{\numberline {B}Ejemplos cualitativos de respuestas por configuración}{58}{appendix.Alph2}\protected@file@percent }
+\newlabel{anexo:eval}{{A}{59}{Resultados de evaluación detallados}{appendix.Alph1}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {A.1}{\ignorespaces Tabla completa de métricas del estudio ablativo por configuración ($n=50$). Las celdas «---» indican métricas no definidas para esa configuración (las métricas RAGAS dependientes de contexto y la precisión de anclaje solo aplican a las configuraciones con RAG).}}{59}{table.Alph1.1}\protected@file@percent }
+\newlabel{tab:anexo_eval_full}{{A.1}{59}{Tabla completa de métricas del estudio ablativo por configuración ($n=50$). Las celdas «---» indican métricas no definidas para esa configuración (las métricas RAGAS dependientes de contexto y la precisión de anclaje solo aplican a las configuraciones con RAG)}{table.Alph1.1}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {A.1}{\ignorespaces Figuras comparativas complementarias por configuración (con IC \textit  {bootstrap} del 95\,\% donde aplica): \textit  {answer relevancy} y \textit  {context recall} (RAGAS), precisión de anclaje de citaciones y tasa de alucinación de PMID.}}{60}{figure.Alph1.1}\protected@file@percent }
+\newlabel{fig:anexo_eval_grid}{{A.1}{60}{Figuras comparativas complementarias por configuración (con IC \textit {bootstrap} del 95\,\% donde aplica): \textit {answer relevancy} y \textit {context recall} (RAGAS), precisión de anclaje de citaciones y tasa de alucinación de PMID}{figure.Alph1.1}{}}
+\@writefile{toc}{\contentsline {chapter}{\numberline {B}Ejemplos cualitativos de respuestas por configuración}{61}{appendix.Alph2}\protected@file@percent }
 \@writefile{lof}{\addvspace {10\p@ }}
 \@writefile{lot}{\addvspace {10\p@ }}
-\newlabel{anexo:cualitativo}{{B}{58}{Ejemplos cualitativos de respuestas por configuración}{appendix.Alph2}{}}
-\@writefile{toc}{\contentsline {section}{\numberline {B.1}Ejemplo 1: cirugía abdominal (hernia incisional y cuerpo extraño retenido)}{58}{section.Alph2.1}\protected@file@percent }
-\newlabel{anexo:cualitativo_ej1}{{B.1}{58}{Ejemplo 1: cirugía abdominal (hernia incisional y cuerpo extraño retenido)}{section.Alph2.1}{}}
-\@writefile{toc}{\contentsline {section}{\numberline {B.2}Ejemplo 2: dietética y nutrición (mantenimiento de pérdida de peso)}{59}{section.Alph2.2}\protected@file@percent }
-\newlabel{anexo:cualitativo_ej2}{{B.2}{59}{Ejemplo 2: dietética y nutrición (mantenimiento de pérdida de peso)}{section.Alph2.2}{}}
-\gdef \@abspage@last{70}
+\newlabel{anexo:cualitativo}{{B}{61}{Ejemplos cualitativos de respuestas por configuración}{appendix.Alph2}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {B.1}Ejemplo 1: cirugía abdominal (hernia incisional y cuerpo extraño retenido)}{61}{section.Alph2.1}\protected@file@percent }
+\newlabel{anexo:cualitativo_ej1}{{B.1}{61}{Ejemplo 1: cirugía abdominal (hernia incisional y cuerpo extraño retenido)}{section.Alph2.1}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {B.2}Ejemplo 2: dietética y nutrición (mantenimiento de pérdida de peso)}{62}{section.Alph2.2}\protected@file@percent }
+\newlabel{anexo:cualitativo_ej2}{{B.2}{62}{Ejemplo 2: dietética y nutrición (mantenimiento de pérdida de peso)}{section.Alph2.2}{}}
+\gdef \@abspage@last{73}

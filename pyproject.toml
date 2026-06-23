@@ -71,5 +71,9 @@ target-version = "py310"
 [tool.ruff.lint]
 select = ["E", "F", "I", "W"]
 
+[tool.ruff.lint.per-file-ignores]
+# theme.py holds a raw CSS string literal where line length is not meaningful.
+"src/api/theme.py" = ["E501"]
+
 [tool.pytest.ini_options]
 testpaths = ["tests"]

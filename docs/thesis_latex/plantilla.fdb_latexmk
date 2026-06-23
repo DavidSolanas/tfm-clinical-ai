@@ -1,15 +1,15 @@
 # Fdb version 4
-["bibtex plantilla"] 1781897059.00512 "plantilla.aux" "plantilla.bbl" "plantilla" 1781897155.39931 0
+["bibtex plantilla"] 1782239404.96764 "plantilla.aux" "plantilla.bbl" "plantilla" 1782239408.39438 0
   "./bibliografia.bib" 1780596090.50737 62281 de92e837070b5d4e4ca006a6dae667ca ""
   "/usr/share/texlive/texmf-dist/bibtex/bst/apacite/apacite.bst" 1374530685 141073 9d7b79dbf9d91133318126032cff8c27 ""
-  "plantilla.aux" 1781897155.12917 34432 fa309a33b96282cde44d67078d5c13bf "pdflatex"
+  "plantilla.aux" 1782239408.12669 36333 c77f0b6c4cb0888e9ea26ff0ec4432d5 "pdflatex"
   (generated)
   "plantilla.bbl"
   "plantilla.blg"
   (rewritten before read)
-["pdflatex"] 1781897154.0728 "/home/davidsolanas/Documents/MasterIA/TFM/tfm-clinical-ai/docs/thesis_latex/plantilla.tex" "plantilla.pdf" "plantilla" 1781897155.39952 0
+["pdflatex"] 1782239406.8692 "/home/davidsolanas/Documents/MasterIA/TFM/tfm-clinical-ai/docs/thesis_latex/plantilla.tex" "plantilla.pdf" "plantilla" 1782239408.39458 0
   "/etc/texmf/web2c/texmf.cnf" 1774284228.73157 475 c0e671620eb5563b2130f56340a5fde8 ""
-  "/home/davidsolanas/Documents/MasterIA/TFM/tfm-clinical-ai/docs/thesis_latex/plantilla.tex" 1781897153.89314 131662 767fad3061ec111df18c925682cb9254 ""
+  "/home/davidsolanas/Documents/MasterIA/TFM/tfm-clinical-ai/docs/thesis_latex/plantilla.tex" 1782239284.33069 133604 83832433d7bf2dc98685294818ab59b4 ""
   "/usr/share/texlive/texmf-dist/fonts/map/fontname/texfonts.map" 1577235249 3524 cb3e574dea2d1052e39280babc910dc8 ""
   "/usr/share/texlive/texmf-dist/fonts/tfm/public/amsfonts/cmextra/cmex7.tfm" 1246382020 1004 54797486969f23fa377b128694d548df ""
   "/usr/share/texlive/texmf-dist/fonts/tfm/public/amsfonts/cmextra/cmex8.tfm" 1246382020 988 bdf658c3bfc2d96d3c8b02cfc1c94c20 ""
@@ -163,14 +163,18 @@
   "figures/eval_hallucinated_pmids.png" 1781894233.05029 28518 025b33d5b42c7b5ba3f31f6fd81852ac ""
   "figures/eval_placeholder_cite.png" 1781894233.71857 29231 f2fd383a509bdfeaaf0aa22d6ce7d59b ""
   "figures/eval_pmid_citation_rate.png" 1781894233.58231 30265 18e873dc45acd9aa0b431b4b2e77dd37 ""
+  "figures/ui_abstention.png" 1782237727.63813 463256 a5f6de10787513c2ffecfb6268482eec ""
+  "figures/ui_config_d_answer.png" 1782237727.63687 859600 0e9e55e00a8520c4fb94d73616c62801 ""
+  "figures/ui_landing.png" 1782237727.63544 233167 37c7c68dc2276207fe002842c07d05cf ""
+  "figures/ui_pubmed_article.png" 1782239267.41532 325303 b1b3b89a00dd20f52f47a19c9c5213f0 ""
   "logo_unir.pdf" 1777995013.02722 5261 e89deec51d32a79481fdbc2d4b98931c ""
-  "plantilla.aux" 1781897155.12917 34432 fa309a33b96282cde44d67078d5c13bf "pdflatex"
-  "plantilla.bbl" 1781897059.09981 32854 1f562ddf0b388e42eb6348badce253eb "bibtex plantilla"
-  "plantilla.lof" 1781897155.13305 1413 7b0af47177fd02520bc206ac936bef98 "pdflatex"
-  "plantilla.lot" 1781897155.13305 2946 4cfa6019e9d5c53401efd356e9ea287d "pdflatex"
-  "plantilla.out" 1781897155.13217 14952 5a38addb9733dbed37a473f64e67bdf6 "pdflatex"
-  "plantilla.tex" 1781897153.89314 131662 767fad3061ec111df18c925682cb9254 ""
-  "plantilla.toc" 1781897155.13305 6298 a8f84e9519a38a97d5664ca212854322 "pdflatex"
+  "plantilla.aux" 1782239408.12669 36333 c77f0b6c4cb0888e9ea26ff0ec4432d5 "pdflatex"
+  "plantilla.bbl" 1782239405.05931 33104 3b70bd76e7069e05b33f940d30a89ee6 "bibtex plantilla"
+  "plantilla.lof" 1782239408.13027 2321 29a1bee6f46d1e378a987fe572acb4e7 "pdflatex"
+  "plantilla.lot" 1782239408.13027 2946 061aab5d77545c9265d5dc8cdfbf41dd "pdflatex"
+  "plantilla.out" 1782239408.12969 14952 5a38addb9733dbed37a473f64e67bdf6 "pdflatex"
+  "plantilla.tex" 1782239284.33069 133604 83832433d7bf2dc98685294818ab59b4 ""
+  "plantilla.toc" 1782239408.13027 6298 b8bc3e7ff7637c81245b9dc64b7d082d "pdflatex"
   (generated)
   "plantilla.aux"
   "plantilla.lof"
