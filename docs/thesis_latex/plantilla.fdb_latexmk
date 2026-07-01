@@ -1,15 +1,15 @@
 # Fdb version 4
-["bibtex plantilla"] 1782242609.6058 "plantilla.aux" "plantilla.bbl" "plantilla" 1782245717.84668 0
+["bibtex plantilla"] 1782928219.76269 "plantilla.aux" "plantilla.bbl" "plantilla" 1782928399.17075 0
   "./bibliografia.bib" 1780596090.50737 62281 de92e837070b5d4e4ca006a6dae667ca ""
   "/usr/share/texlive/texmf-dist/bibtex/bst/apacite/apacite.bst" 1374530685 141073 9d7b79dbf9d91133318126032cff8c27 ""
-  "plantilla.aux" 1782245717.58126 38505 b44421917568d45893a7e4bcd38c4d4f "pdflatex"
+  "plantilla.aux" 1782928398.91426 39701 50a811ff4f698fb6f9d51655b8bcca6a "pdflatex"
   (generated)
   "plantilla.bbl"
   "plantilla.blg"
   (rewritten before read)
-["pdflatex"] 1782245716.33822 "/home/davidsolanas/Documents/MasterIA/TFM/tfm-clinical-ai/docs/thesis_latex/plantilla.tex" "plantilla.pdf" "plantilla" 1782245717.84689 0
+["pdflatex"] 1782928397.65608 "/home/davidsolanas/Documents/MasterIA/TFM/tfm-clinical-ai/docs/thesis_latex/plantilla.tex" "plantilla.pdf" "plantilla" 1782928399.17097 0
   "/etc/texmf/web2c/texmf.cnf" 1774284228.73157 475 c0e671620eb5563b2130f56340a5fde8 ""
-  "/home/davidsolanas/Documents/MasterIA/TFM/tfm-clinical-ai/docs/thesis_latex/plantilla.tex" 1782245716.15762 148617 a46fb942c5c96e713f7116d4c1fcf4a8 ""
+  "/home/davidsolanas/Documents/MasterIA/TFM/tfm-clinical-ai/docs/thesis_latex/plantilla.tex" 1782928397.47601 151023 677c4e184d2b2a903fface621c074e66 ""
   "/usr/share/texlive/texmf-dist/fonts/map/fontname/texfonts.map" 1577235249 3524 cb3e574dea2d1052e39280babc910dc8 ""
   "/usr/share/texlive/texmf-dist/fonts/tfm/public/amsfonts/cmextra/cmex7.tfm" 1246382020 1004 54797486969f23fa377b128694d548df ""
   "/usr/share/texlive/texmf-dist/fonts/tfm/public/amsfonts/cmextra/cmex8.tfm" 1246382020 988 bdf658c3bfc2d96d3c8b02cfc1c94c20 ""
@@ -168,13 +168,13 @@
   "figures/ui_landing.png" 1782237727.63544 233167 37c7c68dc2276207fe002842c07d05cf ""
   "figures/ui_pubmed_article.png" 1782239267.41532 325303 b1b3b89a00dd20f52f47a19c9c5213f0 ""
   "logo_unir.pdf" 1777995013.02722 5261 e89deec51d32a79481fdbc2d4b98931c ""
-  "plantilla.aux" 1782245717.58126 38505 b44421917568d45893a7e4bcd38c4d4f "pdflatex"
-  "plantilla.bbl" 1782242609.69932 33104 3b70bd76e7069e05b33f940d30a89ee6 "bibtex plantilla"
-  "plantilla.lof" 1782245717.58569 2341 bdb77d6dcc9654788c8521db87439c4a "pdflatex"
-  "plantilla.lot" 1782245717.58569 2952 a35b3f9ff24ca0a82c66bfc26259539c "pdflatex"
-  "plantilla.out" 1782245717.58426 16209 8a75d0b9e0f7ee57bbd971a277db1894 "pdflatex"
-  "plantilla.tex" 1782245716.15762 148617 a46fb942c5c96e713f7116d4c1fcf4a8 ""
-  "plantilla.toc" 1782245717.58569 6895 721b7dd79962018b91dc6263983904d0 "pdflatex"
+  "plantilla.aux" 1782928398.91426 39701 50a811ff4f698fb6f9d51655b8bcca6a "pdflatex"
+  "plantilla.bbl" 1782928219.84961 32854 1f562ddf0b388e42eb6348badce253eb "bibtex plantilla"
+  "plantilla.lof" 1782928398.91932 2341 bdb77d6dcc9654788c8521db87439c4a "pdflatex"
+  "plantilla.lot" 1782928398.91932 3480 f5c09226dcc519944bee1d69d2870f86 "pdflatex"
+  "plantilla.out" 1782928398.91826 16209 8a75d0b9e0f7ee57bbd971a277db1894 "pdflatex"
+  "plantilla.tex" 1782928397.47601 151023 677c4e184d2b2a903fface621c074e66 ""
+  "plantilla.toc" 1782928398.91932 6897 c1eb088039c085efe90d55b5d4787d2d "pdflatex"
   (generated)
   "plantilla.aux"
   "plantilla.lof"

@@ -23,13 +23,11 @@ Alsentzer, E.%
 \newblock
 \APACrefYearMonthDay{2019}{{\APACmonth{06}}}{}.
 \newblock
-\APACrefbtitle {Publicly {Available} {Clinical} {BERT} {Embeddings}.} {Publicly
-  {Available} {Clinical} {BERT} {Embeddings}.}
+\APACrefbtitle {Publicly {Available} {Clinical} {BERT} {Embeddings}.} {Publicly {Available} {Clinical} {BERT} {Embeddings}.}
 \newblock
 \APACaddressPublisher{}{arXiv}.
 \newblock
-\begin{APACrefURL} [{2025-12-11}]\url{http://arxiv.org/abs/1904.03323}
-  \end{APACrefURL}
+\begin{APACrefURL} [{2025-12-11}]\url{http://arxiv.org/abs/1904.03323} \end{APACrefURL}
 \newblock
 \APACrefnote{arXiv:1904.03323 [cs]}
 \newblock
@@ -61,15 +59,11 @@ Amugongo, L\BPBI M.%
 \newblock
 \APACrefYearMonthDay{2025}{{\APACmonth{06}}}{}.
 \newblock
-{\BBOQ}\APACrefatitle {Retrieval augmented generation for large language models
-  in healthcare: {A} systematic review} {Retrieval augmented generation for
-  large language models in healthcare: {A} systematic review}.{\BBCQ}
+{\BBOQ}\APACrefatitle {Retrieval augmented generation for large language models in healthcare: {A} systematic review} {Retrieval augmented generation for large language models in healthcare: {A} systematic review}.{\BBCQ}
 \newblock
 \APACjournalVolNumPages{PLOS Digital Health}{4}{6}{e0000877}.
 \newblock
-\begin{APACrefURL}
-  [{2025-12-11}]\url{https://journals.plos.org/digitalhealth/article?id=10.1371/journal.pdig.0000877}
-  \end{APACrefURL}
+\begin{APACrefURL} [{2025-12-11}]\url{https://journals.plos.org/digitalhealth/article?id=10.1371/journal.pdig.0000877} \end{APACrefURL}
 \newblock
 \begin{APACrefDOI} \doi{10.1371/journal.pdig.0000877} \end{APACrefDOI}
 \PrintBackRefs{\CurrentBib}
@@ -97,9 +91,7 @@ Balaguer, A.%
 \newblock
 \APACrefYearMonthDay{2024}{}{}.
 \newblock
-\APACrefbtitle {RAG vs Fine-tuning: Pipelines, Tradeoffs, and a Case Study on
-  Agriculture.} {Rag vs fine-tuning: Pipelines, tradeoffs, and a case study on
-  agriculture.}
+\APACrefbtitle {RAG vs Fine-tuning: Pipelines, Tradeoffs, and a Case Study on Agriculture.} {Rag vs fine-tuning: Pipelines, tradeoffs, and a case study on agriculture.}
 \newblock
 \begin{APACrefURL} \url{https://arxiv.org/abs/2401.08406} \end{APACrefURL}
 \PrintBackRefs{\CurrentBib}
@@ -125,12 +117,9 @@ Boyle, T.%
 \newblock
 \APACaddressPublisher{}{Kaggle}.
 \newblock
-\begin{APACrefURL}
-  \url{https://www.kaggle.com/datasets/tboyle10/medicaltranscriptions}
-  \end{APACrefURL}
+\begin{APACrefURL} \url{https://www.kaggle.com/datasets/tboyle10/medicaltranscriptions} \end{APACrefURL}
 \newblock
-\APACrefnote{Dataset scraped from \url{https://www.mtsamples.com}. License: CC0
-  Public Domain. Accessed 2026.}
+\APACrefnote{Dataset scraped from \url{https://www.mtsamples.com}. License: CC0 Public Domain. Accessed 2026.}
 \PrintBackRefs{\CurrentBib}
 
 \bibitem [\protect \citeauthoryear {%
@@ -156,15 +145,11 @@ Collaco, B\BPBI G.%
 \newblock
 \APACrefYearMonthDay{2026}{}{}.
 \newblock
-{\BBOQ}\APACrefatitle {Integrating Fine-Tuning and Retrieval-Augmented
-  Generation for Healthcare AI Systems: A Scoping Review} {Integrating
-  fine-tuning and retrieval-augmented generation for healthcare ai systems: A
-  scoping review}.{\BBCQ}
+{\BBOQ}\APACrefatitle {Integrating Fine-Tuning and Retrieval-Augmented Generation for Healthcare AI Systems: A Scoping Review} {Integrating fine-tuning and retrieval-augmented generation for healthcare ai systems: A scoping review}.{\BBCQ}
 \newblock
 \APACjournalVolNumPages{Bioengineering}{13}{2}{}.
 \newblock
-\begin{APACrefURL} \url{https://www.mdpi.com/2306-5354/13/2/225}
-  \end{APACrefURL}
+\begin{APACrefURL} \url{https://www.mdpi.com/2306-5354/13/2/225} \end{APACrefURL}
 \newblock
 \begin{APACrefDOI} \doi{10.3390/bioengineering13020225} \end{APACrefDOI}
 \PrintBackRefs{\CurrentBib}
@@ -192,8 +177,7 @@ Dettmers, T.%
 \newblock
 \APACrefYearMonthDay{2023}{}{}.
 \newblock
-\APACrefbtitle {QLoRA: Efficient Finetuning of Quantized LLMs.} {Qlora:
-  Efficient finetuning of quantized llms.}
+\APACrefbtitle {QLoRA: Efficient Finetuning of Quantized LLMs.} {Qlora: Efficient finetuning of quantized llms.}
 \newblock
 \begin{APACrefURL} \url{https://arxiv.org/abs/2305.14314} \end{APACrefURL}
 \PrintBackRefs{\CurrentBib}
@@ -221,20 +205,11 @@ Devlin, J.%
 \newblock
 \APACrefYearMonthDay{2019}{{\APACmonth{06}}}{}.
 \newblock
-{\BBOQ}\APACrefatitle {{BERT}: Pre-training of Deep Bidirectional Transformers
-  for Language Understanding} {{BERT}: Pre-training of deep bidirectional
-  transformers for language understanding}.{\BBCQ}
+{\BBOQ}\APACrefatitle {{BERT}: Pre-training of Deep Bidirectional Transformers for Language Understanding} {{BERT}: Pre-training of deep bidirectional transformers for language understanding}.{\BBCQ}
 \newblock
-\BIn{} J.~Burstein, C.~Doran\BCBL {}\ \BBA {} T.~Solorio\ (\BEDS),
-  \APACrefbtitle {Proceedings of the 2019 Conference of the North {A}merican
-  Chapter of the Association for Computational Linguistics: Human Language
-  Technologies, Volume 1 (Long and Short Papers)} {Proceedings of the 2019
-  conference of the north {A}merican chapter of the association for
-  computational linguistics: Human language technologies, volume 1 (long and
-  short papers)}\ (\BPGS\ 4171--4186).
+\BIn{} J.~Burstein, C.~Doran\BCBL {}\ \BBA {} T.~Solorio\ (\BEDS), \APACrefbtitle {Proceedings of the 2019 Conference of the North {A}merican Chapter of the Association for Computational Linguistics: Human Language Technologies, Volume 1 (Long and Short Papers)} {Proceedings of the 2019 conference of the north {A}merican chapter of the association for computational linguistics: Human language technologies, volume 1 (long and short papers)}\ (\BPGS\ 4171--4186).
 \newblock
-\APACaddressPublisher{Minneapolis, Minnesota}{Association for Computational
-  Linguistics}.
+\APACaddressPublisher{Minneapolis, Minnesota}{Association for Computational Linguistics}.
 \newblock
 \begin{APACrefURL} \url{https://aclanthology.org/N19-1423/} \end{APACrefURL}
 \newblock
@@ -258,9 +233,7 @@ Doran, G\BPBI T.%
 \newblock
 \APACrefYearMonthDay{1981}{}{}.
 \newblock
-{\BBOQ}\APACrefatitle {There's a SMART way to write managements's goals and
-  objectives.} {There's a smart way to write managements's goals and
-  objectives.}{\BBCQ}
+{\BBOQ}\APACrefatitle {There's a SMART way to write managements's goals and objectives.} {There's a smart way to write managements's goals and objectives.}{\BBCQ}
 \newblock
 \APACjournalVolNumPages{Management review}{70}{11}{}.
 \PrintBackRefs{\CurrentBib}
@@ -288,8 +261,7 @@ Es, S.%
 \newblock
 \APACrefYearMonthDay{2025}{}{}.
 \newblock
-\APACrefbtitle {Ragas: Automated Evaluation of Retrieval Augmented Generation.}
-  {Ragas: Automated evaluation of retrieval augmented generation.}
+\APACrefbtitle {Ragas: Automated Evaluation of Retrieval Augmented Generation.} {Ragas: Automated evaluation of retrieval augmented generation.}
 \newblock
 \begin{APACrefURL} \url{https://arxiv.org/abs/2309.15217} \end{APACrefURL}
 \PrintBackRefs{\CurrentBib}
@@ -319,9 +291,7 @@ Fang, L.%
 \newblock
 \APACrefYearMonthDay{2023}{}{}.
 \newblock
-\APACrefbtitle {Bioformer: an efficient transformer language model for
-  biomedical text mining.} {Bioformer: an efficient transformer language model
-  for biomedical text mining.}
+\APACrefbtitle {Bioformer: an efficient transformer language model for biomedical text mining.} {Bioformer: an efficient transformer language model for biomedical text mining.}
 \newblock
 \begin{APACrefURL} \url{https://arxiv.org/abs/2302.01588} \end{APACrefURL}
 \PrintBackRefs{\CurrentBib}
@@ -377,12 +347,9 @@ Gu, Y.%
 \newblock
 \APACrefYearMonthDay{2021}{{\APACmonth{10}}}{}.
 \newblock
-{\BBOQ}\APACrefatitle {Domain-Specific Language Model Pretraining for
-  Biomedical Natural Language Processing} {Domain-specific language model
-  pretraining for biomedical natural language processing}.{\BBCQ}
+{\BBOQ}\APACrefatitle {Domain-Specific Language Model Pretraining for Biomedical Natural Language Processing} {Domain-specific language model pretraining for biomedical natural language processing}.{\BBCQ}
 \newblock
-\APACjournalVolNumPages{ACM Transactions on Computing for
-  Healthcare}{3}{1}{1–23}.
+\APACjournalVolNumPages{ACM Transactions on Computing for Healthcare}{3}{1}{1–23}.
 \newblock
 \begin{APACrefURL} \url{http://dx.doi.org/10.1145/3458754} \end{APACrefURL}
 \newblock
@@ -412,8 +379,7 @@ Hu, E\BPBI J.%
 \newblock
 \APACrefYearMonthDay{2021}{}{}.
 \newblock
-\APACrefbtitle {LoRA: Low-Rank Adaptation of Large Language Models.} {Lora:
-  Low-rank adaptation of large language models.}
+\APACrefbtitle {LoRA: Low-Rank Adaptation of Large Language Models.} {Lora: Low-rank adaptation of large language models.}
 \newblock
 \begin{APACrefURL} \url{https://arxiv.org/abs/2106.09685} \end{APACrefURL}
 \PrintBackRefs{\CurrentBib}
@@ -441,14 +407,11 @@ Ji, Z.%
 \newblock
 \APACrefYearMonthDay{2023}{{\APACmonth{03}}}{}.
 \newblock
-{\BBOQ}\APACrefatitle {Survey of {Hallucination} in {Natural} {Language}
-  {Generation}} {Survey of {Hallucination} in {Natural} {Language}
-  {Generation}}.{\BBCQ}
+{\BBOQ}\APACrefatitle {Survey of {Hallucination} in {Natural} {Language} {Generation}} {Survey of {Hallucination} in {Natural} {Language} {Generation}}.{\BBCQ}
 \newblock
 \APACjournalVolNumPages{ACM Comput. Surv.}{55}{12}{248:1--248:38}.
 \newblock
-\begin{APACrefURL} [{2025-12-11}]\url{https://doi.org/10.1145/3571730}
-  \end{APACrefURL}
+\begin{APACrefURL} [{2025-12-11}]\url{https://doi.org/10.1145/3571730} \end{APACrefURL}
 \newblock
 \begin{APACrefDOI} \doi{10.1145/3571730} \end{APACrefDOI}
 \PrintBackRefs{\CurrentBib}
@@ -476,10 +439,7 @@ Jin, Q.%
 \newblock
 \APACrefYearMonthDay{2023}{}{}.
 \newblock
-{\BBOQ}\APACrefatitle {MedCPT: Contrastive Pre-trained Transformers with
-  large-scale PubMed search logs for zero-shot biomedical information
-  retrieval} {Medcpt: Contrastive pre-trained transformers with large-scale
-  pubmed search logs for zero-shot biomedical information retrieval}.{\BBCQ}
+{\BBOQ}\APACrefatitle {MedCPT: Contrastive Pre-trained Transformers with large-scale PubMed search logs for zero-shot biomedical information retrieval} {Medcpt: Contrastive pre-trained transformers with large-scale pubmed search logs for zero-shot biomedical information retrieval}.{\BBCQ}
 \newblock
 \APACjournalVolNumPages{Bioinformatics}{39}{11}{btad651}.
 \PrintBackRefs{\CurrentBib}
@@ -505,14 +465,11 @@ Johnson, J.%
 \newblock
 \APACrefYearMonthDay{2021}{{\APACmonth{07}}}{}.
 \newblock
-{\BBOQ}\APACrefatitle {Billion-{Scale} {Similarity} {Search} with {GPUs}}
-  {Billion-{Scale} {Similarity} {Search} with {GPUs}}.{\BBCQ}
+{\BBOQ}\APACrefatitle {Billion-{Scale} {Similarity} {Search} with {GPUs}} {Billion-{Scale} {Similarity} {Search} with {GPUs}}.{\BBCQ}
 \newblock
 \APACjournalVolNumPages{IEEE Transactions on Big Data}{7}{3}{535--547}.
 \newblock
-\begin{APACrefURL}
-  [{2026-04-13}]\url{https://ieeexplore.ieee.org/document/8733051/}
-  \end{APACrefURL}
+\begin{APACrefURL} [{2026-04-13}]\url{https://ieeexplore.ieee.org/document/8733051/} \end{APACrefURL}
 \newblock
 \begin{APACrefDOI} \doi{10.1109/TBDATA.2019.2921572} \end{APACrefDOI}
 \PrintBackRefs{\CurrentBib}
@@ -540,16 +497,11 @@ Laker, L\BPBI F.%
 \newblock
 \APACrefYearMonthDay{2018}{{\APACmonth{12}}}{}.
 \newblock
-{\BBOQ}\APACrefatitle {Quality and {Efficiency} of the {Clinical}
-  {Decision}‐{Making} {Process}: {Information} {Overload} and {Emphasis}
-  {Framing}} {Quality and {Efficiency} of the {Clinical} {Decision}‐{Making}
-  {Process}: {Information} {Overload} and {Emphasis} {Framing}}.{\BBCQ}
+{\BBOQ}\APACrefatitle {Quality and {Efficiency} of the {Clinical} {Decision}‐{Making} {Process}: {Information} {Overload} and {Emphasis} {Framing}} {Quality and {Efficiency} of the {Clinical} {Decision}‐{Making} {Process}: {Information} {Overload} and {Emphasis} {Framing}}.{\BBCQ}
 \newblock
-\APACjournalVolNumPages{Production and Operations
-  Management}{27}{12}{2213--2225}.
+\APACjournalVolNumPages{Production and Operations Management}{27}{12}{2213--2225}.
 \newblock
-\begin{APACrefURL} [{2025-12-11}]\url{https://doi.org/10.1111/poms.12777}
-  \end{APACrefURL}
+\begin{APACrefURL} [{2025-12-11}]\url{https://doi.org/10.1111/poms.12777} \end{APACrefURL}
 \newblock
 \begin{APACrefDOI} \doi{10.1111/poms.12777} \end{APACrefDOI}
 \PrintBackRefs{\CurrentBib}
@@ -577,15 +529,11 @@ Lee, J.%
 \newblock
 \APACrefYearMonthDay{2020}{{\APACmonth{02}}}{}.
 \newblock
-{\BBOQ}\APACrefatitle {{BioBERT}: a pre-trained biomedical language
-  representation model for biomedical text mining} {{BioBERT}: a pre-trained
-  biomedical language representation model for biomedical text mining}.{\BBCQ}
+{\BBOQ}\APACrefatitle {{BioBERT}: a pre-trained biomedical language representation model for biomedical text mining} {{BioBERT}: a pre-trained biomedical language representation model for biomedical text mining}.{\BBCQ}
 \newblock
 \APACjournalVolNumPages{Bioinformatics}{36}{4}{1234--1240}.
 \newblock
-\begin{APACrefURL}
-  [{2025-12-11}]\url{https://doi.org/10.1093/bioinformatics/btz682}
-  \end{APACrefURL}
+\begin{APACrefURL} [{2025-12-11}]\url{https://doi.org/10.1093/bioinformatics/btz682} \end{APACrefURL}
 \newblock
 \begin{APACrefDOI} \doi{10.1093/bioinformatics/btz682} \end{APACrefDOI}
 \PrintBackRefs{\CurrentBib}
@@ -613,14 +561,11 @@ Lewis, P.%
 \newblock
 \APACrefYearMonthDay{2021}{{\APACmonth{04}}}{}.
 \newblock
-\APACrefbtitle {Retrieval-{Augmented} {Generation} for {Knowledge}-{Intensive}
-  {NLP} {Tasks}.} {Retrieval-{Augmented} {Generation} for
-  {Knowledge}-{Intensive} {NLP} {Tasks}.}
+\APACrefbtitle {Retrieval-{Augmented} {Generation} for {Knowledge}-{Intensive} {NLP} {Tasks}.} {Retrieval-{Augmented} {Generation} for {Knowledge}-{Intensive} {NLP} {Tasks}.}
 \newblock
 \APACaddressPublisher{}{arXiv}.
 \newblock
-\begin{APACrefURL} [{2025-12-11}]\url{http://arxiv.org/abs/2005.11401}
-  \end{APACrefURL}
+\begin{APACrefURL} [{2025-12-11}]\url{http://arxiv.org/abs/2005.11401} \end{APACrefURL}
 \newblock
 \APACrefnote{arXiv:2005.11401 [cs]}
 \newblock
@@ -650,11 +595,7 @@ Lozano, A.%
 \newblock
 \APACrefYearMonthDay{2023}{}{}.
 \newblock
-{\BBOQ}\APACrefatitle {Clinfo.ai: An Open-Source Retrieval-Augmented Large
-  Language Model System for Answering Medical Questions using Scientific
-  Literature} {Clinfo.ai: An open-source retrieval-augmented large language
-  model system for answering medical questions using scientific
-  literature}.{\BBCQ}.
+{\BBOQ}\APACrefatitle {Clinfo.ai: An Open-Source Retrieval-Augmented Large Language Model System for Answering Medical Questions using Scientific Literature} {Clinfo.ai: An open-source retrieval-augmented large language model system for answering medical questions using scientific literature}.{\BBCQ}.
 \newblock
 \begin{APACrefURL} \url{https://arxiv.org/abs/2310.16146} \end{APACrefURL}
 \PrintBackRefs{\CurrentBib}
@@ -679,17 +620,11 @@ Malkov, Y\BPBI A.%
 \newblock
 \APACrefYearMonthDay{2020}{{\APACmonth{04}}}{}.
 \newblock
-{\BBOQ}\APACrefatitle {Efficient and {Robust} {Approximate} {Nearest}
-  {Neighbor} {Search} {Using} {Hierarchical} {Navigable} {Small} {World}
-  {Graphs}} {Efficient and {Robust} {Approximate} {Nearest} {Neighbor} {Search}
-  {Using} {Hierarchical} {Navigable} {Small} {World} {Graphs}}.{\BBCQ}
+{\BBOQ}\APACrefatitle {Efficient and {Robust} {Approximate} {Nearest} {Neighbor} {Search} {Using} {Hierarchical} {Navigable} {Small} {World} {Graphs}} {Efficient and {Robust} {Approximate} {Nearest} {Neighbor} {Search} {Using} {Hierarchical} {Navigable} {Small} {World} {Graphs}}.{\BBCQ}
 \newblock
-\APACjournalVolNumPages{IEEE Transactions on Pattern Analysis and Machine
-  Intelligence}{42}{4}{824--836}.
+\APACjournalVolNumPages{IEEE Transactions on Pattern Analysis and Machine Intelligence}{42}{4}{824--836}.
 \newblock
-\begin{APACrefURL}
-  [{2026-04-13}]\url{https://ieeexplore.ieee.org/document/8594636/}
-  \end{APACrefURL}
+\begin{APACrefURL} [{2026-04-13}]\url{https://ieeexplore.ieee.org/document/8594636/} \end{APACrefURL}
 \newblock
 \begin{APACrefDOI} \doi{10.1109/TPAMI.2018.2889473} \end{APACrefDOI}
 \PrintBackRefs{\CurrentBib}
@@ -715,14 +650,11 @@ Montenegro, L.%
 \newblock
 \APACrefYearMonthDay{2025}{}{}.
 \newblock
-{\BBOQ}\APACrefatitle {What We Know About the Role of Large Language Models for
-  Medical Synthetic Dataset Generation} {What we know about the role of large
-  language models for medical synthetic dataset generation}.{\BBCQ}
+{\BBOQ}\APACrefatitle {What We Know About the Role of Large Language Models for Medical Synthetic Dataset Generation} {What we know about the role of large language models for medical synthetic dataset generation}.{\BBCQ}
 \newblock
 \APACjournalVolNumPages{AI}{6}{6}{}.
 \newblock
-\begin{APACrefURL} \url{https://www.mdpi.com/2673-2688/6/6/109}
-  \end{APACrefURL}
+\begin{APACrefURL} \url{https://www.mdpi.com/2673-2688/6/6/109} \end{APACrefURL}
 \newblock
 \begin{APACrefDOI} \doi{10.3390/ai6060109} \end{APACrefDOI}
 \PrintBackRefs{\CurrentBib}
@@ -754,8 +686,7 @@ openai_gpt-4_2024}%
 \newblock
 \APACaddressPublisher{}{arXiv}.
 \newblock
-\begin{APACrefURL} [{2025-12-11}]\url{http://arxiv.org/abs/2303.08774}
-  \end{APACrefURL}
+\begin{APACrefURL} [{2025-12-11}]\url{http://arxiv.org/abs/2303.08774} \end{APACrefURL}
 \newblock
 \APACrefnote{arXiv:2303.08774 [cs]}
 \newblock
@@ -785,8 +716,7 @@ Ovadia, O.%
 \newblock
 \APACrefYearMonthDay{2024}{}{}.
 \newblock
-\APACrefbtitle {Fine-Tuning or Retrieval? Comparing Knowledge Injection in
-  LLMs.} {Fine-tuning or retrieval? comparing knowledge injection in llms.}
+\APACrefbtitle {Fine-Tuning or Retrieval? Comparing Knowledge Injection in LLMs.} {Fine-tuning or retrieval? comparing knowledge injection in llms.}
 \newblock
 \begin{APACrefURL} \url{https://arxiv.org/abs/2312.05934} \end{APACrefURL}
 \PrintBackRefs{\CurrentBib}
@@ -812,14 +742,11 @@ Pal, A.%
 \newblock
 \APACrefYearMonthDay{2023}{{\APACmonth{10}}}{}.
 \newblock
-\APACrefbtitle {Med-{HALT}: {Medical} {Domain} {Hallucination} {Test} for
-  {Large} {Language} {Models}.} {Med-{HALT}: {Medical} {Domain} {Hallucination}
-  {Test} for {Large} {Language} {Models}.}
+\APACrefbtitle {Med-{HALT}: {Medical} {Domain} {Hallucination} {Test} for {Large} {Language} {Models}.} {Med-{HALT}: {Medical} {Domain} {Hallucination} {Test} for {Large} {Language} {Models}.}
 \newblock
 \APACaddressPublisher{}{arXiv}.
 \newblock
-\begin{APACrefURL} [{2025-12-11}]\url{http://arxiv.org/abs/2307.15343}
-  \end{APACrefURL}
+\begin{APACrefURL} [{2025-12-11}]\url{http://arxiv.org/abs/2307.15343} \end{APACrefURL}
 \newblock
 \APACrefnote{arXiv:2307.15343 [cs]}
 \newblock
@@ -849,17 +776,11 @@ Parthasarathy, V\BPBI B.%
 \newblock
 \APACrefYearMonthDay{2024}{{\APACmonth{10}}}{}.
 \newblock
-\APACrefbtitle {The {Ultimate} {Guide} to {Fine}-{Tuning} {LLMs} from {Basics}
-  to {Breakthroughs}: {An} {Exhaustive} {Review} of {Technologies}, {Research},
-  {Best} {Practices}, {Applied} {Research} {Challenges} and {Opportunities}.}
-  {The {Ultimate} {Guide} to {Fine}-{Tuning} {LLMs} from {Basics} to
-  {Breakthroughs}: {An} {Exhaustive} {Review} of {Technologies}, {Research},
-  {Best} {Practices}, {Applied} {Research} {Challenges} and {Opportunities}.}
+\APACrefbtitle {The {Ultimate} {Guide} to {Fine}-{Tuning} {LLMs} from {Basics} to {Breakthroughs}: {An} {Exhaustive} {Review} of {Technologies}, {Research}, {Best} {Practices}, {Applied} {Research} {Challenges} and {Opportunities}.} {The {Ultimate} {Guide} to {Fine}-{Tuning} {LLMs} from {Basics} to {Breakthroughs}: {An} {Exhaustive} {Review} of {Technologies}, {Research}, {Best} {Practices}, {Applied} {Research} {Challenges} and {Opportunities}.}
 \newblock
 \APACaddressPublisher{}{arXiv}.
 \newblock
-\begin{APACrefURL} [{2025-12-11}]\url{http://arxiv.org/abs/2408.13296}
-  \end{APACrefURL}
+\begin{APACrefURL} [{2025-12-11}]\url{http://arxiv.org/abs/2408.13296} \end{APACrefURL}
 \newblock
 \APACrefnote{arXiv:2408.13296 [cs]}
 \newblock
@@ -889,14 +810,11 @@ Pingua, B.%
 \newblock
 \APACrefYearMonthDay{2025}{}{}.
 \newblock
-{\BBOQ}\APACrefatitle {Medical LLMs: Fine-Tuning vs. Retrieval-Augmented
-  Generation} {Medical llms: Fine-tuning vs. retrieval-augmented
-  generation}.{\BBCQ}
+{\BBOQ}\APACrefatitle {Medical LLMs: Fine-Tuning vs. Retrieval-Augmented Generation} {Medical llms: Fine-tuning vs. retrieval-augmented generation}.{\BBCQ}
 \newblock
 \APACjournalVolNumPages{Bioengineering}{12}{7}{}.
 \newblock
-\begin{APACrefURL} \url{https://www.mdpi.com/2306-5354/12/7/687}
-  \end{APACrefURL}
+\begin{APACrefURL} \url{https://www.mdpi.com/2306-5354/12/7/687} \end{APACrefURL}
 \newblock
 \begin{APACrefDOI} \doi{10.3390/bioengineering12070687} \end{APACrefDOI}
 \PrintBackRefs{\CurrentBib}
@@ -923,14 +841,11 @@ Pressman, S\BPBI M.%
 \newblock
 \APACrefYearMonthDay{2024}{}{}.
 \newblock
-{\BBOQ}\APACrefatitle {Clinical and Surgical Applications of Large Language
-  Models: A Systematic Review} {Clinical and surgical applications of large
-  language models: A systematic review}.{\BBCQ}
+{\BBOQ}\APACrefatitle {Clinical and Surgical Applications of Large Language Models: A Systematic Review} {Clinical and surgical applications of large language models: A systematic review}.{\BBCQ}
 \newblock
 \APACjournalVolNumPages{Journal of Clinical Medicine}{13}{11}{}.
 \newblock
-\begin{APACrefURL} \url{https://www.mdpi.com/2077-0383/13/11/3041}
-  \end{APACrefURL}
+\begin{APACrefURL} \url{https://www.mdpi.com/2077-0383/13/11/3041} \end{APACrefURL}
 \newblock
 \begin{APACrefDOI} \doi{10.3390/jcm13113041} \end{APACrefDOI}
 \PrintBackRefs{\CurrentBib}
@@ -958,17 +873,11 @@ Rau, A.%
 \newblock
 \APACrefYearMonthDay{2023}{{\APACmonth{07}}}{}.
 \newblock
-{\BBOQ}\APACrefatitle {A {Context}-based {Chatbot} {Surpasses} {Radiologists}
-  and {Generic} {ChatGPT} in {Following} the {ACR} {Appropriateness}
-  {Guidelines}} {A {Context}-based {Chatbot} {Surpasses} {Radiologists} and
-  {Generic} {ChatGPT} in {Following} the {ACR} {Appropriateness}
-  {Guidelines}}.{\BBCQ}
+{\BBOQ}\APACrefatitle {A {Context}-based {Chatbot} {Surpasses} {Radiologists} and {Generic} {ChatGPT} in {Following} the {ACR} {Appropriateness} {Guidelines}} {A {Context}-based {Chatbot} {Surpasses} {Radiologists} and {Generic} {ChatGPT} in {Following} the {ACR} {Appropriateness} {Guidelines}}.{\BBCQ}
 \newblock
 \APACjournalVolNumPages{Radiology}{308}{1}{e230970}.
 \newblock
-\begin{APACrefURL}
-  [{2025-12-11}]\url{https://pubs.rsna.org/doi/10.1148/radiol.230970}
-  \end{APACrefURL}
+\begin{APACrefURL} [{2025-12-11}]\url{https://pubs.rsna.org/doi/10.1148/radiol.230970} \end{APACrefURL}
 \newblock
 \begin{APACrefDOI} \doi{10.1148/radiol.230970} \end{APACrefDOI}
 \PrintBackRefs{\CurrentBib}
@@ -994,19 +903,13 @@ Rebitzer, J\BPBI B.%
 \newblock
 \APACrefYearMonthDay{2008}{}{}.
 \newblock
-{\BBOQ}\APACrefatitle {Influence, information overload, and information
-  technology in health care} {Influence, information overload, and information
-  technology in health care}.{\BBCQ}
+{\BBOQ}\APACrefatitle {Influence, information overload, and information technology in health care} {Influence, information overload, and information technology in health care}.{\BBCQ}
 \newblock
-\BIn{} \APACrefbtitle {Advances in {Health} {Economics} and {Health} {Services}
-  {Research}} {Advances in {Health} {Economics} and {Health} {Services}
-  {Research}}\ (\BVOL~19, \BPGS\ 43--69).
+\BIn{} \APACrefbtitle {Advances in {Health} {Economics} and {Health} {Services} {Research}} {Advances in {Health} {Economics} and {Health} {Services} {Research}}\ (\BVOL~19, \BPGS\ 43--69).
 \newblock
 \APACaddressPublisher{Bingley}{Emerald (MCB UP )}.
 \newblock
-\begin{APACrefURL}
-  [{2025-12-10}]\url{http://www.emerald.com/books/edited-volume/11590/chapter/81491821}
-  \end{APACrefURL}
+\begin{APACrefURL} [{2025-12-10}]\url{http://www.emerald.com/books/edited-volume/11590/chapter/81491821} \end{APACrefURL}
 \newblock
 \begin{APACrefDOI} \doi{10.1016/S0731-2199(08)19003-3} \end{APACrefDOI}
 \PrintBackRefs{\CurrentBib}
@@ -1031,8 +934,7 @@ Robertson, S.%
 \newblock
 \APACrefYearMonthDay{2009}{{\APACmonth{04}}}{}.
 \newblock
-{\BBOQ}\APACrefatitle {The Probabilistic Relevance Framework: BM25 and Beyond}
-  {The probabilistic relevance framework: Bm25 and beyond}.{\BBCQ}
+{\BBOQ}\APACrefatitle {The Probabilistic Relevance Framework: BM25 and Beyond} {The probabilistic relevance framework: Bm25 and beyond}.{\BBCQ}
 \newblock
 \APACjournalVolNumPages{Found. Trends Inf. Retr.}{3}{4}{333–389}.
 \newblock
@@ -1064,15 +966,11 @@ Thompson, W\BPBI E.%
 \newblock
 \APACrefYearMonthDay{2023}{{\APACmonth{12}}}{}.
 \newblock
-\APACrefbtitle {Large {Language} {Models} with {Retrieval}-{Augmented}
-  {Generation} for {Zero}-{Shot} {Disease} {Phenotyping}.} {Large {Language}
-  {Models} with {Retrieval}-{Augmented} {Generation} for {Zero}-{Shot}
-  {Disease} {Phenotyping}.}
+\APACrefbtitle {Large {Language} {Models} with {Retrieval}-{Augmented} {Generation} for {Zero}-{Shot} {Disease} {Phenotyping}.} {Large {Language} {Models} with {Retrieval}-{Augmented} {Generation} for {Zero}-{Shot} {Disease} {Phenotyping}.}
 \newblock
 \APACaddressPublisher{}{arXiv}.
 \newblock
-\begin{APACrefURL} [{2025-12-11}]\url{http://arxiv.org/abs/2312.06457}
-  \end{APACrefURL}
+\begin{APACrefURL} [{2025-12-11}]\url{http://arxiv.org/abs/2312.06457} \end{APACrefURL}
 \newblock
 \APACrefnote{arXiv:2312.06457 [cs]}
 \newblock
@@ -1102,18 +1000,13 @@ Vaswani, A.%
 \newblock
 \APACrefYearMonthDay{2017}{}{}.
 \newblock
-{\BBOQ}\APACrefatitle {Attention is All you Need} {Attention is all you
-  need}.{\BBCQ}
+{\BBOQ}\APACrefatitle {Attention is All you Need} {Attention is all you need}.{\BBCQ}
 \newblock
-\BIn{} I.~Guyon\ \BOthers {.}\ (\BEDS), \APACrefbtitle {Advances in Neural
-  Information Processing Systems} {Advances in neural information processing
-  systems}\ (\BVOL~30).
+\BIn{} I.~Guyon\ \BOthers {.}\ (\BEDS), \APACrefbtitle {Advances in Neural Information Processing Systems} {Advances in neural information processing systems}\ (\BVOL~30).
 \newblock
 \APACaddressPublisher{}{Curran Associates, Inc.}
 \newblock
-\begin{APACrefURL}
-  \url{https://proceedings.neurips.cc/paper_files/paper/2017/file/3f5ee243547dee91fbd053c1c4a845aa-Paper.pdf}
-  \end{APACrefURL}
+\begin{APACrefURL} \url{https://proceedings.neurips.cc/paper_files/paper/2017/file/3f5ee243547dee91fbd053c1c4a845aa-Paper.pdf} \end{APACrefURL}
 \PrintBackRefs{\CurrentBib}
 
 \bibitem [\protect \citeauthoryear {%
@@ -1139,19 +1032,13 @@ Xiong, G.%
 \newblock
 \APACrefYearMonthDay{2024}{{\APACmonth{08}}}{}.
 \newblock
-{\BBOQ}\APACrefatitle {Benchmarking Retrieval-Augmented Generation for
-  Medicine} {Benchmarking retrieval-augmented generation for medicine}.{\BBCQ}
+{\BBOQ}\APACrefatitle {Benchmarking Retrieval-Augmented Generation for Medicine} {Benchmarking retrieval-augmented generation for medicine}.{\BBCQ}
 \newblock
-\BIn{} L\BHBI W.~Ku, A.~Martins\BCBL {}\ \BBA {} V.~Srikumar\ (\BEDS),
-  \APACrefbtitle {Findings of the Association for Computational Linguistics:
-  ACL 2024} {Findings of the association for computational linguistics: Acl
-  2024}\ (\BPGS\ 6233--6251).
+\BIn{} L\BHBI W.~Ku, A.~Martins\BCBL {}\ \BBA {} V.~Srikumar\ (\BEDS), \APACrefbtitle {Findings of the Association for Computational Linguistics: ACL 2024} {Findings of the association for computational linguistics: Acl 2024}\ (\BPGS\ 6233--6251).
 \newblock
-\APACaddressPublisher{Bangkok, Thailand}{Association for Computational
-  Linguistics}.
+\APACaddressPublisher{Bangkok, Thailand}{Association for Computational Linguistics}.
 \newblock
-\begin{APACrefURL} \url{https://aclanthology.org/2024.findings-acl.372/}
-  \end{APACrefURL}
+\begin{APACrefURL} \url{https://aclanthology.org/2024.findings-acl.372/} \end{APACrefURL}
 \newblock
 \begin{APACrefDOI} \doi{10.18653/v1/2024.findings-acl.372} \end{APACrefDOI}
 \PrintBackRefs{\CurrentBib}
@@ -1177,20 +1064,13 @@ Yu, H.%
 \newblock
 \APACrefYearMonthDay{2023}{{\APACmonth{12}}}{}.
 \newblock
-{\BBOQ}\APACrefatitle {Zero-{Shot} {ECG} {Diagnosis} with {Large} {Language}
-  {Models} and {Retrieval}-{Augmented} {Generation}} {Zero-{Shot} {ECG}
-  {Diagnosis} with {Large} {Language} {Models} and {Retrieval}-{Augmented}
-  {Generation}}.{\BBCQ}
+{\BBOQ}\APACrefatitle {Zero-{Shot} {ECG} {Diagnosis} with {Large} {Language} {Models} and {Retrieval}-{Augmented} {Generation}} {Zero-{Shot} {ECG} {Diagnosis} with {Large} {Language} {Models} and {Retrieval}-{Augmented} {Generation}}.{\BBCQ}
 \newblock
-\BIn{} \APACrefbtitle {Proceedings of the 3rd {Machine} {Learning} for {Health}
-  {Symposium}} {Proceedings of the 3rd {Machine} {Learning} for {Health}
-  {Symposium}}\ (\BPGS\ 650--663).
+\BIn{} \APACrefbtitle {Proceedings of the 3rd {Machine} {Learning} for {Health} {Symposium}} {Proceedings of the 3rd {Machine} {Learning} for {Health} {Symposium}}\ (\BPGS\ 650--663).
 \newblock
 \APACaddressPublisher{}{PMLR}.
 \newblock
-\begin{APACrefURL}
-  [{2025-12-11}]\url{https://proceedings.mlr.press/v225/yu23b.html}
-  \end{APACrefURL}
+\begin{APACrefURL} [{2025-12-11}]\url{https://proceedings.mlr.press/v225/yu23b.html} \end{APACrefURL}
 \PrintBackRefs{\CurrentBib}
 
 \bibitem [\protect \citeauthoryear {%
@@ -1216,13 +1096,11 @@ Zaharia, M\BPBI A.%
 \newblock
 \APACrefYearMonthDay{2018}{}{}.
 \newblock
-{\BBOQ}\APACrefatitle {{Accelerating the Machine Learning Lifecycle with
-  MLflow}} {{Accelerating the Machine Learning Lifecycle with MLflow}}.{\BBCQ}
+{\BBOQ}\APACrefatitle {{Accelerating the Machine Learning Lifecycle with MLflow}} {{Accelerating the Machine Learning Lifecycle with MLflow}}.{\BBCQ}
 \newblock
 \APACjournalVolNumPages{IEEE Data Eng. Bull.}{41}{}{39--45}.
 \newblock
-\begin{APACrefURL} \url{https://api.semanticscholar.org/CorpusID:83459546}
-  \end{APACrefURL}
+\begin{APACrefURL} \url{https://api.semanticscholar.org/CorpusID:83459546} \end{APACrefURL}
 \PrintBackRefs{\CurrentBib}
 
 \bibitem [\protect \citeauthoryear {%
@@ -1248,14 +1126,11 @@ Zakka, C.%
 \newblock
 \APACrefYearMonthDay{2024}{}{}.
 \newblock
-{\BBOQ}\APACrefatitle {Almanac — Retrieval-Augmented Language Models for
-  Clinical Medicine} {Almanac — retrieval-augmented language models for
-  clinical medicine}.{\BBCQ}
+{\BBOQ}\APACrefatitle {Almanac — Retrieval-Augmented Language Models for Clinical Medicine} {Almanac — retrieval-augmented language models for clinical medicine}.{\BBCQ}
 \newblock
 \APACjournalVolNumPages{NEJM AI}{1}{2}{AIoa2300068}.
 \newblock
-\begin{APACrefURL} \url{https://ai.nejm.org/doi/full/10.1056/AIoa2300068}
-  \end{APACrefURL}
+\begin{APACrefURL} \url{https://ai.nejm.org/doi/full/10.1056/AIoa2300068} \end{APACrefURL}
 \newblock
 \begin{APACrefDOI} \doi{10.1056/AIoa2300068} \end{APACrefDOI}
 \PrintBackRefs{\CurrentBib}

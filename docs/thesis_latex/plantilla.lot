@@ -20,7 +20,9 @@
 \contentsline {table}{\numberline {6.3}{\ignorespaces Métricas de alucinación y robustez operativa por configuración ($n=50$).}}{47}{table.6.3}%
 \contentsline {table}{\numberline {6.4}{Evaluación heurística de usabilidad realizada por el autor, anclada en funcionalidades implementadas y evaluadas.}}{49}{table.6.4}%
 \contentsline {table}{\numberline {6.5}{\ignorespaces Extractos de las respuestas de las cuatro configuraciones a una misma consulta clínica (manguito rotador, especialidad \textit {Orthopedic}). Se conserva el texto original en inglés y se resaltan en \texttt {monoespaciado} los marcadores de citación.}}{54}{table.6.5}%
+\contentsline {table}{\numberline {6.6}{\ignorespaces Cuadro resumen de las métricas más destacadas por configuración ($n=50$). Para las dos primeras filas, mejor es mayor; para las dos últimas, mejor es menor. En negrita, el mejor valor por fila (en empate, la configuración~D). Las métricas dependientes de contexto solo aplican a C~y~D.}}{55}{table.6.6}%
 \addvspace {10\p@ }
+\contentsline {table}{\numberline {7.1}{\ignorespaces Grado de consecución del objetivo general (OG) y de los objetivos específicos (OE1--OE5).}}{64}{table.7.1}%
 \addvspace {10\p@ }
 \contentsline {table}{\numberline {A.1}{\ignorespaces Tabla completa de métricas del estudio ablativo por configuración ($n=50$). Las celdas «---» indican métricas no definidas para esa configuración (las métricas RAGAS dependientes de contexto y la precisión de anclaje solo aplican a las configuraciones con RAG).}}{65}{table.Alph1.1}%
 \addvspace {10\p@ }

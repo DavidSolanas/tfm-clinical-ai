@@ -476,6 +476,7 @@ La validación de los requisitos se centra en tres aspectos, cada uno de los cua
 \textbf{Validación cualitativa de usabilidad.} Los requisitos centrados en la interacción y la utilidad clínica percibida (RF-09, RF-12 y RNF-06) se validan, idealmente, mediante una sesión de evaluación con un profesional sanitario, en la que se le solicita formular consultas representativas de su práctica sobre la herramienta entregada (configuración FT+RAG) y valorar la legibilidad de la respuesta, la utilidad de las fuentes mostradas y el tiempo de respuesta percibido. La comparación entre las distintas configuraciones del sistema corresponde al estudio ablativo del Capítulo~6 (RF-08), que ejecuta el arnés experimental sobre las cuatro variantes, y no a la sesión de usabilidad de la herramienta de usuario final. Esta colaboración queda condicionada a la disponibilidad efectiva de un profesional sanitario dentro del calendario del trabajo: si dicha disponibilidad no resulta posible, la validación cualitativa se realizará mediante una revisión crítica documentada por parte del autor sobre los mismos criterios, dejando expresamente constancia de esta limitación como elemento a revisitar en trabajo futuro. En cualquiera de los dos escenarios, los hallazgos cualitativos se documentan en el Capítulo~6.
 
 \chapter[Descripción de la Herramienta Software Desarrollada]{Descripción de la Herramienta\\ Software Desarrollada}
+\label{cap:diseno}
 
 Este capítulo detalla la implementación del sistema híbrido de asistencia bibliográfica clínica. La exposición sigue el flujo de datos del sistema: primero los corpus de entrada (Sección~\ref{sec:c5_corpus}), después el pipeline de recuperación (Sección~\ref{sec:c5_rag}), a continuación la generación del conjunto de entrenamiento y el ajuste fino (Secciones~\ref{sec:c5_sft} y~\ref{sec:c5_qlora}), y finalmente las configuraciones ablativas y la interfaz de usuario (Secciones~\ref{sec:c5_ablation} y~\ref{sec:c5_ui}). Los parámetros de configuración referenciados en este capítulo residen en los ficheros \texttt{configs/rag.yaml} y \texttt{configs/training.yaml} del repositorio, de forma que cualquier modificación sea trazable y reproducible (RNF-03, RNF-04).
 
@@ -944,6 +945,36 @@ El extracto materializa los hallazgos cuantitativos de las secciones anteriores.
 \section{Discusión de los hallazgos}
 \label{sec:c6_discusion}
 
+Dada la cantidad de variantes y de métricas analizadas en las secciones anteriores, conviene consolidar antes de discutirlas las cifras más destacadas en un único cuadro. La Tabla~\ref{tab:c6_resumen} reúne, para las cuatro configuraciones, las seis métricas que mejor sintetizan los dos ejes del estudio (calidad de respuesta y comportamiento de citación) y que sustentan las conclusiones del Capítulo~\ref{cap:conclusiones}; recoge, condensadas, las cifras dispersas en las Tablas~\ref{tab:c6_ragas},~\ref{tab:c6_citacion} y~\ref{tab:c6_robustez}.
+
+\begin{table}[h]
+\centering
+\small
+\setlength{\tabcolsep}{3pt}
+\renewcommand{\arraystretch}{1.15}
+\begin{tabular}{|p{0.34\textwidth}|c|c|c|c|}
+\hline
+\textbf{Métrica destacada} & \textbf{A (base)} & \textbf{B (FT)} & \textbf{C (RAG)} & \textbf{D (FT+RAG)} \\
+\hline
+\textit{Faithfulness} (fidelidad)        & ---    & ---    & 0{,}573 & \textbf{0{,}656} \\
+\hline
+\textit{Answer relevancy} (relevancia)   & 0{,}000 & 0{,}311 & 0{,}452 & \textbf{0{,}569} \\
+\hline
+Tasa de citación con PMID                & 0{,}00 & 0{,}04 & 0{,}84  & \textbf{0{,}98} \\
+\hline
+Precisión de anclaje de citaciones       & ---    & ---    & 1{,}00  & \textbf{1{,}00} \\
+\hline
+Marcador de posición (fabricación de forma) & 0{,}00 & 0{,}60 & 0{,}00 & \textbf{0{,}00} \\
+\hline
+Alucinación de PMID                      & 0{,}00 & 0{,}04 & 0{,}00 & 0{,}02 \\
+\hline
+\end{tabular}
+\caption{Cuadro resumen de las métricas más destacadas por configuración ($n=50$). Para las dos primeras filas, mejor es mayor; para las dos últimas, mejor es menor. En negrita, el mejor valor por fila (en empate, la configuración~D). Las métricas dependientes de contexto solo aplican a C~y~D.}
+\label{tab:c6_resumen}
+\end{table}
+
+La lectura conjunta del cuadro anticipa el argumento de la discusión: la configuración~D iguala o supera a las otras configuraciones en todas las métricas de calidad y de citación, y el único modo de fallo relevante (el marcador de posición del 60\,\% en~B) desaparece al añadir la recuperación.
+
 \textbf{Cumplimiento de los criterios de éxito.} El objetivo general (Capítulo~3) y el requisito RNF-07 fijaron dos criterios cuantitativos relativos al \textit{baseline}. El primero (que la configuración FT+RAG (D) supere a la base (A) en al menos $0{,}10$ puntos de \textit{answer relevancy}) \textbf{se cumple con amplio margen}: la diferencia es de $0{,}569 - 0{,}000 = +0{,}569$. El segundo, relativo a \textit{faithfulness}, requiere una matización honesta: esta métrica solo es computable cuando existe contexto recuperado, por lo que \emph{no está definida para la configuración base} (A, sin RAG) y el único eje sobre el que es comparable es C$\to$D. En ese eje, el ajuste fino mejora la fidelidad en $+0{,}083$~puntos (0{,}573~$\to$~0{,}656): una mejora positiva y consistente con la hipótesis, que aísla la contribución del ajuste fino a la fidelidad, aunque queda ligeramente por debajo del umbral de $0{,}10$ que se barajó en una formulación inicial del criterio. Se reporta, por tanto, sin redondeos favorables: la dirección y el signo del efecto respaldan la hipótesis, y su magnitud exacta ($+0{,}083$) se documenta tal cual.
 
 Los resultados permiten separar de forma limpia las contribuciones de cada componente, en línea con la literatura comparativa de RAG frente a ajuste fino en dominios especializados \cite{balaguer2024ragvsfinetuningpipelines, ovadia2024finetuningretrievalcomparingknowledge, pingua_medical_FT_vs_RAG_2025}:
@@ -985,55 +1016,53 @@ Un segundo hallazgo, de naturaleza más cautelar, es que \textbf{el ajuste fino 
 \section{Grado de consecución de los objetivos}
 \label{sec:c7_objetivos}
 
-El objetivo general (Capítulo~\ref{cap:objetivos}) se ha alcanzado: se ha construido y evaluado el sistema híbrido y se ha cuantificado la contribución diferencial de cada componente. El grado de consecución de los objetivos específicos es el siguiente:
+El balance global es claro: \textbf{se han cumplido la totalidad de los objetivos planteados en el Capítulo~\ref{cap:objetivos}}, tanto el objetivo general como los cinco objetivos específicos. El objetivo general se ha alcanzado al haberse construido y evaluado el sistema híbrido y haberse cuantificado la contribución diferencial de cada componente. La Tabla~\ref{tab:c7_objetivos} resume el grado de consecución de cada objetivo y la evidencia principal que lo respalda.
 
-\begin{itemize}
-  \item \textbf{OE1 (pipeline de ingestión e indexación semántica).} Cumplido. Se ha construido un corpus de \textit{abstracts} de PubMed dirigido por el árbol de descriptores MeSH e indexado en Qdrant mediante búsqueda híbrida (denso~+~BM25 con fusión RRF), con embeddings biomédicos seleccionados empíricamente (Bioformer-16L) sobre un proxy de categoría MeSH (Secciones~\ref{sec:c5_embedding} y~\ref{sec:c5_rag}).
-  \item \textbf{OE2 (ajuste fino con QLoRA sobre MTSamples).} Cumplido. Se ha ajustado LLaMA-3.1-8B con QLoRA sobre un conjunto de instrucción-respuesta derivado de MTSamples mediante un \textit{teacher} local, adaptando estilo, terminología y estructura de la respuesta al registro clínico (Secciones~\ref{sec:c5_sft} y~\ref{sec:c5_qlora}).
-  \item \textbf{OE3 (integración híbrida bajo MLOps).} Cumplido. Ambos módulos se integran en una arquitectura única, con seguimiento de las cuatro configuraciones ablativas en MLflow y reproducibilidad procedimental (configuración fijada, \texttt{seed=42}, \textit{hash} de dataset e hiperparámetros registrados).
-  \item \textbf{OE4 (evaluación de las cuatro configuraciones).} Cumplido. El Capítulo~\ref{cap:evaluacion} reporta las métricas RAGAS y un conjunto de métricas deterministas de comportamiento de citación sobre una muestra pareada de 50~consultas, con intervalos de confianza \textit{bootstrap}.
-  \item \textbf{OE5 (determinar la ventaja del sistema híbrido).} Cumplido. La configuración~D domina a las configuraciones parciales en todos los ejes medidos, y el análisis identifica qué limitación específica resuelve cada técnica: RAG aporta evidencia y trazabilidad, el ajuste fino aporta alineamiento de formato y relevancia.
-\end{itemize}
+\begin{table}[h]
+\centering
+\small
+\renewcommand{\arraystretch}{1.25}
+\begin{tabular}{|p{0.30\textwidth}|p{0.12\textwidth}|p{0.43\textwidth}|}
+\hline
+\textbf{Objetivo} & \textbf{Estado} & \textbf{Evidencia principal} \\
+\hline
+\textbf{OG}: Construir y evaluar el sistema híbrido y cuantificar la contribución de cada componente & Cumplido & Capítulos~\ref{cap:diseno} y~\ref{cap:evaluacion}: estudio ablativo de las cuatro configuraciones. \\
+\hline
+\textbf{OE1}: Pipeline de ingestión e indexación semántica & Cumplido & Corpus de \textit{abstracts} de PubMed dirigido por el árbol MeSH e indexado en Qdrant (denso~+~BM25, fusión RRF); embeddings Bioformer-16L seleccionados empíricamente (Secciones~\ref{sec:c5_embedding} y~\ref{sec:c5_rag}). \\
+\hline
+\textbf{OE2}: Ajuste fino con QLoRA sobre MTSamples & Cumplido & LLaMA-3.1-8B ajustado con QLoRA sobre un conjunto de instrucción-respuesta derivado de MTSamples vía \textit{teacher} local, adaptando estilo, terminología y estructura al registro clínico (Secciones~\ref{sec:c5_sft} y~\ref{sec:c5_qlora}). \\
+\hline
+\textbf{OE3}: Integración híbrida bajo MLOps & Cumplido & Arquitectura única con seguimiento de las cuatro configuraciones en MLflow y reproducibilidad procedimental (\texttt{seed=42}, \textit{hash} de dataset e hiperparámetros registrados). \\
+\hline
+\textbf{OE4}: Evaluación de las cuatro configuraciones & Cumplido & Capítulo~\ref{cap:evaluacion}: métricas RAGAS y métricas deterministas de citación sobre una muestra pareada de 50~consultas, con intervalos \textit{bootstrap}. \\
+\hline
+\textbf{OE5}: Determinar la ventaja del sistema híbrido & Cumplido & La configuración~D domina a las parciales en todos los ejes medidos; el análisis identifica qué limitación resuelve cada técnica (RAG: evidencia y trazabilidad; ajuste fino: formato y relevancia). \\
+\hline
+\end{tabular}
+\caption{Grado de consecución del objetivo general (OG) y de los objetivos específicos (OE1--OE5).}
+\label{tab:c7_objetivos}
+\end{table}
 
-En cuanto a los criterios cuantitativos de éxito asociados al requisito RNF-07, conviene reportarlos sin redondeos favorables. El criterio sobre \textit{answer relevancy} (que la configuración~D supere a la base en al menos $0{,}10$~puntos) \textbf{se cumple con amplio margen} ($+0{,}569$). El criterio sobre \textit{faithfulness} requiere la matización ya documentada en la Sección~\ref{sec:c6_discusion}: esta métrica no está definida para la configuración base (sin contexto recuperado), por lo que su único eje comparable es C$\to$D, sobre el que el ajuste fino mejora la fidelidad en $+0{,}083$~puntos. La dirección y el signo del efecto respaldan la hipótesis, si bien su magnitud queda ligeramente por debajo del umbral de $0{,}10$ que se barajó en una formulación inicial del criterio.
+En cuanto a los criterios cuantitativos de éxito asociados al requisito RNF-07, el criterio sobre \textit{answer relevancy} (que la configuración~D supere a la base en al menos $0{,}10$~puntos) \textbf{se cumple con amplio margen} ($+0{,}569$). El criterio sobre \textit{faithfulness} requiere la matización ya documentada en la Sección~\ref{sec:c6_discusion}: esta métrica no está definida para la configuración base (sin contexto recuperado), por lo que su único eje comparable es C$\to$D, sobre el que el ajuste fino mejora la fidelidad en $+0{,}083$~puntos. La dirección y el signo del efecto respaldan la hipótesis, si bien su magnitud queda ligeramente por debajo del umbral de $0{,}10$ que se barajó en una formulación inicial del criterio.
 
 \section{Contribuciones del trabajo}
 \label{sec:c7_contribuciones}
 
-Las contribuciones concretas de este trabajo, en línea con la brecha identificada en la literatura (Sección~\ref{sec:c2_sintesis}), son:
-
-\begin{itemize}
-  \item \textbf{Un estudio ablativo aplicado a la asistencia bibliográfica clínica sobre literatura primaria de PubMed}, realizado íntegramente sobre un único modelo de código abierto cuantizado en hardware modesto, frente al patrón dominante de modelos propietarios y arquitecturas multi-LLM \cite{amugongo_retrieval_2025, zakka_almanac_2024, lozano_clinfoai_2023}.
-  \item \textbf{Una familia de métricas deterministas de comportamiento de citación}, libres de juez y reproducibles, que cuantifican la activación, el formato y el anclaje de las citaciones, y que revelan modos de fallo (como la fabricación de la forma de una citación) invisibles a las métricas de adherencia de formato y a las métricas RAGAS estándar.
-  \item \textbf{Un mecanismo explícito de verificación automática de citaciones y de abstención}, que permite medir directamente la contribución de RAG a la trazabilidad y a la contención de la alucinación de identificadores.
-  \item \textbf{Una herramienta funcional integrada} (consola de evidencia clínica con interfaz web Gradio) que materializa la configuración híbrida completa para su uso interactivo.
-\end{itemize}
+Las contribuciones concretas de este trabajo, en línea con la brecha identificada en la literatura (Sección~\ref{sec:c2_sintesis}), se articulan en torno a cuatro aportaciones. La primera, y de carácter central, es un estudio ablativo aplicado a la asistencia bibliográfica clínica sobre literatura primaria de PubMed, realizado íntegramente sobre un único modelo de código abierto cuantizado en hardware modesto, frente al patrón dominante de modelos propietarios y arquitecturas multi-LLM \cite{amugongo_retrieval_2025, zakka_almanac_2024, lozano_clinfoai_2023}. Sobre ese estudio se sostiene la segunda contribución: una familia de métricas deterministas de comportamiento de citación, libres de juez y reproducibles, que cuantifican la activación, el formato y el anclaje de las citaciones y que revelan modos de fallo (como la fabricación de la forma de una citación) invisibles tanto a la adherencia de formato como a las métricas RAGAS estándar. La tercera aportación es un mecanismo explícito de verificación automática de citaciones y de abstención, que permite medir directamente la contribución de RAG a la trazabilidad y a la contención de la alucinación de identificadores. La cuarta, finalmente, es una herramienta funcional integrada (una consola de evidencia clínica con interfaz web Gradio) que materializa la configuración híbrida completa para su uso interactivo.
 
 \section{Limitaciones}
 \label{sec:c7_limitaciones}
 
-Más allá de las amenazas a la validez del estudio empírico ya detalladas en la Sección~\ref{sec:c6_limitaciones} (tamaño muestral de 50~consultas, ausencia de un \textit{benchmark} de recuperación con anotación de oro, techo del \textit{context recall} inducido por la referencia del \textit{teacher} y reproducibilidad procedimental y no bit a bit), procede señalar las limitaciones de alcance del sistema en su conjunto:
-
-\begin{itemize}
-  \item \textbf{Cobertura del conocimiento.} La base de evidencia se limita a \textit{abstracts} de PubMed, no a texto completo, lo que acota la profundidad de la evidencia recuperable.
-  \item \textbf{Validación de usabilidad.} La evaluación de usabilidad es una revisión heurística del autor (Sección~\ref{sec:c6_usabilidad}); carece de validación con profesionales sanitarios y de métricas de interacción.
-  \item \textbf{Idioma.} El sistema opera en inglés, lo que limita su aplicabilidad directa en entornos clínicos hispanohablantes.
-  \item \textbf{Alcance asistencial.} El sistema es una ayuda a la consulta bibliográfica y no un sistema de soporte a la decisión clínica; no debe interpretarse como sustituto del juicio profesional.
-\end{itemize}
+Más allá de las amenazas a la validez del estudio empírico ya detalladas en la Sección~\ref{sec:c6_limitaciones}, el sistema en su conjunto presenta cuatro limitaciones de alcance. La primera atañe a la cobertura del conocimiento: la base de evidencia se limita a \textit{abstracts} de PubMed y no a su texto completo, lo que acota la profundidad de la evidencia recuperable. La segunda concierne a la validación de usabilidad, resuelta mediante una revisión heurística del autor (Sección~\ref{sec:c6_usabilidad}) y, por tanto, carente de validación con profesionales sanitarios y de métricas de interacción. El idioma constituye la tercera restricción, pues el sistema opera en inglés, lo que limita su aplicabilidad directa en entornos clínicos hispanohablantes. La cuarta es de alcance deliberado: el sistema es una ayuda a la consulta bibliográfica y no un sistema de soporte a la decisión clínica, por lo que no debe interpretarse como sustituto del juicio profesional.
 
 \section{Líneas de trabajo futuro}
 \label{sec:c7_futuro}
 
-Las limitaciones anteriores delimitan las líneas de continuación más prometedoras:
+Las limitaciones anteriores delimitan las líneas de continuación más prometedoras, que pueden agruparse en tres frentes. El frente prioritario es el de la usabilidad: realizar una sesión de evaluación con al menos un profesional del dominio clínico sobre la interfaz integrada, con métricas de interacción (tiempo de tarea, tasa de éxito y satisfacción percibida) que complementen la revisión heurística; ligado a ella, conviene subsanar la única reserva detectada en dicha revisión (Sección~\ref{sec:c6_usabilidad}) incorporando una gestión del historial de interacción que permita recuperar consultas anteriores.
 
-\begin{itemize}
-  \item \textbf{Evaluación de usabilidad con usuarios reales.} Línea prioritaria: realizar una sesión de evaluación con al menos un profesional del dominio clínico sobre la interfaz integrada, con métricas de interacción (tiempo de tarea, tasa de éxito, satisfacción percibida) que complementen la revisión heurística.
-  \item \textbf{Refinamiento de la interfaz.} Subsanar la reserva detectada en la revisión heurística (Sección~\ref{sec:c6_usabilidad}): incorporar una gestión del historial de interacción que permita recuperar consultas anteriores.
-  \item \textbf{Ampliación y robustez del estudio empírico.} Incrementar el tamaño de la muestra de evaluación y construir un conjunto de relevancia con anotación de oro que permita medir la calidad de recuperación en términos absolutos, no solo comparativos.
-  \item \textbf{Evaluación del comportamiento de abstención.} Reintroducir en la muestra los casos sin evidencia, excluidos del estudio actual, para evaluar explícitamente la puerta de abstención cuando no existe respuesta esperable.
-  \item \textbf{Recuperación sobre texto completo.} Extender el corpus más allá de los \textit{abstracts} hacia texto completo (por ejemplo, PubMed Central), evaluando el efecto sobre fidelidad y precisión de anclaje.
-  \item \textbf{Soporte multilingüe.} Habilitar consulta y respuesta en español, manteniendo la trazabilidad de la evidencia de origen en inglés.
-\end{itemize}
+En el frente empírico, la continuación natural pasa por reforzar el propio estudio ablativo: incrementar el tamaño de la muestra de evaluación y construir un conjunto de relevancia con anotación de oro que permita medir la calidad de recuperación en términos absolutos y no solo comparativos, así como reintroducir en la muestra los casos sin evidencia (excluidos del estudio actual) para evaluar de forma explícita el comportamiento de la puerta de abstención cuando no existe una respuesta esperable.
+
+Por último, en el frente de la ampliación del alcance del sistema, dos extensiones resultan especialmente atractivas: llevar la recuperación más allá de los \textit{abstracts} hacia el texto completo (por ejemplo, PubMed Central), evaluando su efecto sobre la fidelidad y la precisión de anclaje, y habilitar el soporte multilingüe para consulta y respuesta en español, manteniendo la trazabilidad de la evidencia de origen en inglés.
 
 \section{Reflexión final}
 \label{sec:c7_reflexion}
